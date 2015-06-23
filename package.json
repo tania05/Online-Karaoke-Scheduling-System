@@ -1,0 +1,12 @@
+{
+  "name": "Purple-fox-karaoke",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "express": "~4.13.0",
+    "body-parser": "~1.13.1",
+    "mongodb": "~2.0.35",
+    "mongoose": "~4.0.6",
+    "morgan": "~1.6.0"
+  }
+}
