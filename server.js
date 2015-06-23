@@ -37,7 +37,7 @@ app.use(express.static(__dirname + '/public'));
 // ROUTES FOR OUR API   
 // ==============================
 
-// API ROUTESi ------------------
+// API ROUTES ------------------
 var apiRoutes = require('./app/routes/api')(app,express);
 app.use('/api',apiRoutes);
 
