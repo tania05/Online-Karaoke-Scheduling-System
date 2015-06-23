@@ -38,13 +38,9 @@ app.use(express.static(__dirname + '/public'));
 // ROUTES FOR OUR API   
 // ==============================
 
-<<<<<<< HEAD
-// API ROUTESi ------------------
-var apiRoutes = require('./app/routes/api')(app, express);
-=======
+
 // API ROUTES ------------------
 var apiRoutes = require('./app/routes/api')(app,express);
->>>>>>> b918c7b99b6c551267913d340ef7aa2b63bd62c4
 app.use('/api',apiRoutes);
 
 // MAIN CATCHALL ROUTE
