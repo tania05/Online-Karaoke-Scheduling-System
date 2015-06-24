@@ -9,6 +9,7 @@ var morgan      = require('morgan');
 var mongoose    = require('mongoose');
 var config      = require('./config');
 var path        = require('path');
+var User				= require('./app/models/user');
 
 // APP CONFIGURATION
 // =============================
@@ -37,7 +38,8 @@ app.use(express.static(__dirname + '/public'));
 // ROUTES FOR OUR API   
 // ==============================
 
-// API ROUTESi ------------------
+
+// API ROUTES ------------------
 var apiRoutes = require('./app/routes/api')(app,express);
 app.use('/api',apiRoutes);
 
