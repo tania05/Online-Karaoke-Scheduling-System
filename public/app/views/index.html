@@ -1,111 +1,82 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html ng-app="karaokeApp">
 <head>
-	<meta charset="utf-8">
-	<title>Purple Fox Karaoke Scheduling System</title>
 
-	<!-- set the base path for angular routing -->
+    <meta charset="utf-8">
+    <title>Purple Fox Karaoke Scheduling System</title>
 
-	<!-- needed but CAUSING ERRORS (nobase error)
 
-	<base href=""> 
+    <!-- FOR ANGULAR ROUTING -->
+    <base href="/">
+    
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
 
-	-->
+    <!-- LOAD CUSTOM CSS -->
+    <link rel="stylesheet" href="assets/css/main.css"/>
 
-	<!-- JS -->
-	<!-- load angular and angular-route via CDN -->
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
-	<script src="../app.routes.js"></script>
-	<script src="../app.js"></script>
+    
+    <!-- load angular and angular route via CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 
-	<!-- JQuery (needed by BootStrap) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-	<!-- Custom CSS -->
-	<link type="text/css" rel="stylesheet" href="../../assets/css/main.css"/>
+    <!-- main Angular app files -->
+    <script src="app/app.routes.js"></script>
+    <script src="app/app.js"></script>
 
 </head>
+<body ng-controller="homeController as home">
 
-
-<body class="container" ng-app="karaokeApp" ng-controller="mainController as main">
-
-	<!-- HEADER -->
-	<header style="font-size: 6em; text-align: center">
-		Purple Fox Karaoke Club
-		<img id="logo" style="max-height: 2em" alt="Brand" src="http://www.moderntots.com/media/catalog/product/cache/1/image/655x/040ec09b1e35df139433887a97daa66f/p/u/purple_fox.jpg">
-	</header>
-
-
-
-	<!-- NAVBAR -->
-	<nav class="navbar navbar-inverse">
-		<div class="container- fluid">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="/">Home</a></li>
-				<li><a href="#">Profile</a></li>
-				<li><a href="#">Availability</a></li>
-				<li><a href="#">Booking</a></li>
-			</ul>
-			<button type="button" class="btn btn-default navbar-btn pull-right">Logout</button>
-			<p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="#" class="navbar-link">Admin</a></p>
-			<p class="navbar-text navbar-right"><a href="#" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
-		</div>
-	</nav>
+    <!-- HEADER -->
+    <header style="font-size: 6em; text-align: center;">
+      Purple Fox Karaoke Club
+      <img id="logo" style="max-height: 2em" alt="Brand" src="http://www.moderntots.com/media/catalog/product/cache/1/image/655x/040ec09b1e35df139433887a97daa66f/p/u/purple_fox.jpg">
+    </header>
 
 
 
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
 
-	<!-- will be chaged to home.html and injected -->
-	<div align="center" style="margin-top: 15%" class="container">
-		<div class="btn" role="group" aria-label="...">
-  			<button type="button" class="btn btn-block btn-lg">Availability</button>
-  			<button type="button" class="btn btn-block btn-lg">Booking</button>
-  			<button type="button" class="btn btn-block btn-lg">Administrator</button>
-  			<button type="button" class="btn btn-block btn-lg">Account</button>
-		</div>
-	</div>
-
-
+            <ul class="nav navbar-nav">
+                <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="/profile"><i class="fa fa-shield"></i> Profile</a></li>
+                <li><a href="/availability"><i class="fa fa-shield"></i> Availability</a></li>
+                <li><a href="/booking"><i class="fa fa-comment"></i> Booking</a></li>
+            </ul>
 
 
+            <button type="button" class="btn btn-default navbar-btn pull-right">Logout</button>
+            <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/profile" class="navbar-link">Admin</a></p>
+            <p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
 
-	<!-- MAIN CONTENT AND INJECTED VIEWS -->
-	<main>
-		<!-- angular templating will go here -->
-		<!-- this is where content will be injected -->
+        </div>
+    </nav>
 
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <main>
 
-		<div class="jumbotron text-center">
-		    <h1>Home Page</h1>
+        <!-- angular templating -->
+        <!-- this is where content will be injected -->
+        <div ng-view></div>
 
-		    <p>{{ main.message }}</p>
-
-		</div>
-
-
-		<!-- view not being injected - need to fix routes-->
-		<div ng-view></div>
-
-	</main>
+    </main>
 
 
-	<!-- FOOTER -->
-	<nav class="navbar navbar-inverse navbar-fixed-bottom">
-  		<div class="container">
-			<p class="navbar-text navbar-left"><a href="#" class="navbar-link" text-decoration="underline"><u>Contact Us</u></a></p>
-  		</div>
-	</nav>
 
+      <!-- FOOTER -->
+    <nav class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="container">
+        <p class="navbar-text navbar-left"><a href="/contact" class="navbar-link" text-decoration="underline"><u>Contact Us</u></a></p>
+        </div>
+    </nav>
 
 </body>
 </html>
+
+
+
+
+

@@ -1,27 +1,45 @@
-angular.module('karaokeApp', ['routerRoutes'])
-
-// create the controller and inject Angular's 
-// this will be the controller for the ENTIRE site
-.controller('mainController', function() {
-
-	var vm = this;
-
-	var url = window.location.pathname;
-    	// create a bigMessage variable to display in our view
-    	vm.message = "Print Message";
-
-})
+// script.js
 
 
-
-// WILL EVENTUALLY SPLIT INTO SEPARATE CONTROLLERS
-
+//EVENTUALLY SPLIT INTO SEPARATE CONTROLLERS
 
 
-// home page specific controller
-.controller('homeController', function() {
+    // create the module and name it karaokeApp
+        // also include ngRoute for all our routing needs
+    angular.module('karaokeApp', ['app.routes'])
 
-	var vm = this;
 
-	vm.message = 'This is the home page!';
-});
+    // create the controller and inject Angular's $scope
+    .controller('homeController', function() {
+        // create a message to display in our view
+
+        var vm = this;
+
+        vm.message = 'Injected Home Page!';
+    })
+
+    .controller('profileController', function() {
+
+        var vm = this;
+        this.message = 'Injected Profile Page!';
+    })
+
+    .controller('availabilityController', function() {
+
+        var vm = this;
+        this.message = 'Injected Availability Page!';
+    })
+
+    .controller('bookingController', function($scope) {
+
+        var vm = this;
+        this.message = 'Injected Booking Page!';
+    })
+
+    .controller('contactController', function($scope) {
+
+        var vm = this;
+        vm.message = 'Injected contact Page!';
+    });
+
+
