@@ -1,8 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link type="text/css" rel="stylesheet" href="index.css"/>
+	<meta charset="utf-8">
 	<title>Purple Fox Karaoke Scheduling System</title>
+
+	<!-- set the base path for angular routing -->
+
+	<!-- needed but CAUSING ERRORS (nobase error)
+
+	<base href=""> 
+
+	-->
+
+	<!-- JS -->
+	<!-- load angular and angular-route via CDN -->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
+	<script src="../app.routes.js"></script>
+	<script src="../app.js"></script>
+
+	<!-- JQuery (needed by BootStrap) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
@@ -11,23 +30,42 @@
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<!-- Custom CSS -->
+	<link type="text/css" rel="stylesheet" href="../../assets/css/main.css"/>
+
 </head>
-<body>
+
+
+<body class="container" ng-app="karaokeApp" ng-controller="mainController as main">
+
+	<!-- HEADER -->
 	<header style="font-size: 6em; text-align: center">
 		Purple Fox Karaoke Club
 		<img id="logo" style="max-height: 2em" alt="Brand" src="http://www.moderntots.com/media/catalog/product/cache/1/image/655x/040ec09b1e35df139433887a97daa66f/p/u/purple_fox.jpg">
 	</header>
-	<div class="container">
-		<nav class="navbar navbar-inverse">
- 			<div class="container-fluid">
+
+
+
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-inverse">
+		<div class="container- fluid">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="#">Profile</a></li>
+				<li><a href="#">Availability</a></li>
+				<li><a href="#">Booking</a></li>
+			</ul>
 			<button type="button" class="btn btn-default navbar-btn pull-right">Logout</button>
 			<p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="#" class="navbar-link">Admin</a></p>
 			<p class="navbar-text navbar-right"><a href="#" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
-  			</div>
-		</nav>
+		</div>
+	</nav>
 
-	</div>
-	
+
+
+
+	<!-- will be chaged to home.html and injected -->
 	<div align="center" style="margin-top: 15%" class="container">
 		<div class="btn" role="group" aria-label="...">
   			<button type="button" class="btn btn-block btn-lg">Availability</button>
@@ -37,10 +75,37 @@
 		</div>
 	</div>
 
+
+
+
+
+	<!-- MAIN CONTENT AND INJECTED VIEWS -->
+	<main>
+		<!-- angular templating will go here -->
+		<!-- this is where content will be injected -->
+
+
+		<div class="jumbotron text-center">
+		    <h1>Home Page</h1>
+
+		    <p>{{ main.message }}</p>
+
+		</div>
+
+
+		<!-- view not being injected - need to fix routes-->
+		<div ng-view></div>
+
+	</main>
+
+
+	<!-- FOOTER -->
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
   		<div class="container">
 			<p class="navbar-text navbar-left"><a href="#" class="navbar-link" text-decoration="underline"><u>Contact Us</u></a></p>
   		</div>
 	</nav>
+
+
 </body>
 </html>
