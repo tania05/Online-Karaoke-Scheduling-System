@@ -1,8 +1,13 @@
 // start our angular module and inject userServices
 angular.module('userCtrl', ['userService'])
 
-// user controller for the user's personal page
-// inject the User factory
+
+// ====
+// ----
+// userEditController
+// ----
+// This controller provides the functionality of the user's profile page.
+// ====
 .controller('userController', function(User) {
 
     var vm = this;
@@ -37,12 +42,35 @@ angular.module('userCtrl', ['userService'])
 // ----
 // userEditController
 // ----
-// This controller cover the edit user info process.
+// This controller cover the edit user info process. See pages 196-200
 // ====
-    // ====
-    // function to handle edits to the user's data.
-    // ====
-   
+.controller('userEditController', function($routeParams, User) {
+    
+    var vm = this;
+    
+    // get the user data for the user you want to edit
+    // $routeParams is the way we grab data from the URL
+    User.get($routeParams.user_id)
+        .success(function(data) {
+            vm.userData = data;
+        });
+
+    // function to save the user
+    vm.saveUser = function() {
+        vm.message = '';
+
+        // all the userService function to update
+        User.update($routeParams.user_id, vm.userData)
+            .success(function(data) {
+                
+                //clear the form
+                vm.userData {};
+
+                // bind the message from our API to vm.message
+                vm.message = data.message;
+            });
+    };
+});
 
 // ====
 // ----
