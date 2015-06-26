@@ -107,9 +107,13 @@ module.exports = function(app, express) {
     	.post(function(req,res){
 
 		    var user = new User();              // create a new instance of the User module
-    		user.name = req.body.name;          // set the user name (comes from the  request)
+    		user.name = req.body.name;          // set the user's name (comes from the  request)
 	    	user.username = req.body.username;  // set the username (comes from the request)
-		    user.password = req.body.password   // set the user passord (comes from the request)
+		    user.password = req.body.password;  // set the user's password (comes from the request)
+            user.email = req.body.email;        // set the user's email
+            user.age = req.body.age;            // set the user's age
+            user.phone_number = req.body.phone_number;  // set the user's phone_number
+            user.address = req.body.address;    // set the user's address
 
     		user.save(function(err){
 	    		if(err) res.send(err);
@@ -123,7 +127,7 @@ module.exports = function(app, express) {
 	    	User.find(function(err, users) {
 		    	if (err) res.send(err);
 
-    			// return the users
+    			// return all users users
 	    		res.json(users);
     		});
     	});
