@@ -1,10 +1,21 @@
 # Online-Karaoke-Scheduling-System
-An application for scheduling / booking karaoke rooms online<br>
-Created by:<br>
-    Tania Akter<br>
-    Brendan Beach<br>
-    Joshua Portelance<br>
-    Justin Macaulay<br>
-    Sam Taylor<br>
-    Cyrus Erfani<br>
-    Hamzah Mansour<br>
+An application for scheduling / booking karaoke rooms online<br
+
+This application was created for summer 2015 SENG 299 term project at UVic.
+
+Created by:
+* Tania Akter
+* Brendan Beach
+* Joshua Portelance
+* Justin Macaulay
+* Sam Taylor
+* Cyrus Erfani
+* Hamzah Mansour
+
+To use the application:
+* Clone this repo
+* Install the dependencies
+* Start the mongoDB database
+* Run server.js using Node.
+* Open your browser
+* got to "localhost:8080"
