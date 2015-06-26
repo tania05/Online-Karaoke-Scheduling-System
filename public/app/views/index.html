@@ -38,13 +38,13 @@
     <script src="app/app.js"></script>
 
 </head>
-<body ng-controller="homeController as home">
+<body ng-controller="mainController as main">
 
     <!-- NAVBAR -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             
-            <p class="navbar-brand" >Purple Fox Karaoke Club</p>
+            <a class="navbar-brand" href="/contact">Purple Fox Karaoke Club</a>
 
 
             <ul class="nav navbar-nav">
@@ -54,21 +54,22 @@
                 <li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
             </ul>
 
-            <form class="navbar-form navbar-right" role="login">
-                <div class="form-group">
-                <input type="text" class="form-control" placeholder="Username">
-                <input type="text" class="form-control" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-default">Login</button>
-            </form>
+            <div ng-if="!main.loggedIn">
+                <form class="navbar-form navbar-right" role="login" >
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Username" ng-model="main.username">
+                        <input type="text" class="form-control" placeholder="Password" ng-model="main.password">
+                    </div>
+                    <button type="submit" class="btn btn-default" ng-click="main.loggedIn = !main.loggedIn">Login</button>
+                </form>
+            </div>
 
-        <!--
+            <div ng-if="main.loggedIn">
+                <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="main.loggedIn = !main.loggedIn">Logout</button>
+                <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/profile" class="navbar-link">{{ main.username }}</a></p>
+                <p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
+            </div>
 
-            <button type="button" class="btn btn-default navbar-btn pull-right">Logout</button>
-            <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/profile" class="navbar-link">Admin</a></p>
-            <p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
-
-        -->
         </div>
     </nav>
 

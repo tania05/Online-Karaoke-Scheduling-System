@@ -1,17 +1,32 @@
 // script.js
 
 
-//EVENTUALLY SPLIT INTO SEPARATE CONTROLLERS
+//EVENTUALLY SPLIT INTO SEPARATE CONTROLLER FILES
 
-
-    // create the module and name it karaokeApp
-        // also include ngRoute for all our routing needs
+    // also include ngRoute for all our routing needs
     angular.module('karaokeApp', ['app.routes'])
 
 
-    // create the controller and inject Angular's $scope
+    .controller('mainController', function() {
+
+        var vm = this;
+
+        var username = "";
+        var password = "";
+
+        vm.loggedIn = false;
+
+        vm.doLogin = function() {
+            vm.isloggedIn = true;
+        }
+
+        vm.doLogout = function() {
+            vm.isloggedIn = false;
+        }
+
+    })
+
     .controller('homeController', function() {
-        // create a message to display in our view
 
         var vm = this;
 
