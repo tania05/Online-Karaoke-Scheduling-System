@@ -9,9 +9,21 @@
 
     <!-- FOR ANGULAR ROUTING -->
     <base href="/">
+
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     
-    <!-- load bootstrap and fontawesome via CDN -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!-- LOAD CUSTOM CSS -->
     <link rel="stylesheet" href="assets/css/main.css"/>
@@ -19,7 +31,7 @@
     
     <!-- load angular and angular route via CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 
     <!-- main Angular app files -->
     <script src="app/app.routes.js"></script>
@@ -28,32 +40,38 @@
 </head>
 <body ng-controller="homeController as home">
 
-    <!-- HEADER -->
-    <header style="font-size: 6em; text-align: center;">
-      Purple Fox Karaoke Club
-      <img id="logo" style="max-height: 2em" alt="Brand" src="http://www.moderntots.com/media/catalog/product/cache/1/image/655x/040ec09b1e35df139433887a97daa66f/p/u/purple_fox.jpg">
-    </header>
-
-
-
     <!-- NAVBAR -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
+            
+            <p class="navbar-brand" >Purple Fox Karaoke Club</p>
+
 
             <ul class="nav navbar-nav">
                 <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                <li><a href="/profile"><i class="fa fa-shield"></i> Profile</a></li>
-                <li><a href="/availability"><i class="fa fa-shield"></i> Availability</a></li>
-                <li><a href="/booking"><i class="fa fa-comment"></i> Booking</a></li>
+                <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
+                <li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
+                <li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
             </ul>
 
+            <form class="navbar-form navbar-right" role="login">
+                <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username">
+                <input type="text" class="form-control" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-default">Login</button>
+            </form>
+
+        <!--
 
             <button type="button" class="btn btn-default navbar-btn pull-right">Logout</button>
             <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/profile" class="navbar-link">Admin</a></p>
             <p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
 
+        -->
         </div>
     </nav>
+
 
     <!-- MAIN CONTENT AND INJECTED VIEWS -->
     <main>
@@ -69,7 +87,7 @@
       <!-- FOOTER -->
     <nav class="navbar navbar-inverse navbar-fixed-bottom">
         <div class="container">
-        <p class="navbar-text navbar-left"><a href="/contact" class="navbar-link" text-decoration="underline"><u>Contact Us</u></a></p>
+        <p class="navbar-text"><a href="/contact" class="navbar-link">Contact</a></p>
         </div>
     </nav>
 
