@@ -28,8 +28,11 @@ angular.module('mainCtrl', [])
         .success(function(data) {
 
             // if a user successfully logs in, update the view.
+            // NOTE --- CHANGE THIS IF YOU NEED TO
             if(data.success)
                 vm.isloggedIn = true;
+            // NOTE --- YOU CAN USE THIS ERROR MESSAGE
+            // SHOWS HOW TO ON PAGE 184-186
             else
                 vm.error = data.message;
         });
@@ -43,6 +46,7 @@ angular.module('mainCtrl', [])
         vm.user = {};
 
         // update the view
+        // NOTE --- CHANGE THIS IF YOU NEED TO
         vm.isloggedIn = false;
     };
 });
