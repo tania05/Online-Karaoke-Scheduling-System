@@ -1,10 +1,10 @@
 // start our angular module and inject userServices
-angular.module('userCtrl', ['userService'])
+angular.module('adminCtrl', ['userService'])
 
 // Admin controller for the admin page.
 // Allows the admin to manage users.
 // inject the User factory.
-.controller('userController', function(User) {
+.controller('adminController', function(User) {
 
     var vm = this;
 
