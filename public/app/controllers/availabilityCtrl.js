@@ -1,2 +1,11 @@
-// functions that will allow the availability page to show current data,
-// and any other functions for this page specificlly.
+// ====
+// ----
+// availabilityController
+// ----
+// This controller covers all the stuff that needs to
+// happen on the availabilty page.
+// ====
+    // ====
+    // function to populate the table/calender
+    // ====
+    

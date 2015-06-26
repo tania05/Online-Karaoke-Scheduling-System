@@ -1,3 +1,13 @@
-// functions required for the password reset page.
-// Like sending an email.
-// Cover the two "Password Reset" wire frames.
+// ====
+// ----
+// pwResetController
+// ----
+// This controller handles the process of reseting a password.
+// ====
+    // ====
+    // function to do the first stage of password reset.
+    // ====
+
+    // ====
+    // function to do the second stage of password reset.
+    // ====

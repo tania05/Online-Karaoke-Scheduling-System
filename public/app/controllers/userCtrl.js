@@ -7,6 +7,10 @@ angular.module('userCtrl', ['userService'])
 
     var vm = this;
 
+    // ====
+    // function to populate the page with the user's information.
+    // ====
+
     // function to delete a user
     vm.deleteUser = function(id) {
         
@@ -17,15 +21,35 @@ angular.module('userCtrl', ['userService'])
                 $location.path('/');
             });
     };
-
-    // ====
-    // function to allow the user to edit their profile. Might just
-    // be a path change to the "Edit user" wireframe.
-    // ====
-
-    // ====
-    // function to all the user to view their bookings. Might just
-    // be a path change to the "Manage Bookings" wireframe.
-    // ====
-
 };
+
+// ====
+// ----
+// userCreateController
+// ----
+// This controller covers the registration process.
+// ====
+    // ====
+    // function to handle the create of a user.
+    // ====
+
+// ====
+// ----
+// userEditController
+// ----
+// This controller cover the edit user info process.
+// ====
+    // ====
+    // function to handle edits to the user's data.
+    // ====
+   
+
+// ====
+// ----
+// userResetPWController
+// ----
+// This controller covers the password reset process.
+// ====
+    // ====
+    // functions to handle the process of reseting a password.
+    // ====
