@@ -34,11 +34,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 
     <!-- controllers -->
+
     <script src="app/controllers/contactCtrl.js"></script>
     <script src="app/controllers/bookingCtrl.js"></script>
-
+    <script src="app/controllers/userCtrl.js"></script>
 
     <!-- services -->
+
 
     <!-- main Angular app files -->
     <script src="app/app.routes.js"></script>
@@ -56,7 +58,7 @@
 
             <ul class="nav navbar-nav">
                 <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
+                <li><a href="/users/single"><i class="fa fa-user"></i> Profile</a></li>
                 <li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
                 <li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
             </ul>
@@ -70,12 +72,12 @@
                     <button type="submit" class="btn btn-default btn-sm" ng-click="main.loggedIn = !main.loggedIn">Login</button>
                 </form>
                 <p class="navbar-text navbar-right"><a href="/pwReset" class="navbar-link">Forgot Your Password?</a></p>
-                <p class="navbar-text navbar-right"><a href="/register" class="navbar-link">Register</a></p>
+                <p class="navbar-text navbar-right"><a href="/users/create" class="navbar-link">Register</a></p>
             </div>
 
             <div ng-if="main.loggedIn">
                 <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="main.loggedIn = !main.loggedIn">Logout</button>
-                <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/profile" class="navbar-link">{{ main.username }}</a></p>
+                <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/users/single" class="navbar-link">{{ main.username }}</a></p>
                 <p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
             </div>
 

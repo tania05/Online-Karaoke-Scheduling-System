@@ -10,7 +10,7 @@ angular.module('bookingCtrl', [])
 .controller('bookingController', function() {
 
     var vm = this;
-    this.message = 'Injected Booking Page!';
+    vm.message = 'Injected Booking Page!';
 });
 
 

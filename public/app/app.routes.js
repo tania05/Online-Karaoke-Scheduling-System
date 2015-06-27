@@ -13,35 +13,66 @@
                 controllerAs: 'home'
             })
 
-            .when('/profile', {
-                templateUrl : 'app/views/pages/profile.html',
-                controller  : 'profileController',
-                controllerAs: 'profile'
-            })
-
-            // route for the about page
+            // route for the availability page
             .when('/availability', {
                 templateUrl : 'app/views/pages/availability.html',
                 controller  : 'availabilityController',
                 controllerAs: 'availability'
             })
 
-            // route for the contact page
+            // route for the booking page
             .when('/booking', {
                 templateUrl : 'app/views/pages/booking.html',
                 controller  : 'bookingController',
                 controllerAs: 'booking'
             })
 
+            // route for the contact page
             .when('/contact', {
                 templateUrl : 'app/views/pages/contact.html',
                 controller  : 'contactController',
                 controllerAs: 'contact'
             })
 
-            .when('/register', {
-                templateUrl : 'app/views/pages/register.html'
+
+            //============
+            // USER ROUTES
+            // ===========
+
+            // show all users
+            // available only to admin
+            .when('/users', {
+                templateUrl : 'app/views/pages/users/all.html',
+                controller  : 'userController',
+                controllerAs: 'user'
+            })
+
+            // user profile page
+            // CHANGE 'single' to :user_id to select a specific user
+            .when('/users/single', {
+                templateUrl : 'app/views/pages/users/single.html',
+                controller  : 'userController',
+                controllerAs: 'user'
+            })
+
+            // page to edit a user
+            // CHANGE 'single' to :user_id to select a specific user
+            .when('/users/single/edit', {
+                templateUrl : 'app/views/pages/users/userForm.html',
+                controller  : 'userEditController',
+                controllerAs: 'user'
+
+            })        
+
+            // form to create a new user
+            // same view as edit page
+            .when('/users/create', {
+                templateUrl : 'app/views/pages/users/userForm.html',
+                controller  : 'userCreateController',
+                controllerAs: 'user'
             });
+
+
             
         $locationProvider.html5Mode(true);   
     });
