@@ -16,6 +16,7 @@ To use the application:
 * Clone this repo
 * Install the dependencies
 * Start the mongoDB database
-* Run server.js using Node.
+* Run server.js using Node
 * Open your browser
-* got to "localhost:8080"
+* Go to "localhost:8080"
+* Enjoy
