@@ -9,7 +9,7 @@ module.exports = function(app, express) {
 	
     var apiRouter = express.Router();
 
-    // route to authenticate a user	(POST htto://localhost:8080/api/authenticate)
+    // route to authenticate a user	(POST http://localhost:8080/api/authenticate)
 	apiRouter.post('/autenticate', function (req,res){
 	    console.log(req.body.username);
 	
@@ -80,7 +80,7 @@ module.exports = function(app, express) {
 			
 	    			next();
 				}
-	    	})
+	    	});
     	} else {
 
 		    //if there is no token
@@ -88,7 +88,7 @@ module.exports = function(app, express) {
 	    	return res.status(403).send({
 		    	success: false,
 			    message: 'No token provided.'
-    		})
+    		});
     	}
     });
 
@@ -124,7 +124,7 @@ module.exports = function(app, express) {
     	})
 
     	.get(function(req, res) {
-	    	User.find(function(err, users) {
+	    	User.find({}, function(err, users) {
 		    	if (err) res.send(err);
 
     			// return all users users
@@ -156,6 +156,10 @@ module.exports = function(app, express) {
 	            	if(req.body.name) user.name= req.body.name;
             		if(req.body.username) user.username= req.body.username;
 	            	if(req.body.password) user.password = req.body.password;
+                    if(req.body.email) user.email = req.body.email;
+                    if(req.body.age) user.age = req.body.age;
+                    if(req.body.phone_number) user.phone_number = req.body.phone_number;
+                    if(req.body.address) user.address = req.body.address;
 
             		//save the user
     	        	user.save(function(err){

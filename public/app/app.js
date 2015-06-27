@@ -1,4 +1,4 @@
-angular.module('karaokeApp', ['app.routes', 'contactCtrl', 'bookingCtrl', 'userCtrl'])
+angular.module('karaokeApp', ['app.routes', 'contactCtrl', 'bookingCtrl', 'userCtrl', 'mainCtrl'])
 
 
 .config(function($httpProvider) {
@@ -8,17 +8,6 @@ angular.module('karaokeApp', ['app.routes', 'contactCtrl', 'bookingCtrl', 'userC
 	$httpProvider.interceptors.push('AuthInterceptor');
 
 	*/
-
-})
-
-.controller('mainController', function() {
-
-    var vm = this;
-
-    var username = "";
-    var password = "";
-
-    vm.loggedIn = false;
 
 });
 

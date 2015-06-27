@@ -1,9 +1,18 @@
 angular.module('mainCtrl', [])
 
-.controller('mainController', function($rootScope, $location, Auth) {
+.controller('mainController', function() { //temporarily removed parameters '$rootScope, $location, Auth'
 
     var vm = this;
 
+    // temporary testing variables
+    vm.username = "";
+    vm.password = "";
+    vm.loggedIn = false;
+
+
+
+
+/*
     // get info if a person is logged in
     vm.loggedIn = Auth.isLoggedIn();
 
@@ -49,4 +58,7 @@ angular.module('mainCtrl', [])
         // NOTE --- CHANGE THIS IF YOU NEED TO
         vm.isloggedIn = false;
     };
+
+*/
+
 });

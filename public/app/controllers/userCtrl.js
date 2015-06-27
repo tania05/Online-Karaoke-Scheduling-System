@@ -8,9 +8,11 @@ angular.module('userCtrl', [])
 // ----
 // This controller provides the functionality of the user's profile page.
 // ====
-.controller('userController', function() {
+.controller('userController', function() { //temporarily removed parameter 'User'
 
     var vm = this;
+
+    vm.processing = true;
 
 
     // ====
@@ -39,15 +41,30 @@ angular.module('userCtrl', [])
 // ----
 // This controller covers the registration process.
 // ====
-.controller('userCreateController', function() {
+.controller('userCreateController', function() { //temporarily removed parameter 'User'
 
      var vm = this;
-     vm.message = 'Injected Registration Page!';
 
+    // variable to hide/show elements of the view
+    // differentiates between create or edit pages
      vm.type = 'create';
+
     // ====
-    // function to handle the create of a user.
+    // function to create a user
     // ====
+    vm.saveUser = function() {
+        vm.processing = true;
+        vm.message = '';
+
+        // use the create function in the userService
+        User.create(vm.userData)
+            .success(function(data) {
+                vm.processing = false;
+                vm.userData = {};
+                vm.message = data.message;
+            });
+            
+    };  
 
 })
     
@@ -58,10 +75,12 @@ angular.module('userCtrl', [])
 // ----
 // This controller cover the edit user info process. See pages 196-200
 // ====
-.controller('userEditController', function() {
+.controller('userEditController', function() { //temporarily removed parameters '$routeParams', 'User'
     
     var vm = this;
 
+    // variable to hide/show elements of the view
+    // differentiates between create or edit pages
     vm.type = 'edit';
 
 
