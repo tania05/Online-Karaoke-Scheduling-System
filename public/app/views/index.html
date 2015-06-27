@@ -33,6 +33,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 
+    <!-- controllers -->
+    <script src="app/controllers/contactCtrl.js"></script>
+    <script src="app/controllers/bookingCtrl.js"></script>
+
+
+    <!-- services -->
+
     <!-- main Angular app files -->
     <script src="app/app.routes.js"></script>
     <script src="app/app.js"></script>
@@ -41,7 +48,7 @@
 <body ng-controller="mainController as main">
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse" role="navigation">
         <div class="container-fluid">
             
             <a class="navbar-brand" href="/contact">Purple Fox Karaoke Club</a>
@@ -56,12 +63,14 @@
 
             <div ng-if="!main.loggedIn">
                 <form class="navbar-form navbar-right" role="login" >
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <input type="text" class="form-control" placeholder="Username" ng-model="main.username">
                         <input type="text" class="form-control" placeholder="Password" ng-model="main.password">
                     </div>
-                    <button type="submit" class="btn btn-default" ng-click="main.loggedIn = !main.loggedIn">Login</button>
+                    <button type="submit" class="btn btn-default btn-sm" ng-click="main.loggedIn = !main.loggedIn">Login</button>
                 </form>
+                <p class="navbar-text navbar-right"><a href="/pwReset" class="navbar-link">Forgot Your Password?</a></p>
+                <p class="navbar-text navbar-right"><a href="/register" class="navbar-link">Register</a></p>
             </div>
 
             <div ng-if="main.loggedIn">
@@ -85,10 +94,10 @@
 
 
 
-      <!-- FOOTER -->
+    <!-- FOOTER -->
     <nav class="navbar navbar-inverse navbar-fixed-bottom">
         <div class="container">
-        <p class="navbar-text"><a href="/contact" class="navbar-link">Contact</a></p>
+            <p class="navbar-text"><a href="/contact" class="navbar-link">Contact</a></p>
         </div>
     </nav>
 

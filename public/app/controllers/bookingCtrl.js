@@ -4,6 +4,17 @@
 // ----
 // This controller handles the process of creating a booking
 // ====
+
+angular.module('bookingCtrl', [])
+
+.controller('bookingController', function() {
+
+    var vm = this;
+    this.message = 'Injected Booking Page!';
+});
+
+
+
     // ====
     // functions...
     // ====

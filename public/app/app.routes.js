@@ -37,6 +37,11 @@
                 templateUrl : 'app/views/pages/contact.html',
                 controller  : 'contactController',
                 controllerAs: 'contact'
+            })
+
+            .when('/register', {
+                templateUrl : 'app/views/pages/register.html'
             });
+            
         $locationProvider.html5Mode(true);   
     });

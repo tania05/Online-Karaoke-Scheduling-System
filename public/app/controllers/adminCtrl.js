@@ -31,4 +31,4 @@ angular.module('adminCtrl', ['userService'])
     // ====
     // functions to do the searches on the admin page. "Admin Page" wireframe.
     // ====
-})
+});
