@@ -6,19 +6,19 @@
         </div>
     	
 
-        <form>
+        <form ng-submit="user.saveUser()">
         	<div class="col-sm-6">
 				<div class="form-group">
 				  	<label class="control-label">Name</label>
-				    <input type="text" class="form-control" placeholder="First and Last">
+				    <input type="text" class="form-control" placeholder="First and Last" ng-model="user.userData.name">
 				</div>
 				<div class="form-group">
 				  	<label for="username">Username</label>
-				    <input type="text" class="form-control" placeholder="Username">
+				    <input type="text" class="form-control" placeholder="Username" ng-model="user.userData.username">
 				</div>
 				<div class="form-group">
 				  	<label for="password">Password</label>
-				    <input type="password" class="form-control" placeholder="Password">
+				    <input type="password" class="form-control" placeholder="Password" ng-model="user.userData.password">
 				</div>
 				<div class="form-group">
 				  	<label for="confirmPass">Confirm Password</label>
@@ -26,19 +26,23 @@
 				</div>
 				<div class="form-group">
 				  	<label for="email">Email Address</label>
-				    <input type="email" class="form-control" placeholder="Email">
+				    <input type="email" class="form-control" placeholder="Email" ng-model="user.userData.email">
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="bday">Birthday</label>
-					<input type="date" class="form-control">
+					<input type="date" class="form-control" ng-model="user.userData.age">
 				</div>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Home Address</label>
-					<input type="text" class="form-control" placeholder="Home Address">
+					<input type="text" class="form-control" placeholder="Home Address" ng-model="user.userData.address">
 				</div>
+
+
+				<!-- ADDRESS CURRENTLY ONLY HOLDS CITY -->
+
 				<div class="form-group">
 					<label for="city">City</label>
 					<input type="text" class="form-control" placeholder="City">
@@ -49,17 +53,17 @@
 				</div>
 				<div class="form-group">
 					<label for="phoneNum">Phone Number</label>
-					<input type="tel" class="form-control" placeholder="Phone Number">
+					<input type="tel" class="form-control" placeholder="Phone Number" ng-model="user.userData.phone_number">
 				</div>
 
 			</div>
 
 			<div class="container" ng-if="user.type == 'create'">
-		  		<button type="submit" class="btn btn-default">Register</button>
+		  		<button type="submit" class="btn btn-success">Register</button>
 		  	</div>
 		  	<div ng-if="user.type == 'edit'">
-		  		<button type="submit" class="btn btn-default">Save Changes</button>
-		  		<button type="submit" class="btn btn-default">Cancel</button>
+		  		<button type="submit" class="btn btn-success">Save Changes</button>
+		  		<button class="btn btn-default">Cancel</button>
 		  	</div>
 		</form>
 
