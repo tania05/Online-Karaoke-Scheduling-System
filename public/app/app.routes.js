@@ -73,7 +73,7 @@
 
             // form to create a new user
             // same view as edit page
-            .when('/users/create', {
+            .when('/users/register', {
                 templateUrl : 'app/views/pages/users/userForm.html',
                 controller  : 'userCreateController',
                 controllerAs: 'user'

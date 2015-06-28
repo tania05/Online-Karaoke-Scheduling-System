@@ -1,5 +1,5 @@
 // start our angular module and inject userServices
-angular.module('userCtrl', [])
+angular.module('userCtrl', ['userService'])
 
 
 // ====
@@ -8,7 +8,7 @@ angular.module('userCtrl', [])
 // ----
 // This controller provides the functionality of the user's profile page.
 // ====
-.controller('userController', function() { //temporarily removed parameter 'User'
+.controller('userController', function(User) { //temporarily removed parameter 'User'
 
     var vm = this;
 
@@ -18,6 +18,16 @@ angular.module('userCtrl', [])
     // ====
     // function to populate the page with the user's information.
     // ====
+	User.all()
+		.success(function(data) {
+
+			// when all the users come back, remove the processing variable
+			vm.processing = false;
+
+			// bind the users that come back to vm.users
+			vm.users = data;
+		});
+	
 
 /*
     // function to delete a user
