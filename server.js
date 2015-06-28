@@ -10,6 +10,7 @@ var mongoose    = require('mongoose');
 var config      = require('./config');
 var path        = require('path');
 var User				= require('./app/models/user');
+var nodemailer  = require('nodemailer');
 
 // APP CONFIGURATION
 // =============================
