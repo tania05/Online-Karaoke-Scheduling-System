@@ -9,7 +9,7 @@ var AvailabilitySchema = new Schema({
     room: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
-    }
+    },
     
     // This is an array of all the bookings created for the
     // room secified above.
