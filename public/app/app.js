@@ -1,4 +1,4 @@
-angular.module('karaokeApp', ['app.routes', 'contactCtrl', 'bookingCtrl', 'userCtrl', 'mainCtrl'])
+angular.module('karaokeApp', ['app.routes', 'contactCtrl', 'bookingCtrl', 'userCtrl', 'mainCtrl' ])
 
 
 .config(function($httpProvider) {

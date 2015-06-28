@@ -33,6 +33,14 @@
                 controller  : 'contactController',
                 controllerAs: 'contact'
             })
+						// route for the password Reset page
+
+					  .when('/pwReset', {
+                templateUrl : 'app/views/pages/pwReset.html',
+                controller  : 'pwResetController',
+                controllerAs: 'pwReset'
+            })
+
 
 
             //============
