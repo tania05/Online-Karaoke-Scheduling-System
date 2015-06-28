@@ -54,42 +54,50 @@
 
     <!-- NAVBAR -->
     <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container-fluid">
-            
-            <a class="navbar-brand" href="/contact">Purple Fox Karaoke Club</a>
-
-
-            <ul class="nav navbar-nav">
-                <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                <li><a href="/users/single"><i class="fa fa-user"></i> Profile</a></li>
-                <li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
-                <li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
-            </ul>
-
-            <div ng-if="!main.loggedIn">
-                <form class="navbar-form navbar-right" role="login" >
-                    <div class="form-group form-group-sm">
-                        <input type="text" class="form-control" placeholder="Username" ng-model="main.username">
-                        <input type="text" class="form-control" placeholder="Password" ng-model="main.password">
-                    </div>
-                    <button type="submit" class="btn btn-default btn-sm" ng-click="main.loggedIn = !main.loggedIn">Login</button>
-                </form>
-                <p class="navbar-text navbar-right"><a href="/pwReset" class="navbar-link">Forgot Your Password?</a></p>
-                <p class="navbar-text navbar-right"><a href="/users/create" class="navbar-link">Register</a></p>
-            </div>
-
-            <div ng-if="main.loggedIn">
-                <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="main.loggedIn = !main.loggedIn">Logout</button>
+        <div class="row">
+            <div class="col-md-6">
+            	<a class="navbar-brand" href="/contact">Purple Fox Karaoke Club</a>
+						</div>
+ 						<div class="col-md-6">
+							<div ng-if="!main.loggedIn">
+                	<form class="navbar-form navbar-right" role="login" >
+                    	<div class="form-group form-group-sm">
+                        	<input type="text" class="form-control" placeholder="Username" ng-model="main.username">
+                        	<input type="text" class="form-control" placeholder="Password" ng-model="main.password">
+                    	</div>
+                  	  <button type="submit" class="btn btn-default btn-sm" ng-click="main.loggedIn = !main.loggedIn">Login</button>
+                	</form>
+							</div>
+							<div ng-if="main.loggedIn">
                 <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/users/single" class="navbar-link">{{ main.username }}</a></p>
-                <p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
-            </div>
-
-        </div>
+								<p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
+            	</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+            	<ul class="nav navbar-nav">
+                	<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                	<li><a href="/users/single"><i class="fa fa-user"></i> Profile</a></li>
+                	<li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
+                	<li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
+           		</ul>
+						</div>
+						<div class="col-md-6">
+							<div ng-if="!main.loggedIn">
+                	<p class="navbar-text navbar-right"><a href="/pwReset" class="navbar-link">Forgot Your Password?</a></p>
+                	<p class="navbar-text navbar-right"><a href="/users/create" class="navbar-link">Register</a></p>
+            	</div>
+							<div ng-if="main.loggedIn">
+                <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="main.loggedIn = !main.loggedIn">Logout</button>                
+            	</div>
+						</div>
+					</div>
     </nav>
 
 
     <!-- MAIN CONTENT AND INJECTED VIEWS -->
-    <main>
+    <main class="container">
 
         <!-- angular templating -->
         <!-- this is where content will be injected -->

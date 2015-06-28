@@ -7,9 +7,14 @@ angular.module('adminCtrl', ['userService'])
 .controller('adminController', function(User) {
 
     var vm = this;
+<<<<<<< HEAD
 
 	vm.message = 'my message';
-/*
+
+=======
+    
+    //Code is from page 188
+>>>>>>> cfe2715fb4f8a42b353e4b5f431546c4a9f21aa0
     //grab all the users at page load
     User.all()
         .success(function(data) {
@@ -17,7 +22,7 @@ angular.module('adminCtrl', ['userService'])
             // bind the users that come back to vm.users
             vm.users = data;
         });
-*/
+
     // ====
     // function to edit a user. This is probably just a path change to
     // the user's profile page. "Manage Account" wireframe.

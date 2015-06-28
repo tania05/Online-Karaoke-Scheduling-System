@@ -11,7 +11,10 @@ var UserSchema = new Schema({
 	email: { type: String, required: true, index: { unique: true}},
     age: String,
     address: String,
-    phone_number: String
+    phone_number: String,
+		passwordResetToken: String,
+		passwordResetExpires: Date
+
 });
 
 //hashing the password before the user is saved
