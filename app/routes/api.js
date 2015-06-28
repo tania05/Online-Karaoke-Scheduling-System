@@ -101,7 +101,7 @@ module.exports = function(app, express) {
 
     // on routes that end in /users
     // -------------------------------
-    apiRouter.route('/users')
+    apiRouter.route('/users/create')
 
         // create a user (accessed at POST http://localhost:8080/users)
     	.post(function(req,res){
