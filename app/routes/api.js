@@ -10,7 +10,7 @@ module.exports = function(app, express) {
     var apiRouter = express.Router();
 
     // route to authenticate a user	(POST http://localhost:8080/api/authenticate)
-	apiRouter.post('/autenticate', function (req,res){
+	apiRouter.post('/authenticate', function (req,res){
 	    console.log(req.body.username);
 	
         //find the user
@@ -101,7 +101,7 @@ module.exports = function(app, express) {
 
     // on routes that end in /users
     // -------------------------------
-    apiRouter.route('/users')
+    apiRouter.route('/users/create')
 
         // create a user (accessed at POST http://localhost:8080/users)
     	.post(function(req,res){

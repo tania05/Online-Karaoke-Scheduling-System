@@ -63,6 +63,13 @@
                 controllerAs: 'user'
             })
 
+			// admin page to display all users
+            .when('/users/all', {
+                templateUrl : 'app/views/pages/users/all.html',
+                controller  : 'adminController',
+                controllerAs: 'admin'
+            })
+
             // page to edit a user
             // CHANGE 'single' to :user_id to select a specific user
             .when('/users/single/edit', {

@@ -7,6 +7,8 @@ angular.module('adminCtrl', ['userService'])
 .controller('adminController', function(User) {
 
     var vm = this;
+
+	vm.message = 'my message';
     
     //Code is from page 188
     //grab all the users at page load

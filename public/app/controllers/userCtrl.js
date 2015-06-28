@@ -49,6 +49,8 @@ angular.module('userCtrl', [])
     // differentiates between create or edit pages
      vm.type = 'create';
 
+	vm.message = 'A message';
+
     // ====
     // function to create a user
     // ====
