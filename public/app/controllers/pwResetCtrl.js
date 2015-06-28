@@ -1,4 +1,6 @@
 // ====
+// Email for the site: PurpleFoxPassReset@gmail.com
+// Password for email: Seng2993
 // ----
 // pwResetController
 // ----
