@@ -7,7 +7,8 @@ angular.module('adminCtrl', ['userService'])
 .controller('adminController', function(User) {
 
     var vm = this;
-
+    
+    //Code is from page 188
     //grab all the users at page load
     User.all()
         .success(function(data) {
