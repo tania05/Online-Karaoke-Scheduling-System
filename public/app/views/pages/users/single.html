@@ -1,7 +1,28 @@
 <!-- single.html -->
-    <div class="jumbotron text-center">
-        <h1>Profile Page</h1>
+    <div class="container">
+        <div class="page-header">
+        	<h1>Profile Page</h1>
+        </div>
 
-        <p><a href="users/single/edit">Edit Profile</a></p>
+        <dl>
+        	<dt>Name</dt>
+        	<dd>{{ main.name }}</dd>
+        	<dt>Username</dt>
+        	<dd>{{ main.username }}</dd>
+        	<dt>Birthday</dt>
+        	<dd>{{ user.bday }} </dd>
+        	<dt>Email</dt>
+        	<dd>{{ user.email }}</dd>
+        	<dt>Address</dt>
+        	<dd>{{ user.address }}</dd>
+        	<dt>Phone Number</dt>
+        	<dd>{{ user.phone_number }}</dd>
+        </dl>
 
+        <div class="container">
+        	<a class="btn btn-default" href="users/single/edit">Edit Profile</a>
+        	<a class="btn btn-default" href="users/single/delete">Delete Account</a>
+        	<a class="btn btn-default" href="users/single/bookings">Your Bookings</a>
+        </div>
+      
     </div>
