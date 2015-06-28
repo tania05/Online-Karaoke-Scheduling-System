@@ -101,27 +101,7 @@ module.exports = function(app, express) {
 
     // on routes that end in /users
     // -------------------------------
-    apiRouter.route('/users/create')
-
-        // create a user (accessed at POST http://localhost:8080/users)
-    	.post(function(req,res){
-
-		    var user = new User();              // create a new instance of the User module
-    		user.name = req.body.name;          // set the user's name (comes from the  request)
-	    	user.username = req.body.username;  // set the username (comes from the request)
-		    user.password = req.body.password;  // set the user's password (comes from the request)
-            user.email = req.body.email;        // set the user's email
-            user.age = req.body.age;            // set the user's age
-            user.phone_number = req.body.phone_number;  // set the user's phone_number
-            user.address = req.body.address;    // set the user's address
-
-    		user.save(function(err){
-	    		if(err) res.send(err);
-
-                // return a message
-    		    res.json({message: 'User Created!'});
-	    	});
-    	})
+    apiRouter.route('/users')
 
     	.get(function(req, res) {
 	    	User.find({}, function(err, users) {
@@ -131,6 +111,29 @@ module.exports = function(app, express) {
 	    		res.json(users);
     		});
     	});
+
+        // on routes that end in /users/registration
+        // -------------------------------
+        apiRouter.route('/users/registration')
+
+    	    .post(function(req,res){
+
+		        var user = new User();              // create a new instance of the User module
+        		user.name = req.body.name;          // set the user's name
+	        	user.username = req.body.username;  // set the username
+		        user.password = req.body.password;  // set the user's password
+                user.email = req.body.email;        // set the user's email
+                user.age = req.body.age;            // set the user's age
+                user.phone_number = req.body.phone_number;  // set the user's phone_number
+                user.address = req.body.address;    // set the user's address
+    
+        		user.save(function(err){
+    	    		if(err) res.send(err);
+    
+                    // return a message
+    	    	    res.json({message: 'User Created!'});
+    	    	});
+        	})
 
     	// on routes that end in /users/:user_id
 	    //----------------------------------------
