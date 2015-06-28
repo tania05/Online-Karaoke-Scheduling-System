@@ -45,6 +45,9 @@ angular.module('userCtrl', ['userService'])
 
 })
 
+
+
+
 // ====
 // ----
 // userCreateController
@@ -87,7 +90,7 @@ angular.module('userCtrl', ['userService'])
 // ----
 // This controller cover the edit user info process. See pages 196-200
 // ====
-.controller('userEditController', function() { //temporarily removed parameters '$routeParams', 'User'
+.controller('userEditController', function($routeParams, User) { //temporarily removed parameters '$routeParams', 'User'
     
     var vm = this;
 
@@ -95,6 +98,33 @@ angular.module('userCtrl', ['userService'])
     // differentiates between create or edit pages
     vm.type = 'edit';
 
+    User.get($routeParams.user_id)
+    	.success(function(data){
+    		vm.userData= data;
+
+    	})
+
+
+    	// function to save the user
+    	vm.saveUser = function(){
+    		vm.processing=true;
+    		vm.message='';
+
+    		//call the userService function to update
+    		User.update($routeParams.user_id, vm.userData)
+    			.success(function(data) {
+    				vm.processing= false;
+
+    				//clear the form
+    				vm.userData= {};
+
+
+    				//pind the message from API to vm.message
+    				vm.message=data.message;	
+    			})
+    	}
+    
+});
 
 /*    
     // get the user data for the user you want to edit
@@ -121,7 +151,7 @@ angular.module('userCtrl', ['userService'])
     };
 
 */
-});
+
 
 // ====
 // ----
