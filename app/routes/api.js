@@ -58,7 +58,7 @@ module.exports = function(app, express) {
     // route middleware to verify a token 
     apiRouter.use(function (req, res, next){
 	    //do logging
-    	config.log('Somebody just came to our app!');
+    	console.log('Somebody just came to our app!');
 
 	    //check header or url parameters or post parameters for token
     	var token =req.body.token || req.param('token') || req.headers['x-access-token'];
