@@ -1,3 +1,5 @@
+angular.module('authService', [])
+
 // ==========================================
 // auth factory to login and get information
 // inject $http for communicating with the api
@@ -101,6 +103,7 @@
 
         // if our server returns a 403 forbidden response
         if(response.status == 403)
+            Autoken.setToken();
             $location.path('/login');
 
         // return the errors from the server as a promise
