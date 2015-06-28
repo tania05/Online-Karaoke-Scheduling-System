@@ -37,7 +37,7 @@
 
 					  .when('/pwResetForgot', {
                 templateUrl : 'app/views/pages/pwResetForgot.html',
-                controller  : 'pwResetForgotController',
+                controller  : 'pwResetController',
                 controllerAs: 'pwReset'
             })
 
