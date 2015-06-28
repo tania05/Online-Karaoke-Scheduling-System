@@ -1,4 +1,5 @@
 
+    <div class="container">
     	<div class="page-header">
         	<h1 ng-if="user.type == 'create'">Register</h1>
         	<h1 ng-if="user.type == 'edit'">Edit User</h1>
@@ -66,3 +67,4 @@
 		  	</div>
 		</form>
 
+    </div>
