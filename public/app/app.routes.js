@@ -35,7 +35,13 @@
             })
 						// route for the password Reset page
 
-					  .when('/pwReset', {
+					  .when('/pwResetForgot', {
+                templateUrl : 'app/views/pages/pwResetForgot.html',
+                controller  : 'pwResetForgotController',
+                controllerAs: 'pwReset'
+            })
+
+						.when('/pwReset', {
                 templateUrl : 'app/views/pages/pwReset.html',
                 controller  : 'pwResetController',
                 controllerAs: 'pwReset'

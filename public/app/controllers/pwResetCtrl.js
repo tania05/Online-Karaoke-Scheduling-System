@@ -7,10 +7,15 @@
 
 angular.module('pwResetCtrl', [])
 
-.controller('pwResetController', function() {
+.controller('pwResetForgotController', function() {
 
     var vm = this;
     vm.message = 'Injected pwReset Page!';
+
+		vm.sendToken = function() {
+	
+			
+		}
 });
 
     // ====
