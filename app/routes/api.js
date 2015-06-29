@@ -55,6 +55,7 @@ module.exports = function(app, express) {
 	    });	
     });
 
+    /*
     // route middleware to verify a token 
     apiRouter.use(function (req, res, next){
 	    //do logging
@@ -91,6 +92,7 @@ module.exports = function(app, express) {
     		});
     	}
     });
+    */
 
 
     //test route to make sure everythign is working
@@ -102,7 +104,8 @@ module.exports = function(app, express) {
     // on routes that end in /users
     // -------------------------------
     apiRouter.route('/users')
-
+        
+        // get all users
     	.get(function(req, res) {
 	    	User.find({}, function(err, users) {
 		    	if (err) res.send(err);
@@ -114,7 +117,7 @@ module.exports = function(app, express) {
 
         // on routes that end in /users/registration
         // -------------------------------
-        apiRouter.route('/users/registration')
+        apiRouter.route('/users/register')
 
     	    .post(function(req,res){
 
