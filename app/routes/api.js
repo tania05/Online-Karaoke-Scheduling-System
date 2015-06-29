@@ -187,5 +187,25 @@ module.exports = function(app, express) {
 		        	res.json({ message: 'Successfully deleted!' });
         		});
 	        });
+    
+    // on routes that end in /bookings
+    // -------------------------------
+    apiRouter.route('/bookings')
+        // on routes that end in /bookings/:booking_id
+        // -------------------------------
+        apiRouter.route('/bookings/:booking_id')
+        
+        // on routes that end in /bookings/create
+        // -------------------------------
+        apiRouter.route('/bookings/create')
+
+        // on routes that end in /bookings/manage
+        // -------------------------------
+        apiRouter.route('/bookings/manage')
+
+    // on routes that end in /availability
+    // -------------------------------
+    apiRouter.route('/availability')
+
 	return apiRouter;
 };
