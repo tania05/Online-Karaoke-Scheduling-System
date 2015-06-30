@@ -57,7 +57,7 @@
     <nav class="navbar navbar-inverse" role="navigation" style="padding-right: 2em">
         <div class="row">
             <div class="col-md-6">
-            	<a class="navbar-brand" href="/contact">Purple Fox Karaoke Club</a>
+            	<a class="navbar-brand" href="/">Purple Fox Karaoke Club</a>
 						</div>
  						<div class="col-md-6">
 							<div ng-if="!main.loggedIn">
@@ -79,7 +79,7 @@
 						<div class="col-md-6">
             	<ul class="nav navbar-nav">
                 	<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                	<li><a href="/users/{{ user.userData._id }}"><i class="fa fa-user"></i> Profile</a></li>
+                	<li><a href="/users/:user_id"><i class="fa fa-user"></i> Profile</a></li>
                 	<li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
                 	<li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
            		</ul>
@@ -111,7 +111,7 @@
     <!-- FOOTER -->
     <nav class="navbar navbar-inverse navbar-fixed-bottom">
         <div class="container">
-            <p class="navbar-text"><a href="/contact" class="navbar-link">Contact</a></p>
+            <a class="navbar-text" href="/contact" class="navbar-link">Contact</a></p>
         </div>
     </nav>
 
