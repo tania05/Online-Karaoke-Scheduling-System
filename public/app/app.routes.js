@@ -77,8 +77,6 @@
                 controllerAs: 'user'
             })
 
-
-
             // page to edit a user
             .when('/users/:user_id/edit', {
                 templateUrl : 'app/views/pages/users/userForm.html',
@@ -87,17 +85,11 @@
 
             })  
 
-	     // page for admin to edit a user
-            .when('/users/single/edit/:user_id/', {
-                templateUrl : 'app/views/pages/users/userForm.html',
-                controller  : 'userEditController',
-                controllerAs: 'user'
-
-            })  
-
 			// page to delete a user
-            .when('/users/single/delete', {
-                templateUrl : 'app/views/pages/deleteUser.html'
+            .when('/users/:user_id/delete', {
+                templateUrl : 'app/views/pages/deleteUser.html',
+                controller  : 'userDeleteController',
+                controllerAs: 'user'
             });
  
         $locationProvider.html5Mode(true);   

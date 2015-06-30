@@ -4,10 +4,6 @@
         	<h1>Profile Page</h1>
         </div>
 
-        <p>TEST Paragraph</p>
-        <p> {{ user.name }} </p>
-
-
         <dl>
         	<dt>Name</dt>
         	<dd>{{ user.userData.name }}</dd>
@@ -16,7 +12,7 @@
             <dt>Email</dt>
             <dd>{{ user.userData.email }}</dd>            
         	<dt>Birthday</dt>
-        	<dd>{{ user.userData.bday }} </dd>
+        	<dd>{{ user.userData.age }} </dd>
         	<dt>Address</dt>
         	<dd>{{ user.userData.address }}</dd>
         	<dt>Phone Number</dt>
@@ -24,9 +20,9 @@
         </dl>
 
         <div class="container">
-        	<a class="btn btn-default" href="users/single/edit">Edit Profile</a>
-        	<a class="btn btn-default" href="users/single/delete">Delete Account</a>
-        	<a class="btn btn-default" href="users/single/bookings">Your Bookings</a>
+        	<a class="btn btn-default" href="users/{{ user.userData._id }}/edit">Edit Profile</a>
+        	<a class="btn btn-default" href="users/{{ user.userData._id }}/delete">Delete Account</a>
+        	<a class="btn btn-default" href="users/{{ user.userData._id }}/bookings">Your Bookings</a>
         </div>
       
     </div>

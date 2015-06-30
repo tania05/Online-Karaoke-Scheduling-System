@@ -1,10 +1,20 @@
-<div align="center" style="margin-top: 20%">
-	<h3>Are you sure you would like to delete your account?</h3>
-	<br></br>
-	<div style="display: inline-block" ealign="center">
-		<input type="password" class="form-control" placeholder="Enter your password" ng-model="main.password">
+<div align="center">
+
+	<div class="container" ng-if="!user.deleted">
+		<h3>Are you sure you would like to delete your account?</h3>
+		<form ng-submit="user.deleteUser()">
+			<br/>
+			<input type="password" class="form-control" style="width:300px"placeholder="Enter your password" ng-model="main.password">
+			<br/>
+			<button type="submit" class="btn btn-danger">Delete</button>
+			<a href="/"><button class="btn btn-default">Cancel</button></a>
+		</form>
 	</div>
-	<br></br>
-	<button type="submit" class="btn btn-danger">Delete</button>
-	<a href="/users/:user_id"><button class="btn btn-default">Cancel</button></a>
+	
+	<div class="container" ng-if="user.deleted">
+		<h3>User Successfully Deleted</h3>
+		</br>
+		<a href="/"><button class="btn btn-default">Go Home</button></a>
+	</div>
+
 </div>
