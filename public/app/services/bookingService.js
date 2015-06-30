@@ -24,4 +24,4 @@ angular.module('bookingService',[])
     bookingFactory.all = function(userId) {
         return $http.get('/api/bookings/manage', userId);
     }
-}
+})
