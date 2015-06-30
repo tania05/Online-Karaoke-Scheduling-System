@@ -9,6 +9,150 @@ module.exports = function(app, express) {
 	
     var apiRouter = express.Router();
 
+    // =================
+    // TEST MIDDLEWARE
+    // does nothing except write to the console
+    // need to change this to middleware to verify a token (in comments below)
+    // =================
+
+    apiRouter.use(function(req, res, next){
+
+        //log each request to the console
+        console.log(req.method, req.url);
+
+        // continue what we were doing and go to the route
+        next();
+    });
+
+
+    // route middleware to validate :name
+    apiRouter.param('name', function(req, res, next, name) {
+        // do validation on name here
+        // blah blah validation
+        // log something so we know its working
+        console.log('doing name validations on ' + name);
+
+        // once validation is done save the new item in the req
+        req.name = name;
+        // go to the next thing
+        next(); 
+    });
+
+    //=====================
+    // END TEST MIDDLEWARE
+    //===================== 
+
+
+
+    //test route to make sure everythign is working
+    // accessed at GET http:localhost:8080/api
+    apiRouter.get('/', function(req, res){
+        res.json({message: 'Welcome to our api.'});
+    });
+
+
+
+    // on routes that end in /users
+    // ----------------------------------------------------
+    apiRouter.route('/users')
+
+        // get all users
+        .get(function(req, res) {
+            User.find({}, function(err, users) {
+                if (err) res.send(err);
+
+                // return all users users
+                res.json(users);
+            });
+        })
+
+
+        // create a user
+        .post(function(req, res) {
+
+            var user = new User();      // create a new instance of the User model
+            user.name = req.body.name;  // set the users name (comes from the request)
+            user.username = req.body.username;  // set the users username (comes from the request)
+            user.password = req.body.password;  // set the users password (comes from the request)
+            user.email = req.body.email;  // set the users email (comes from the request)
+            user.age = req.body.age;  // set the users age (comes from the request)
+            user.address = req.body.address;  // set the users address (comes from the request)
+            user.phone_number = req.body.phone_number;  // set the users phone_number (comes from the request)
+
+
+            user.save(function(err) {
+                if (err) {
+                    /* TEMPORARILY COMMENTED OUT TO GET MORE DETAILED ERROR INFO
+                    // duplicate entry
+                    if (err.code == 11000) 
+                        return res.json({ success: false, message: 'A user with that username already exists. '});
+
+                    else 
+                    */
+                        return res.send(err);
+                }
+                // return a message
+                res.json({message: 'User created.'});
+            });
+        });
+
+
+
+
+    // on routes that end in /users/:user_id
+    // ----------------------------------------------------
+    apiRouter.route('/users/:user_id')
+
+        // get the user with that id
+        .get(function(req, res) {
+            User.findById(req.params.user_id, function(err, user) {
+                if (err) return res.send(err);
+
+                // return that user
+                res.json(user);
+            });
+        })
+
+        // update the user with this id
+        .put(function(req, res) {
+            User.findById(req.params.user_id, function(err, user) {
+
+                if (err) return res.send(err);
+
+                // set the new user information if it exists in the request
+                if (req.body.name) user.name = req.body.name;
+                if (req.body.username) user.username = req.body.username;
+                if (req.body.password) user.password = req.body.password;
+                if (req.body.email) user.email = req.body.email;
+                if (req.body.age) user.age = req.body.age; 
+                if (req.body.address) user.address = req.body.address; 
+                if (req.body.phone_number) user.phone_number = req.body.phone_number;
+
+                // save the user
+                user.save(function(err) {
+                    if (err) return res.send(err);
+
+                    // return a message
+                    res.json({ message: 'User updated!' });
+                });
+
+            });
+        })
+
+        // delete the user with this id
+        .delete(function(req, res) {
+            User.remove({
+                _id: req.params.user_id
+            }, function(err, user) {
+                if (err) return res.send(err);
+
+                res.json({ message: 'Successfully deleted' });
+            });
+        });
+
+
+
+/*
     // route to authenticate a user	(POST http://localhost:8080/api/authenticate)
 	apiRouter.post('/authenticate', function (req,res){
 	    console.log(req.body.username);
@@ -55,7 +199,7 @@ module.exports = function(app, express) {
 	    });	
     });
 
-    /*
+    
     // route middleware to verify a token 
     apiRouter.use(function (req, res, next){
 	    //do logging
@@ -92,101 +236,8 @@ module.exports = function(app, express) {
     		});
     	}
     });
-    */
-
-
-    //test route to make sure everythign is working
-    // accessed at GET http:localhost:8080/api
-    apiRouter.get('/', function(req, res){
-    	res.json({message: 'hooray! Welcome to our api!'});
-    });
-
-    // on routes that end in /users
-    // -------------------------------
-    apiRouter.route('/users')
-        
-        // get all users
-    	.get(function(req, res) {
-	    	User.find({}, function(err, users) {
-		    	if (err) res.send(err);
-
-    			// return all users users
-	    		res.json(users);
-    		});
-    	});
-
-        // on routes that end in /users/registration
-        // -------------------------------
-        apiRouter.route('/users/register')
-
-    	    .post(function(req,res){
-
-		        var user = new User();              // create a new instance of the User module
-        		user.name = req.body.name;          // set the user's name
-	        	user.username = req.body.username;  // set the username
-		        user.password = req.body.password;  // set the user's password
-                user.email = req.body.email;        // set the user's email
-                user.age = req.body.age;            // set the user's age
-                user.phone_number = req.body.phone_number;  // set the user's phone_number
-                user.address = req.body.address;    // set the user's address
     
-        		user.save(function(err){
-    	    		if(err) res.send(err);
-    
-                    // return a message
-    	    	    res.json({message: 'User Created!'});
-    	    	});
-        	})
 
-    	// on routes that end in /users/:user_id
-	    //----------------------------------------
-    	apiRouter.route('/users/:user_id')
-
-	        // get the user with that id
-        	.get(function (req, res){
-        		User.findById(req.params.user_id, function(err,user){
-        			if(err) res.send(err);
-
-		        	//return that user
-        			res.json(user);
-    		    });
-        	})
-
-            //Update the user with this id
-	        .put(function(req,res){
-        		User.FindById(req.params.user_id, function(err,user){
-
-	        		if(err) res.send(err);
-
-            		//set the new user information if it exists in the request
-	            	if(req.body.name) user.name= req.body.name;
-            		if(req.body.username) user.username= req.body.username;
-	            	if(req.body.password) user.password = req.body.password;
-                    if(req.body.email) user.email = req.body.email;
-                    if(req.body.age) user.age = req.body.age;
-                    if(req.body.phone_number) user.phone_number = req.body.phone_number;
-                    if(req.body.address) user.address = req.body.address;
-
-            		//save the user
-    	        	user.save(function(err){
-            			if(err) res.send(err);
-
-        	    		//return a message
-            			res.json({ message: 'User Updated!' });
-                  	});
-            	});
-            })
-
-        	//delete the user with this id
-        	.delete(function(req,res){
-        		User.remove({
-        			_id: req.params.user_id
-        		}, function (err, user){
-        			if(err) res.send(err);
-
-		        	res.json({ message: 'Successfully deleted!' });
-        		});
-	        });
     
     // on routes that end in /bookings
     // -------------------------------
@@ -206,6 +257,6 @@ module.exports = function(app, express) {
     // on routes that end in /availability
     // -------------------------------
     apiRouter.route('/availability')
-
+*/
 	return apiRouter;
 };

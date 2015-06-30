@@ -1,20 +1,25 @@
 // Required packages for user model
-var mongoose = require('mongoose'),
-	Schema   = mongoose.Schema,
-	bcrypt   = require('bcrypt-nodejs');
+var mongoose = require('mongoose');
+var Schema   = mongoose.Schema;
+var bcrypt   = require('bcrypt-nodejs');
 
 //User schema
-var UserSchema = new Schema({
-	name: String,
-	username: { type: String, required: true, index: { unique: true}},
-	password: { type: String, required: true, select: false },
-	email: { type: String, required: true, index: { unique: true}},
-    age: String,
-    address: String,
-    phone_number: String,
-		passwordResetToken: String,
-		passwordResetExpires: Date
 
+/*TEMPORARILY REMOVED ATTRIBUTES FOR TESTING SIMPLICITY
+	
+	passwordResetToken: String,
+	passwordResetExpires: Date
+
+*/
+
+var UserSchema = new Schema({
+	name: { type: String, required: true },
+	username: { type: String, required: true, index: { unique: true}},
+	password: { type: String, required: true, select: false },	
+	email: { type: String, required: true },
+	age: { type: String, required: true },
+    address: { type: String, required: true },
+    phone_number: { type: String, required: true },	
 });
 
 //hashing the password before the user is saved
