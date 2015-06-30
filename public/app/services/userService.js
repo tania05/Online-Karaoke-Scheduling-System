@@ -30,6 +30,10 @@ angular.module('userService', [])
         return $http.delete('/api/users/' + id);
     };
 
+		userFactory.createToken = function(userData) {
+			return $http.post('/api/pwResetForgot/', userData);
+		};
+
     // return our entire userFactory object
     return userFactory;
 
