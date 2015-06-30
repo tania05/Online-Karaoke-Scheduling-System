@@ -12,12 +12,12 @@
 </div>
 
 
-<div class="jumbotron text-center" ng-show="user.processing">
+<div class="jumbotron text-center" ng-show="admin.processing">
 	<span class="glyphicon glyphicon-repeat spinner"></span>
 	<p>Loading Users...</p>
 </div>
 
-<table class="table table-bordered table-striped" ng-show="user.users">
+<table class="table table-bordered table-striped" ng-show="admin.users">
 	<thead>
 		<tr>
 			<th>_id</th>
@@ -27,13 +27,13 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="person in user.users">
+		<tr ng-repeat="person in admin.users">
 			<td>{{ person._id }}</td>
 			<td>{{ person.name }}</td>
 			<td>{{ person.username }}</td>
 			<td class="col-sm-2">
-				<a ng-href="/users/{{ person._id }}" class="btn btn-danger">Edit</a>
-				<a href="#" ng-click="user.deleteUser(person._id)" class="btn btn-primary">Delete</a>
+				<a ng-href="/users/single/edit/{{ person._id }}" class="btn btn-danger">Edit</a>
+				<a href="#" ng-click="admin.deleteUser(person._id)" class="btn btn-primary">Delete</a>
 			</td>
 		</tr>
 	</tbody>

@@ -35,13 +35,13 @@
             })
 						// route for the password Reset page
 
-					  .when('/pwResetForgot', {
+			.when('/pwResetForgot', {
                 templateUrl : 'app/views/pages/pwResetForgot.html',
                 controller  : 'pwResetController',
                 controllerAs: 'pwReset'
             })
 
-						.when('/pwReset', {
+			.when('/pwReset', {
                 templateUrl : 'app/views/pages/pwReset.html',
                 controller  : 'pwResetController',
                 controllerAs: 'pwReset'
@@ -57,33 +57,9 @@
             // available only to admin
             .when('/users', {
                 templateUrl : 'app/views/pages/users/all.html',
-                controller  : 'userController',
-                controllerAs: 'user'
-            })
-
-            // user profile page
-            // CHANGE 'single' to :user_id to select a specific user
-            .when('/users/single', {
-                templateUrl : 'app/views/pages/users/single.html',
-                controller  : 'userController',
-                controllerAs: 'user'
-            })
-
-			// admin page to display all users
-            .when('/users/all', {
-                templateUrl : 'app/views/pages/users/all.html',
                 controller  : 'adminController',
                 controllerAs: 'admin'
             })
-
-            // page to edit a user
-            // CHANGE 'single' to :user_id to select a specific user
-            .when('/users/single/edit', {
-                templateUrl : 'app/views/pages/users/userForm.html',
-                controller  : 'userEditController',
-                controllerAs: 'user'
-
-            })        
 
             // form to create a new user
             // same view as edit page
@@ -91,9 +67,25 @@
                 templateUrl : 'app/views/pages/users/userForm.html',
                 controller  : 'userCreateController',
                 controllerAs: 'user'
-            });
+            })
 
 
-            
+            // user profile page
+            .when('/users/:user_id', {
+                templateUrl : 'app/views/pages/users/single.html',
+                controller  : 'userController',
+                controllerAs: 'user'
+            })
+
+
+
+            // page to edit a user
+            .when('/users/:user_id/edit', {
+                templateUrl : 'app/views/pages/users/userForm.html',
+                controller  : 'userEditController',
+                controllerAs: 'user'
+
+            });     
+ 
         $locationProvider.html5Mode(true);   
     });

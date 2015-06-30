@@ -70,7 +70,7 @@
                 	</form>
 							</div>
 							<div ng-if="main.loggedIn">
-                <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/users/single" class="navbar-link">{{ main.username }}</a></p>
+                <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/users/:user_id" class="navbar-link">{{ main.username }}</a></p>
 								<p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
             	</div>
 						</div>
@@ -79,7 +79,7 @@
 						<div class="col-md-6">
             	<ul class="nav navbar-nav">
                 	<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                	<li><a href="/users/single"><i class="fa fa-user"></i> Profile</a></li>
+                	<li><a href="/users/:user_id"><i class="fa fa-user"></i> Profile</a></li>
                 	<li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
                 	<li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
            		</ul>
