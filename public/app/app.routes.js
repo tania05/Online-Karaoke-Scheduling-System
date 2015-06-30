@@ -85,7 +85,12 @@
                 controller  : 'userEditController',
                 controllerAs: 'user'
 
-            });     
+            })  
+
+			// page to delete a user
+            .when('/users/single/delete', {
+                templateUrl : 'app/views/pages/deleteUser.html'
+            });
  
         $locationProvider.html5Mode(true);   
     });
