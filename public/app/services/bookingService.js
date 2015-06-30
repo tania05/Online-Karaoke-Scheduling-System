@@ -1,4 +1,4 @@
-angular.module('bookingService',['userService'])
+angular.module('bookingService',[])
 
 .factory('Booking', function($http) {
     

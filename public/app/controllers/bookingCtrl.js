@@ -1,19 +1,19 @@
+
+
+angular.module('bookingCtrl', [bookingService])
+
+.controller('bookingCreateController', function() {
+
+    var vm = this;
+    vm.message = 'Injected Booking Page!';
+});
+
 // ====
 // ----
 // bookingCreateController
 // ----
 // This controller handles the process of creating a booking
 // ====
-
-angular.module('bookingCtrl', [])
-
-.controller('bookingController', function() {
-
-    var vm = this;
-    vm.message = 'Injected Booking Page!';
-});
-
-
 
     // ====
     // functions...
