@@ -1,74 +1,68 @@
 <!-- booking.html -->
-<!-- old
-    <div class="jumbotron text-center">
-        <h1>Booking Page</h1>
-
-        <p>{{ booking.message }}</p>
-    </div>
--->
-
     <div class="container">
     	<div class="page-header">
     		<h1>Create Booking</h1>
     	</div>
 
     	<form ng-submit="booking.saveBooking()">
-    		<div class="col-sm-6">
-    			<div class="form-group">
-    				<label for="people">Number of People</label>
-    				<select name="Number of People" class="form-control" ng-model="booking.bookingData.people">
-    					<option value="1">1</option>
-    					<option value="2">2</option>
-    					<option value="3">3</option>
-    					<option value="4">4</option>
-    				</select>
-    			</div>
+            <div class="row">
+        		<div class="col-sm-6">
+        			<div class="form-group">
+        				<label for="people">Number of People</label>
+        				<select name="Number of People" class="form-control" ng-model="booking.bookingData.people">
+        					<option value="1">1</option>
+        					<option value="2">2</option>
+        					<option value="3">3</option>
+        					<option value="4">4</option>
+        				</select>
+        			</div>
 
-    			<div class="form-group">
-    				<label for="room">Room</label>
-    				<select name="Room" class="form-control" ng-model="booking.bookingData.room">
-    					<option value="Room 1">Room 1</option>
-    					<option value="Room 2">Room 2</option>
-    				</select>
-    			</div>
+        			<div class="form-group">
+        				<label for="room">Room</label>
+        				<select name="Room" class="form-control" ng-model="booking.bookingData.room">
+        					<option value="Room 1">Room 1</option>
+        					<option value="Room 2">Room 2</option>
+        				</select>
+        			</div>
 
-    			<div class="form-group">
-    				<label for="date">Date</label>
-    				<input type="date" class="form-control" ng-model="booking.bookingData.date">
-    			</div>
+        			<div class="form-group">
+        				<label for="date">Date</label>
+        				<input type="date" class="form-control" ng-model="booking.bookingData.date">
+        			</div>
 
-    			<div class="form-group">
-    				<label for="start">Start Time</label>
-    				<input type="time" class="form-control" ng-model="booking.bookingData.start">
-    			</div>
+        			<div class="form-group">
+        				<label for="start">Start Time</label>
+        				<input type="time" class="form-control" ng-model="booking.bookingData.start">
+        			</div>
 
-    			<div class="form-group">
-    				<label for="end">End Time</label>
-    				<input type="time" class="form-control" ng-model="booking.bookingData.end">
-    			</div>
+        			<div class="form-group">
+        				<label for="end">End Time</label>
+        				<input type="time" class="form-control" ng-model="booking.bookingData.end">
+        			</div>
 
-    			<div class="form-group">
-    				<label for="equip">Additional Equipment</label>
-    				<select name="Room" class="form-control" ng-model="booking.bookingData.equip">
-    					<option value="1">1</option>
-    					<option value="2">2</option>
-    				</select>
-    			</div>
+        			<div class="form-group">
+        				<label for="equip">Additional Equipment</label>
+        				<select name="Room" class="form-control" ng-model="booking.bookingData.equip">
+        					<option value="1">1</option>
+        					<option value="2">2</option>
+        				</select>
+        			</div>
 
-                <div class="container">
-                    <button type="submit" class="btn btn-default">Times don't work?</button>
-    			</div>
-    		</div>
+                    <div class="container">
+                        <button type="submit" class="btn btn-default">Times don't work?</button>
+        			</div>
+        		</div>
 
-            <div class="col-sm-6">
-
-                <!-- bookings-calendar goes here --> 
-
-                <div class="container">
-                    <button type="submit" class="btn btn-success">Book</button>
+                <div class="col-sm-6">
+                    <!-- bookings-calendar goes here --> 
                 </div>
+
             </div>
 
-    		
+            <div class="row">
+                <div class="container" style="padding-top:15px">
+                        <button type="submit" class="btn btn-success">Book</button>
+                </div>
+            </div>
     	</form>
     </div>
