@@ -44,7 +44,7 @@
     <!-- services -->
     <script src="app/services/userService.js"></script>
 	<script src="app/services/authService.js"></script>
-
+	<script src="app/services/bookingService.js"></script>
 
     <!-- main Angular app files -->
     <script src="app/app.routes.js"></script>
@@ -57,8 +57,8 @@
     <nav class="navbar navbar-inverse" role="navigation" style="padding-right: 2em">
         <div class="row">
             <div class="col-md-6">
-            	<a class="navbar-brand" href="/contact">Purple Fox Karaoke Club</a>
-						</div>
+            	<a class="navbar-brand" href="/"><img src="http://i.imgur.com/pXx7ihe.png" width="73em" height="50em" style="display: inline-block; margin-bottom: 0.5em; margin-top: -0.5em"> Purple Fox Karaoke Club</a>
+			</div>
  						<div class="col-md-6">
 							<div ng-if="!main.loggedIn">
                 	<form class="navbar-form navbar-right" role="login" >
@@ -79,7 +79,7 @@
 						<div class="col-md-6">
             	<ul class="nav navbar-nav">
                 	<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                	<li><a href="/users/{{ user.userData._id }}"><i class="fa fa-user"></i> Profile</a></li>
+                	<li><a href="/users/:user_id"><i class="fa fa-user"></i> Profile</a></li>
                 	<li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
                 	<li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
            		</ul>
@@ -109,11 +109,19 @@
 
 
     <!-- FOOTER -->
-    <nav class="navbar navbar-inverse navbar-fixed-bottom">
-        <div class="container">
-            <p class="navbar-text"><a href="/contact" class="navbar-link">Contact</a></p>
-        </div>
-    </nav>
+	<nav class="navbar navbar-inverse navbar-fixed-bottom">
+		<div class="container">
+			<a class="navbar-text" href="/contact" class="navbar-link">Contact</a></p>
+		</div>
+	</nav>
+	
+	<!-- This fixes the footer cutting off text at some resolutions -->
+	<footer class="footer">
+		<nav class="navbar">
+			<div class="container">
+			</div>
+		</nav>
+	</footer>
 
 </body>
 </html>

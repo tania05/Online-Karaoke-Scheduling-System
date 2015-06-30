@@ -1,6 +1,9 @@
-var User	= require('../models/user')
-var jwt 	= require('jsonwebtoken')
-var config 	= require('../../config')
+var User		= require('../models/user');
+var jwt 		= require('jsonwebtoken');
+var config 	= require('../../config');
+var async 	= require('async');
+var crypto  = require('crypto');
+var nodemailer  = require('nodemailer');
 
 //super secret for creating tokens
 var superSecret = config.secret;
@@ -149,6 +152,70 @@ module.exports = function(app, express) {
                 res.json({ message: 'Successfully deleted' });
             });
         });
+
+
+		apiRouter.route('/pwResetForgot')
+
+
+				.post(function(req, res, next) {
+  					async.waterfall([
+    					function(done) {
+      					crypto.randomBytes(20, function(err, buf) {
+        					var token = buf.toString('hex');
+        					done(err, token);
+      					});
+    					},
+    					function(token, done) {
+								console.log(req.body.email)
+      					User.findOne({ email: req.body.email }, function(err, user) {
+        					if (!user) {
+          					//req.flash('error', 'No account with that email address exists.');
+          					return res.redirect('/pwResetForgot');
+        					}
+									console.log(user.name)
+        					user.resetPasswordToken = token;
+       		 				user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+        					user.save(function(err) {
+										console.log('error happened' + err)
+
+          					done(err, token, user);
+        					});
+      					});
+    					},
+    					function(token, user, done) {
+								console.log('made it here')
+      					var smtpTransport = nodemailer.createTransport('SMTP', {
+        					service: 'gmail',
+       				  	auth: {
+          					user: 'PurpleFoxPassReset@gmail.com',
+          					pass: 'Seng2993'
+        					}
+      					})
+								console.log('made it here1')
+      					var mailOptions = {
+        					to: user.email,
+        					from: 'PurpleFoxPassReset@gmail.com',
+        					subject: 'Password Reset',
+        					text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          							'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          							'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+          							'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+     						}
+								console.log('made it here2')
+      					smtpTransport.sendMail(mailOptions, function(err) {
+        							if(err){
+        								console.log(err);
+    									}else{
+        								console.log("Message sent");
+    									}
+      						})
+								console.log('made it here3')
+    					}
+  				]) 
+
+			})
+				
 
 
 

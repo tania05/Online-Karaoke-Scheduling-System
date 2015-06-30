@@ -7,8 +7,7 @@ var bcrypt   = require('bcrypt-nodejs');
 
 /*TEMPORARILY REMOVED ATTRIBUTES FOR TESTING SIMPLICITY
 	
-	passwordResetToken: String,
-	passwordResetExpires: Date
+	
 
 */
 
@@ -19,7 +18,9 @@ var UserSchema = new Schema({
 	email: { type: String, required: true },
 	age: { type: String, required: true },
     address: { type: String, required: true },
-    phone_number: { type: String, required: true },	
+    phone_number: { type: String, required: true },
+		passwordResetToken: String,
+		passwordResetExpires: Date	
 });
 
 //hashing the password before the user is saved
