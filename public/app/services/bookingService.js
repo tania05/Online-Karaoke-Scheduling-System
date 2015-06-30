@@ -1,4 +1,4 @@
-angular.module('bookingService',['userService'])
+angular.module('bookingService',[])
 
 .factory('Booking', function($http) {
     
@@ -24,4 +24,4 @@ angular.module('bookingService',['userService'])
     bookingFactory.all = function(userId) {
         return $http.get('/api/bookings/manage', userId);
     }
-}
+})

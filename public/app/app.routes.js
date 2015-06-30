@@ -87,6 +87,14 @@
 
             })  
 
+	     // page for admin to edit a user
+            .when('/users/single/edit/:user_id/', {
+                templateUrl : 'app/views/pages/users/userForm.html',
+                controller  : 'userEditController',
+                controllerAs: 'user'
+
+            })  
+
 			// page to delete a user
             .when('/users/single/delete', {
                 templateUrl : 'app/views/pages/deleteUser.html'
