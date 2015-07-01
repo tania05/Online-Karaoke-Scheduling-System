@@ -12,18 +12,40 @@ angular.module('pwResetCtrl', ['userService'])
 .controller('pwResetForgotController', function(User) {
 
 		var vm = this;
-    vm.message = 'Password reset link sent!';
-
+   
 		vm.sendToken = function() {
 			
+			vm.err = '';
+			vm.success = '';
+			vm.processing = true;
+
 			User.createToken(vm.userData)
 						.success(function(data) {
                 vm.processing = false;
-                vm.userData = {};
-                vm.message = data.message;
+
+                if (data.success)
+									vm.success = data.message;
+								else
+									vm.err = data.message;
+                
             });
             
     };
 
 
+})
+
+.controller('pwResetController', function(User) {
+		var vm = this;
+		
+		vm.err = '';
+		vm.success = false;
+
+		User.get($routeParams.token)
+    	.success(function(data){
+    		if (data.success)
+					vm.success = true;
+				else
+					vm.err = data.message; 
+    	});
 })

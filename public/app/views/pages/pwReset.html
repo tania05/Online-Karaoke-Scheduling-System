@@ -1,33 +1,36 @@
 <div class="container">
-    	<div class="page-header">
-        	<h1> Password Reset </h1>	
-      </div>
+     <div class="page-header">
+     		<h1> Password Reset </h1>	
+     </div>
     	
-
-     <form ng-submit="pwResetForgot.sendToken()">
-			<div class="row">
-      	<div class="col-sm-6">
-					<div class="form-group">
-				  		<label for="email">New Password</label>
-				    	<input type="email" class="form-control" placeholder="New Password" ng-model="user.userData.email">
+		 <div class="alert alert-danger" ng-if="pwReset.err">
+								{{ pwReset.err }}
+		 </div>
+		 <div ng-if="pwReset.success">	
+     	<form ng-submit="pwResetForgot.sendToken()">
+				<div class="row">
+     		 	<div class="col-sm-6">
+						<div class="form-group">
+					  		<label for="email">New Password</label>
+					    	<input type="email" class="form-control" placeholder="New Password" ng-model="user.userData.email">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-      	<div class="col-sm-6">
-					<div class="form-group">
-				  		<label for="email">Confirm Password</label>
-				    	<input type="email" class="form-control" placeholder="Confirm Password" ng-model="user.userData.email">
+				<div class="row">
+      		<div class="col-sm-6">
+						<div class="form-group">
+					  		<label for="email">Confirm Password</label>
+					    	<input type="email" class="form-control" placeholder="Confirm Password" ng-model="user.userData.email">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="container">
-		  			<button type="submit" class="btn btn-success">Reset Password</button>
-		  		</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="container">
+		  				<button type="submit" class="btn btn-success">Reset Password</button>
+		  			</div>
+					</div>
 				</div>
-			</div>
-		</form>
-
-    </div>
+			</form>
+		</div>
+</div>

@@ -17,10 +17,10 @@ var UserSchema = new Schema({
 	password: { type: String, required: true, select: false },	
 	email: { type: String, required: true },
 	age: { type: String, required: true },
-    address: { type: String, required: true },
-    phone_number: { type: String, required: true },
-		passwordResetToken: String,
-		passwordResetExpires: Date	
+  address: { type: String, required: true },
+  phone_number: { type: String, required: true },
+	passwordResetToken: String,
+	passwordResetExpires: Date	
 });
 
 //hashing the password before the user is saved

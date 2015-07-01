@@ -41,7 +41,7 @@
                 controllerAs: 'pwReset'
             })
 
-			.when('/pwReset', {
+			.when('/pwReset/:token', {
                 templateUrl : 'app/views/pages/pwReset.html',
                 controller  : 'pwResetController',
                 controllerAs: 'pwReset'
