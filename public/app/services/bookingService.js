@@ -21,7 +21,7 @@ angular.module('bookingService',[])
     }
 
     // get all booking by user
-    bookingFactory.all = function(userId) {
-        return $http.get('/api/bookings/manage', userId);
+    bookingFactory.all = function(id, user_id) {
+        return $http.get('/api/bookings/'+id, user_id);
     }
 })

@@ -40,7 +40,7 @@
 
             .when('/bookings/:user_id', {
                 templateUrl : 'app/views/pages/manageBooking.html',
-                controller  : 'BookingManageController',
+                controller  : 'bookingManageController',
                 controllerAs: 'user'
             })				
 			
