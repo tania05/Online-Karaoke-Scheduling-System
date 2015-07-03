@@ -1,18 +1,10 @@
 angular.module('mainCtrl', [])
 
-.controller('mainController', function() { //temporarily removed parameters '$rootScope, $location, Auth'
+.controller('mainController', function($rootScope, $location, Auth, User) {
 
     var vm = this;
 
-    // temporary testing variables
-    vm.username = "";
-    vm.password = "";
-    vm.loggedIn = false;
 
-
-
-
-/*
     // get info if a person is logged in
     vm.loggedIn = Auth.isLoggedIn();
 
@@ -22,24 +14,28 @@ angular.module('mainCtrl', [])
 
         // get user information on route change
         Auth.getUser()
-            .success(function(data) {
-                vm.user = data;
+            .then(function(data) {
+                vm.user = data.data;
             });
     });
 
+
     // function to handle login form
     vm.doLogin = function() {
+        vm.processing = true;
 
         vm.error = '';
 
         // call the Auth.login() function
         Auth.login(vm.loginData.username, vm.loginData.password)
         .success(function(data) {
-
+            vm.processing = false;
             // if a user successfully logs in, update the view.
             // NOTE --- CHANGE THIS IF YOU NEED TO
-            if(data.success)
-                vm.isloggedIn = true;
+            if(data.success) {
+                vm.loggedIn = true;
+                vm.user = data.userData;
+            }
             // NOTE --- YOU CAN USE THIS ERROR MESSAGE
             // SHOWS HOW TO ON PAGE 184-186
             else
@@ -50,15 +46,14 @@ angular.module('mainCtrl', [])
     // function to handle logging out
     vm.doLogout = function() {
         Auth.logout();
+        vm.loggedIn = false;
 
         // reset all user info
-        vm.user = {};
+        vm.user = '';
 
         // update the view
         // NOTE --- CHANGE THIS IF YOU NEED TO
-        vm.isloggedIn = false;
     };
 
-*/
 
 });
