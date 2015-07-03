@@ -7,9 +7,8 @@ var BookingSchema = new Schema({
 
     start       : { type: Date, required: true},
     end         : { type: Date, required: true}, 
-    date        : { type: Date, required: true},
 //    equipment   : { type: Number, required: true
-
+    
     // This links the booking to a specific room ID
     inRoom: {
         type: mongoose.Schema.Types.ObjectId,
@@ -21,6 +20,7 @@ var BookingSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }
+
 });
 
 // return the model
