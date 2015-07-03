@@ -12,7 +12,7 @@
      		 	<div class="col-sm-6">
 						<div class="form-group">
 					  		<label for="password">New Password</label>
-					    	<input type="password" class="form-control" placeholder="New Password" ng-model="pwReset.userData.password" ng-required="true" ng-minlength="6" ng-maxlength="12">
+					    	<input type="password" name="password" class="form-control" placeholder="New Password" ng-model="pwReset.userData.password" ng-required="true" ng-minlength="6" ng-maxlength="12">
 								<div role="alert">
       						<span class="error" ng-show="passReset.password.$error.required">
       							 Required</span>
@@ -24,7 +24,7 @@
       		<div class="col-sm-6">
 						<div class="form-group">
 					  		<label for="confirm">Confirm Password</label>
-					    	<input type="password" class="form-control" placeholder="Confirm Password" ng-model="pwReset.userData.confirm" ng-required="true" ng-minlength="6" ng-maxlength="12">
+					    	<input type="password" name="confirm" class="form-control" placeholder="Confirm Password" ng-model="pwReset.userData.confirm" ng-required="true" ng-minlength="6" ng-maxlength="12">
 								<div role="alert">
       						<span class="error" ng-show="passReset.confirm.$error.required">
       							 Required</span>
