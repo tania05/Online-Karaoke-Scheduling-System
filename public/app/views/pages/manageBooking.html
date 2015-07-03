@@ -3,9 +3,9 @@
 <div class="page-header">
 	<h1>
 		Bookings Page 
-		<a href="/users/register" class="btn btn-default">
+		<a href="/booking" class="btn btn-default">
 			<span class="glyphicon glyphicon-plus"></span> 
-			New Bookingss
+			New Booking
 		</a>
 	</h1>
 
@@ -40,8 +40,8 @@
 			<td>{{ booking.end }}</td>
 			<td>{{ booking.equipment }}</td>
 			<td class="col-sm-2">
-				<a ng-href="/users/{{ booking._id }}/edit" class="btn btn-danger">Edit</a>
-				<a href="/users/{{ booking._id }}/delete" class="btn btn-primary">Cancel</a>
+				<a ng-href="/booking/{{ booking._id }}/edit" class="btn btn-danger">Edit</a>
+				<a href="/booking/{{ booking._id }}/delete" class="btn btn-primary">Cancel</a>
 			</td>
 		</tr>
 	</tbody>
