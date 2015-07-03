@@ -1,0 +1,48 @@
+<!-- manageBooking.html -->
+
+<div class="page-header">
+	<h1>
+		Bookings Page 
+		<a href="/users/register" class="btn btn-default">
+			<span class="glyphicon glyphicon-plus"></span> 
+			New Bookingss
+		</a>
+	</h1>
+
+</div>
+
+
+<div class="jumbotron text-center" ng-show="booking.processing">
+	<span class="glyphicon glyphicon-repeat spinner"></span>
+	<p>Loading Bookings...</p>
+</div>
+
+<table class="table table-bordered table-striped" ng-show="booking.bookings">
+	<thead>
+		<tr>
+			<th>_id</th>
+			<th>Name</th>
+			<th>Room</th>
+			<th>Date</th>
+			<th>Start Time</th>
+			<th>End Time</th>
+			<th>Equipment</th>
+			<th class="col-sm-2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="booking in booking.bookings">
+			<td>{{ booking._id }}</td>
+			<td>{{ booking.createdBy }}</td>
+			<td>{{ booking.inRoom }}</td>
+			<td>{{ booking.date }}</td>
+			<td>{{ booking.start }}</td>
+			<td>{{ booking.end }}</td>
+			<td>{{ booking.equipment }}</td>
+			<td class="col-sm-2">
+				<a ng-href="/users/{{ booking._id }}/edit" class="btn btn-danger">Edit</a>
+				<a href="/users/{{ booking._id }}/delete" class="btn btn-primary">Cancel</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
