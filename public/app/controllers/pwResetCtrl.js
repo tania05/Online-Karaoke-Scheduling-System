@@ -35,17 +35,47 @@ angular.module('pwResetCtrl', ['userService'])
 
 })
 
-.controller('pwResetController', function(User) {
+.controller('pwResetController', function($routeParams, User) {
+
 		var vm = this;
 		
 		vm.err = '';
 		vm.success = false;
 
-		User.get($routeParams.token)
+		User.testToken($routeParams.token)
     	.success(function(data){
     		if (data.success)
 					vm.success = true;
 				else
 					vm.err = data.message; 
     	});
-})
+
+		vm.passReset = function() {
+			
+			vm.err1 = '';
+			vm.complete = '';
+			vm.processing = true;
+
+			User.passReset($routeParams.token, vm.userData)
+						.success(function(data) {
+                vm.processing = false;
+
+                if (data.success)
+									vm.complete = data.message;
+								else
+									vm.err1 = data.message;
+                
+            });
+            
+    };
+
+		
+});
+
+
+
+
+
+
+
+

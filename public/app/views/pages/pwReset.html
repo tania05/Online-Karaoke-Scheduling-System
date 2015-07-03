@@ -6,26 +6,40 @@
 		 <div class="alert alert-danger" ng-if="pwReset.err">
 								{{ pwReset.err }}
 		 </div>
-		 <div ng-if="pwReset.success">	
-     	<form ng-submit="pwResetForgot.sendToken()">
+		<div ng-if="pwReset.success">
+     	<form name="passReset" ng-submit="pwReset.passReset()">
 				<div class="row">
      		 	<div class="col-sm-6">
 						<div class="form-group">
-					  		<label for="email">New Password</label>
-					    	<input type="email" class="form-control" placeholder="New Password" ng-model="user.userData.email">
+					  		<label for="password">New Password</label>
+					    	<input type="password" class="form-control" placeholder="New Password" ng-model="pwReset.userData.password" ng-required="true" ng-minlength="6" ng-maxlength="12">
+								<div role="alert">
+      						<span class="error" ng-show="passReset.password.$error.required">
+      							 Required</span>
+    						</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
       		<div class="col-sm-6">
 						<div class="form-group">
-					  		<label for="email">Confirm Password</label>
-					    	<input type="email" class="form-control" placeholder="Confirm Password" ng-model="user.userData.email">
+					  		<label for="confirm">Confirm Password</label>
+					    	<input type="password" class="form-control" placeholder="Confirm Password" ng-model="pwReset.userData.confirm" ng-required="true" ng-minlength="6" ng-maxlength="12">
+								<div role="alert">
+      						<span class="error" ng-show="passReset.confirm.$error.required">
+      							 Required</span>
+    						</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-12">
+						<div class="alert alert-danger" ng-if="pwReset.err1">
+								{{ pwReset.err1 }}
+						</div>
+						<div class="alert alert-success" ng-if="pwReset.complete">
+								{{ pwReset.complete }}
+						</div>
 						<div class="container">
 		  				<button type="submit" class="btn btn-success">Reset Password</button>
 		  			</div>
