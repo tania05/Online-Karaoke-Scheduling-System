@@ -166,7 +166,7 @@ module.exports = function(app, express) {
       					});
     					},
     					function(token, done) {
-								User.findOne({ email: req.body.email }, function(err, user) {
+								User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
         					if (!user) {
           					return res.json({ 
 															success: false,
