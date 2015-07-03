@@ -367,23 +367,90 @@ module.exports = function(app, express) {
     });
 
     // api endpoint to get user information
+    // used on every request.
     apiRouter.get('/me', function(req, res) {
         res.send(req.decoded);
     });
     
-/*
-    
     // on routes that end in /bookings
     // -------------------------------
     apiRouter.route('/bookings')
+        // create a user
+        .post(function(req, res) {
+
+            var booking = new Booking();      // create a new instance of the Booking model
+            booking.start      = req.body.start;
+            booking.end        = req.body.end;
+            booking.inRoom     = req.body.inRoom;
+            booking.creatyedBy = req.body.createdBy;
+
+            booking.save(function(err) {
+                if (err) {
+                    // duplicate entry
+                    if (err.code == 11000) { 
+                        return res.json({
+                            success: false,
+                            message: 'A user with that username already exists. '
+                        });
+                    }
+
+                    else 
+                        return res.send(err);
+                }
+                // return a message
+                res.json({message: 'Booking created.'});
+            });
+        });
 
         // on routes that end in /bookings/:booking_id
         // -------------------------------
         apiRouter.route('/bookings/:booking_id')
+
+        // get a specific bookings
+        .get(function(req,res) {
+            Booking.findById(req.params.booking_id, function(err, booking) {
+                if(err) return res.send(err);
+                
+                // return the booking
+                res.json(booking);   
+            })
+        })
+        
+        // Update a booking
+        .put(function(req, res) {
+            Booking.findById(req.params.user_id, function(err, booking) {
+                
+                if(err) return res.send(err)
+
+                // set the new booking information if it exists
+                if(req.body.start) booking.start = req.body.start;
+                if(req.body.end) booking.end = req.body.end;
+                if(req.body.inRoom) booking.inRoom = req.body.inRoom;
+
+                // save the booking
+                booking.save(function(err) {
+                    if(err) return res.send(err);
+
+                    // return a message
+                    res.json({ message: 'Booking updated!' });
+                });
+            });
+        })
+
+        // delete the user with this id
+        .delete(function(req, res) {
+            Booking.remove({
+                _id: req.params.booking_id
+            }, function(err, booking) {
+                if (err) return res.send(err);
+
+                res.json({ message: 'Successfully deleted' });
+            });
+        });
         
     // on routes that end in /availability
     // -------------------------------
     apiRouter.route('/availability')
-*/
+
 	return apiRouter;
 };
