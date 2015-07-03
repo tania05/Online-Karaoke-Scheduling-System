@@ -7,17 +7,16 @@
         $routeProvider
 
             // route for the home page
+            .when('/', {
+                templateUrl : 'app/views/pages/home.html'
+            })
+
+            // route for the login page
 			.when('/login', {
                 templateUrl : 'app/views/pages/login.html',
                 controller  : 'mainController',
                 controllerAs: 'login'
-            })           
-
-		   .when('/', {
-                templateUrl : 'app/views/pages/home.html',
-                controller  : 'homeController',
-                controllerAs: 'home'
-            })
+            })     
 
             // route for the availability page
             .when('/availability', {
