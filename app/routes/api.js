@@ -154,126 +154,128 @@ module.exports = function(app, express) {
         });
 
 
-		apiRouter.route('/pwResetForgot')
+	apiRouter.route('/pwResetForgot')
 
 
-				.post(function(req, res, next) {
-  					async.waterfall([
-    					function(done) {
-      					crypto.randomBytes(20, function(err, buf) {
-        					var token = buf.toString('hex');
-        					done(err, token);
-      					});
-    					},
-    					function(token, done) {
-								User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
-        					if (!user) {
+		.post(function(req, res, next) {
+			async.waterfall([
+				function(done) {
+					crypto.randomBytes(20, function(err, buf) {
+						var token = buf.toString('hex');
+						done(err, token);
+					});
+				},
+				function(token, done) {
+					User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
+						if (!user) {
           					return res.json({ 
-															success: false,
-															message: 'No user with that email was found' 
-													 })
-          					
-        					}
-									
-        					user.passwordResetToken = token;
-       		 				user.passwordResetExpires = Date.now() + 3600000; // 1 hour
+								success: false,
+								message: 'No user with that email was found' 
+							})
+						}
+						user.passwordResetToken = token;
+						user.passwordResetExpires = Date.now() + 3600000; // 1 hour
 
-        					user.save(function(err) {
-										if (err) return res.send(err);		
-          					done(err, token, user);
-
-        					});
-      					});
-    					},
-    					function(token, user, done) {
-      					var smtpTransport = nodemailer.createTransport('SMTP', {
-        					service: 'gmail',
-       				  	auth: {
-          					user: 'PurpleFoxPassReset@gmail.com',
-          					pass: 'Seng2993'
-        					}
-      					})
-      					var mailOptions = {
-        					to: user.email,
-        					from: 'PurpleFoxPassReset@gmail.com',
-        					subject: 'Password Reset',
-        					text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-          							'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          							'http://' + req.headers.host + '/pwReset/' + token + '\n\n' +
-          							'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-     						}
-      					smtpTransport.sendMail(mailOptions, function(err) {
-										return res.json({ 
-															success: true,
-															message: 'An email has been sent to ' + user.email + ' with further instructions.' 
-													 });
-      						})
-    					}
-  				]) 
-
-			})
-				
-		apiRouter.route('/pwReset/:token')
-
-
-						.get(function(req, res) {
-								User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } }, function(err, user) {
-    							if (!user) {
-      								return res.json({ 
-													success: false,
-													message: 'Password reset token is invalid or has expired'
-											})
-    							}
-    							return res.json({ success: true }) ;
-  							});					
+						user.save(function(err) {
+							if (err) return res.send(err);		
+							done(err, token, user);
+        				});
+      				});
+				},
+				function(token, user, done) {
+					var smtpTransport = nodemailer.createTransport('SMTP', {
+						service: 'gmail',
+							auth: {
+								user: 'PurpleFoxPassReset@gmail.com',
+								pass: 'Seng2993'
+							}
 						})
+					var mailOptions = {
+						to: user.email,
+						from: 'PurpleFoxPassReset@gmail.com',
+						subject: 'Password Reset',
+						text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+							  'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+							  'http://' + req.headers.host + '/pwReset/' + token + '\n\n' +
+							  'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+					}
+					smtpTransport.sendMail(mailOptions, function(err) {
+						return res.json({ 
+							success: true,
+							message: 'An email has been sent to ' + user.email + ' with further instructions.' 
+						});
+					})
+				}
+			]) 
 
+		})
+				
+	apiRouter.route('/pwReset/:token')
 
-						.post(function(req, res) {
-  						async.waterfall([
-    						function(done) {
-      						User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } }, function(err, user) {
-        						if (!user) {
-          						return res.json({ 
-													success: false,
-													message: 'Password reset token is invalid or has expired'
-											})
-       							 }
-										
-        						user.password = req.body.password;
-        						user.passwordResetToken = undefined;
-        						user.passwordResetExpires = undefined;
+		// Checks to see if the reset token is valid
+		.get(function(req, res) {
+			// finds a user by there token
+			User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } }, function(err, user) {
+				if (!user) {
+					return res.json({ 
+						success: false,
+						message: 'Password reset token is invalid or has expired'
+					})
+				}
+				// user was found and returning success
+				return res.json({ success: true }) ;
+			});					
+		})
 
-        						user.save(function(err) {
-            				done(err, user);
-        						});
-      						});
-    						},
-    						function(user, done) {
-      						var smtpTransport = nodemailer.createTransport('SMTP', {
-        					service: 'gmail',
-       				  	auth: {
-          					user: 'PurpleFoxPassReset@gmail.com',
-          					pass: 'Seng2993'
-        					}
-      					})
-      						var mailOptions = {
-        							to: user.email,
-        							from: 'PurpleFoxPassReset@gmail.com',
-        							subject: 'Password Reset',
-        							text: 'Hello ' + user.name + ',\n\n' +
-          									'This is a confirmation that the password for your account has just been changed. You may now log in with your new password at:\n\n' +
-														'http://' + req.headers.host + '/login'
-      						};
-      						smtpTransport.sendMail(mailOptions, function(err) {
-        					return res.json({ 
-															success: true,
-															message: 'Your password has been successfully changed and an email has been sent to ' + user.email + ' with further instructions.' 
-													 });
-      						});
-    						}
-  ]);
-});
+		// Changes the users password
+		.post(function(req, res) {
+			async.waterfall([
+				function(done) {
+					// finds a User based on the token sent
+					User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } }, function(err, user) {
+						// if the token is invalid or expired the submission fails and an error message is sent back
+							if (!user) {
+								return res.json({ 
+									success: false,
+									message: 'Password reset token is invalid or has expired'
+								})
+							}
+							//changes the password and resets the tokens
+							user.password = req.body.password;
+							user.passwordResetToken = undefined;
+							user.passwordResetExpires = undefined;
+
+							user.save(function(err) {
+            					done(err, user);
+							});
+						});
+					},
+					// creates a nodemailer object and defines the email to send the message from
+					function(user, done) {
+						var smtpTransport = nodemailer.createTransport('SMTP', {
+							service: 'gmail',
+								auth: {
+									user: 'PurpleFoxPassReset@gmail.com',
+									pass: 'Seng2993'
+								}
+						})
+						var mailOptions = {
+							to: user.email,
+							from: 'PurpleFoxPassReset@gmail.com',
+							subject: 'Password Reset',
+							text: 'Hello ' + user.name + ',\n\n' +
+								  'This is a confirmation that the password for your account has just been changed. You may now log in with your new password at:\n\n' +
+								  'http://' + req.headers.host + '/login'
+						};
+						smtpTransport.sendMail(mailOptions, function(err) {
+							return res.json({ 
+								success: true,
+								message: 'Your password has been successfully changed and an email has been sent to ' + user.email + ' with further instructions.' 
+							});
+						});
+					}
+			]);
+		});
 						
 
 
