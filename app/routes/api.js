@@ -276,20 +276,20 @@ module.exports = function(app, express) {
 });
 						
 
-/*
+
     // route to authenticate a user	(POST http://localhost:8080/api/authenticate)
 	apiRouter.post('/authenticate', function (req,res){
 	    console.log(req.body.username);
 	
         //find the user
         //select the password explicitly since mongoose is not returning it by default
-	    User.findone({
+	    User.findOne({
 		    username: req.body.username		
-		}).select('password').exec(function(err,user){
+		}).select('_id name username password').exec(function(err,user){
 		
             if(err) throw err;
 		
-            //no user with that username was found		
+            //no user with that username was found
 	    	if (!user) {
     		    res.json({
 			        success: false,
@@ -306,17 +306,22 @@ module.exports = function(app, express) {
                     });
                 } else {
 
-		            //if the user is found and the password is right,
-    	    	    //create a token. 
-	        		var token= jwt.sign(user.superSecret,{
-    		    		expiresInMinutes: 1440 //expires in 24 hours
-    		    	});
+                    // if user is found and password is right
+                    // create a token
+                    var token = jwt.sign({
+                        _id: user._id,
+                        name: user.name,
+                        username: user.username
+                    }, superSecret, {
+                      expiresInMinutes: 1440 // expires in 24 hours
+                    });
 		    	
 	        	    //return the information including token as JSON	
     		    	res.json({
 			        	success: true,
     	    			message: 'enjoy your token!',
-	        			token: token
+	        			token: token,
+                        userData: user
     		    	});	
 			    }
 		    }	
@@ -360,8 +365,13 @@ module.exports = function(app, express) {
     		});
     	}
     });
-    
 
+    // api endpoint to get user information
+    apiRouter.get('/me', function(req, res) {
+        res.send(req.decoded);
+    });
+    
+/*
     
     // on routes that end in /bookings
     // -------------------------------

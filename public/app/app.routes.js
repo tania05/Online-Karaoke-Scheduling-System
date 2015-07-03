@@ -27,6 +27,12 @@
                 controllerAs: 'booking'
             })
 
+			 .when('/booking/:booking_id/delete', {
+                templateUrl : 'app/views/pages/deleteBooking.html',
+                controller  : 'bookingDeleteController',
+                controllerAs: 'booking'
+            })				
+			
             // route for the contact page
             .when('/contact', {
                 templateUrl : 'app/views/pages/contact.html',
