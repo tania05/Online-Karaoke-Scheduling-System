@@ -8,9 +8,7 @@
 
             // route for the home page
             .when('/', {
-                templateUrl : 'app/views/pages/home.html',
-                controller  : 'homeController',
-                controllerAs: 'home'
+                templateUrl : 'app/views/pages/home.html'
             })
 
             // route for the availability page

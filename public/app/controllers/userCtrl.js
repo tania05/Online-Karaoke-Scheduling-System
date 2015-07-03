@@ -58,6 +58,7 @@ angular.module('userCtrl', ['userService'])
     // variable to hide/show elements of the view
     // differentiates between create or edit pages
      vm.type = 'create';
+     vm.complete = false;
 
 
     // ====
@@ -71,6 +72,7 @@ angular.module('userCtrl', ['userService'])
         User.create(vm.userData)
             .success(function(data) {
                 vm.processing = false;
+                vm.complete = true;
                 vm.userData = {};
                 vm.message = data.message;
             });
@@ -93,6 +95,7 @@ angular.module('userCtrl', ['userService'])
     // variable to hide/show elements of the view
     // differentiates between create or edit pages
     vm.type = 'edit';
+    vm.complete = false;
 
     User.get($routeParams.user_id)
     	.success(function(data){
@@ -110,7 +113,7 @@ angular.module('userCtrl', ['userService'])
 		User.update($routeParams.user_id, vm.userData)
 			.success(function(data) {
 				vm.processing= false;
-
+                vm.complete = true;
 				//clear the form
 				vm.userData= {};
 

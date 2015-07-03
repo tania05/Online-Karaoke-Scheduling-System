@@ -2,10 +2,6 @@ angular.module('karaokeApp', ['app.routes', 'authService', 'contactCtrl', 'booki
 
 
 .config(function($httpProvider) {
-
-
 	// attach our auth interceptor to the http requests
 	$httpProvider.interceptors.push('AuthInterceptor');
-	
-
 });
