@@ -34,8 +34,12 @@ angular.module('userService', [])
 			return $http.post('/api/pwResetForgot/', userData);
 		};
 
-		userFactory.testToken = function(userData) {
-			return $http.get('/api/pwReset/' + token);
+		userFactory.testToken = function(token) {
+			return $http.get('/api/pwReset/' + token );
+		};
+
+		userFactory.passReset = function(token, userData) {
+			return $http.post('/api/pwReset/' + token, userData );
 		};
 
     // return our entire userFactory object

@@ -61,17 +61,17 @@
 			</div>
  						<div class="col-md-6">
 							<div ng-if="!main.loggedIn">
-                	<form class="navbar-form navbar-right" role="login" >
+                	<form class="navbar-form navbar-right" role="login" ng-submit="main.doLogin()">
                     	<div class="form-group form-group-sm">
-                        	<input type="text" class="form-control" placeholder="Username" ng-model="main.username">
-                        	<input type="password" class="form-control" placeholder="Password" ng-model="main.password">
+                        	<input type="text" class="form-control" placeholder="Username" ng-model="main.loginData.username">
+                        	<input type="password" class="form-control" placeholder="Password" ng-model="main.loginData.password">
                     	</div>
-                  	  <button type="submit" class="btn btn-default btn-sm" ng-click="main.loggedIn = !main.loggedIn">Login</button>
+                  	  <button type="submit" class="btn btn-sm btn-default">Login</button>
                 	</form>
 							</div>
 							<div ng-if="main.loggedIn">
-                <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/users/:user_id" class="navbar-link">{{ main.username }}</a></p>
-								<p class="navbar-text navbar-right"><a href="/profile" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
+                <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/users/{{ main.user._id }}/" class="navbar-link">{{ main.user.username }}</a></p>
+								<p class="navbar-text navbar-right"><a href="/users/{{ main.user._id }}/" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
             	</div>
 						</div>
 					</div>
@@ -79,7 +79,7 @@
 						<div class="col-md-6">
             	<ul class="nav navbar-nav">
                 	<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                	<li><a href="/users/:user_id"><i class="fa fa-user"></i> Profile</a></li>
+                	<li><a href="/users/{{ main.user._id }}/"><i class="fa fa-user"></i> Profile</a></li>
                 	<li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
                 	<li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
            		</ul>
@@ -90,7 +90,7 @@
                 	<p class="navbar-text navbar-right" style="margin-right: 1.2em"><a href="/users/register" class="navbar-link">Register</a></p>
             	</div>
 							<div ng-if="main.loggedIn">
-                <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="main.loggedIn = !main.loggedIn">Logout</button>                
+                <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="main.doLogout()">Logout</button>                
             	</div>
 						</div>
 					</div>
@@ -111,7 +111,7 @@
     <!-- FOOTER -->
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
 		<div class="container">
-			<a class="navbar-text" href="/contact" class="navbar-link">Contact</a></p>
+			<a class="navbar-text" href="/contact" class="navbar-link">Contact</a>
 		</div>
 	</nav>
 	

@@ -76,6 +76,8 @@ angular.module('authService', [])
         else
             $window.localStorage.removeItem('token');
     };
+
+    return authTokenFactory;
 })
 
 
@@ -94,7 +96,7 @@ angular.module('authService', [])
 
         // if the token exists, add it to the header as x-access-token
         if(token)
-            config.header['x-access-token'] = token;
+            config.headers['x-access-token'] = token;
         return config;
     };
 
@@ -104,7 +106,7 @@ angular.module('authService', [])
         // if our server returns a 403 forbidden response
         if(response.status == 403)
             Autoken.setToken();
-            $location.path('/login');
+            $location.path('/');
 
         // return the errors from the server as a promise
         return $q.reject(response);
