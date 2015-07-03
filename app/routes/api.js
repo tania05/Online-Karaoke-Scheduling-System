@@ -217,20 +217,63 @@ module.exports = function(app, express) {
 
 
 						.get(function(req, res) {
-								User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+								User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } }, function(err, user) {
     							if (!user) {
       								return res.json({ 
 													success: false,
 													message: 'Password reset token is invalid or has expired'
 											})
     							}
-    							res.json({
-										success: true,
-										user: req.user
-									})
+    							return res.json({ success: true }) ;
   							});					
-						});
+						})
 
+
+						.post(function(req, res) {
+  						async.waterfall([
+    						function(done) {
+      						User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } }, function(err, user) {
+        						if (!user) {
+          						return res.json({ 
+													success: false,
+													message: 'Password reset token is invalid or has expired'
+											})
+       							 }
+										
+        						user.password = req.body.password;
+        						user.passwordResetToken = undefined;
+        						user.passwordResetExpires = undefined;
+
+        						user.save(function(err) {
+            				done(err, user);
+        						});
+      						});
+    						},
+    						function(user, done) {
+      						var smtpTransport = nodemailer.createTransport('SMTP', {
+        					service: 'gmail',
+       				  	auth: {
+          					user: 'PurpleFoxPassReset@gmail.com',
+          					pass: 'Seng2993'
+        					}
+      					})
+      						var mailOptions = {
+        							to: user.email,
+        							from: 'PurpleFoxPassReset@gmail.com',
+        							subject: 'Password Reset',
+        							text: 'Hello ' + user.name + ',\n\n' +
+          									'This is a confirmation that the password for your account has just been changed. You may now log in with your new password at:\n\n' +
+														'http://' + req.headers.host + '/login'
+      						};
+      						smtpTransport.sendMail(mailOptions, function(err) {
+        					return res.json({ 
+															success: true,
+															message: 'Your password has been successfully changed and an email has been sent to ' + user.email + ' with further instructions.' 
+													 });
+      						});
+    						}
+  ]);
+});
 						
 
 
