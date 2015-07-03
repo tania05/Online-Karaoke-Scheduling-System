@@ -375,7 +375,7 @@ module.exports = function(app, express) {
     // on routes that end in /bookings
     // -------------------------------
     apiRouter.route('/bookings')
-        // create a user
+        // create a booking
         .post(function(req, res) {
 
             var booking = new Booking();      // create a new instance of the Booking model
@@ -405,6 +405,7 @@ module.exports = function(app, express) {
         // on routes that end in /bookings/:booking_id
         // -------------------------------
         apiRouter.route('/bookings/:booking_id')
+        
 
         // get a specific bookings
         .get(function(req,res) {
@@ -447,6 +448,10 @@ module.exports = function(app, express) {
                 res.json({ message: 'Successfully deleted' });
             });
         });
+        
+        
+        apiRouter.route('/bookings/:user_id')
+        
         
     // on routes that end in /availability
     // -------------------------------

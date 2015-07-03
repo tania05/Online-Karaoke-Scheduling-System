@@ -12,6 +12,50 @@ angular.module('bookingCtrl', ['bookingService'])
     	})
 })
 
+
+.controller('bookingCreateController', function($routeParams, Booking){
+	var vm = this;
+	
+	// variable to hide/show elements of the view
+	// difference between create or edit page
+	
+	vm.type='create';
+	
+	// function to create booking 
+	
+	vm.saveBooking=function(){
+		vm.processing= true;
+		vm.message='';
+	
+		//using the create function in the bookingService
+		Booking.create(vm.bookingData)
+			.success(function(data){
+				vm.processing=false;
+				vm.bookingData={};
+				vm.message = data.message;
+			})
+		};
+})
+
+
+.controller ('bookingManageController', function($routeParams,Booking){
+	var vm = this;
+	
+	vm.message = 'Manage your bookings';
+	
+		Booking.all($routeParams.user_id)
+			.success(function(data){
+				
+				// when all the bookings come back, remove the processing variable
+				vm.processing= false;
+				
+				//bind the user that come back to vm.users
+				vm.bookings=data;
+			
+			})
+
+})
+
 .controller('bookingDeleteController', function($routeParams, Booking){
 	var vm = this;
 	
@@ -28,35 +72,3 @@ angular.module('bookingCtrl', ['bookingService'])
 });
 
 
-// ====
-// ----
-// bookingCreateController
-// ----
-// This controller handles the process of creating a booking
-// ====
-
-
-    // ====
-    // functions...
-    // ====
-
-// ====
-// ----
-// bookingEditController
-// ----
-// This controller handles the process of editing a booking.
-// ====
-    // ====
-    // functions...
-    // ====
-
-
-// ====
-// ----
-// bookingsManageController
-// ----
-// This controller handles the process of viewing all of your bookings
-// ====
-    // ====
-    // functions...
-    // ====
