@@ -4,7 +4,7 @@ var config 	= require('../../config');
 var async 	= require('async');
 var crypto  = require('crypto');
 var nodemailer  = require('nodemailer');
-
+var Booking = require('../models/booking');
 //super secret for creating tokens
 var superSecret = config.secret;
 

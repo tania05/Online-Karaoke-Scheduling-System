@@ -13,7 +13,7 @@ var BookingSchema = new Schema({
     inRoom: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'    
-    }
+    },
 
     // This links the booking to a specific User ID
     createdBy: {
@@ -24,4 +24,4 @@ var BookingSchema = new Schema({
 });
 
 // return the model
-module.exports = mongoose.model('Booking', BookingSchema)
+module.exports = mongoose.model('Booking', BookingSchema);
