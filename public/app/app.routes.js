@@ -11,6 +11,14 @@
                 templateUrl : 'app/views/pages/home.html'
             })
 
+            // form to create a new user
+            // same view as edit page
+            .when('/register', {
+                templateUrl : 'app/views/pages/userForm.html',
+                controller  : 'userCreateController',
+                controllerAs: 'user'
+            })
+
             // route for the login page
 			.when('/login', {
                 templateUrl : 'app/views/pages/login.html',
@@ -24,25 +32,6 @@
                 controller  : 'availabilityController',
                 controllerAs: 'availability'
             })
-
-            // route for the booking page
-            .when('/booking', {
-                templateUrl : 'app/views/pages/booking.html',
-                controller  : 'bookingCreateController',
-                controllerAs: 'booking'
-            })
-
-			 .when('/bookings/:booking_id/delete', {
-                templateUrl : 'app/views/pages/deleteBooking.html',
-                controller  : 'bookingDeleteController',
-                controllerAs: 'booking'
-            })
-
-            .when('/bookings/:user_id', {
-                templateUrl : 'app/views/pages/manageBooking.html',
-                controller  : 'bookingManageController',
-                controllerAs: 'user'
-            })				
 			
             // route for the contact page
             .when('/contact', {
@@ -50,8 +39,42 @@
                 controller  : 'contactController',
                 controllerAs: 'contact'
             })
-						// route for the password Reset page
 
+
+
+
+            //=====================================================
+            // BOOKING ROUTES
+            // ====================================================
+
+             // would be changed to '/profile/bookings/create'
+            .when('/booking', {
+                templateUrl : 'app/views/pages/booking.html',
+                controller  : 'bookingCreateController',
+                controllerAs: 'booking'
+            })
+
+             // would be changed to '/profile/bookings/delete'
+             .when('/bookings/:booking_id/delete', {
+                templateUrl : 'app/views/pages/deleteBooking.html',
+                controller  : 'bookingDeleteController',
+                controllerAs: 'booking'
+            })
+
+
+             // would be changed to '/profile/bookings'
+            .when('/bookings/:user_id', {
+                templateUrl : 'app/views/pages/manageBooking.html',
+                controller  : 'bookingManageController',
+                controllerAs: 'user'
+            })  
+
+
+
+            //======================================================
+            // PASSWORD RESET ROUTES
+            // =====================================================
+			// route for the password Reset page
 			.when('/pwResetForgot', {
                 templateUrl : 'app/views/pages/pwResetForgot.html',
                 controller  : 'pwResetForgotController',
@@ -65,45 +88,56 @@
             })
 
 
-
-            //============
-            // USER ROUTES
-            // ===========
+            //=====================================================
+            // ADMIN ROUTES
+            // ====================================================
 
             // show all users
             // available only to admin
-            .when('/users', {
-                templateUrl : 'app/views/pages/users/all.html',
+            .when('/admin', {
+                templateUrl : 'app/views/pages/admin.html',
                 controller  : 'adminController',
                 controllerAs: 'admin'
             })
 
-            // form to create a new user
-            // same view as edit page
-            .when('/users/register', {
-                templateUrl : 'app/views/pages/users/userForm.html',
-                controller  : 'userCreateController',
+            // page to edit a user
+            .when('/admin/:user_id/edit', {
+                templateUrl : 'app/views/pages/userForm.html',
+                controller  : 'userEditController',
+                controllerAs: 'user'
+
+            })  
+
+            // page to delete a user
+            .when('/admin/:user_id/delete', {
+                templateUrl : 'app/views/pages/deleteUser.html',
+                controller  : 'userDeleteController',
                 controllerAs: 'user'
             })
 
 
+
+            //=====================================================
+            // USER ROUTES
+            // ====================================================
+
             // user profile page
-            .when('/users/:user_id', {
-                templateUrl : 'app/views/pages/users/single.html',
+            .when('/:user_id', {
+                templateUrl : 'app/views/pages/profile.html',
                 controller  : 'userController',
                 controllerAs: 'user'
             })
 
             // page to edit a user
-            .when('/users/:user_id/edit', {
-                templateUrl : 'app/views/pages/users/userForm.html',
+            .when('/:user_id/edit', {
+                templateUrl : 'app/views/pages/userForm.html',
                 controller  : 'userEditController',
                 controllerAs: 'user'
 
             })  
 
 			// page to delete a user
-            .when('/users/:user_id/delete', {
+            .when('/:user_id/delete', {
                 templateUrl : 'app/views/pages/deleteUser.html',
                 controller  : 'userDeleteController',
                 controllerAs: 'user'

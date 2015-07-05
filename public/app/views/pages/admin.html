@@ -3,7 +3,7 @@
 <div class="page-header">
 	<h1>
 		Admin Page 
-		<a href="/users/register" class="btn btn-default">
+		<a href="/register" class="btn btn-default">
 			<span class="glyphicon glyphicon-plus"></span> 
 			New User
 		</a>
@@ -40,8 +40,9 @@
 			<td>{{ person.age }}</td>
 			<td>{{ person.address }}</td>
 			<td class="col-sm-2">
-				<a ng-href="/users/{{ person._id }}/edit" class="btn btn-danger">Edit</a>
-				<a href="bookings/{{ person._id }}" class="btn btn-primary">View Bookings</a>
+				<a ng-href="/admin/{{ person._id }}/edit" class="btn btn-danger btn-sm">Edit</a>
+				<a ng-href="/admin/{{ person._id }}/delete" class="btn btn-danger btn-sm">Delete</a>
+				<a href="/admin/{{ person._id }}/bookings" class="btn btn-primary btn-sm">View Bookings</a>
 			</td>
 		</tr>
 	</tbody>

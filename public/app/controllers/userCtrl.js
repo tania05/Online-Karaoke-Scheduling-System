@@ -14,11 +14,16 @@ angular.module('userCtrl', ['userService'])
 
     vm.processing = true;
 
+    if($routeParams == null){
+        vm.id = "null";
+    } else {
+        vm.id = $routeParams.user_id;        
+    }
 
     // ====
     // function to populate the page with the user's information.
     // ====
-    User.get($routeParams.user_id)
+    User.get(vm.id)
         .success(function(data){
             vm.userData= data;
 
@@ -96,6 +101,7 @@ angular.module('userCtrl', ['userService'])
     // differentiates between create or edit pages
     vm.type = 'edit';
     vm.complete = false;
+    vm.id = $routeParams.user_id;
 
     User.get($routeParams.user_id)
     	.success(function(data){
