@@ -1,10 +1,12 @@
 var User		= require('../models/user');
 var jwt 		= require('jsonwebtoken');
-var config 	= require('../../config');
-var async 	= require('async');
-var crypto  = require('crypto');
+var config 	    = require('../../config');
+var async 	    = require('async');
+var crypto      = require('crypto');
 var nodemailer  = require('nodemailer');
-var Booking = require('../models/booking');
+var Booking     = require('../models/booking');
+var Room        = require('../models/room');
+
 //super secret for creating tokens
 var superSecret = config.secret;
 
@@ -393,18 +395,8 @@ module.exports = function(app, express) {
             booking.creatyedBy = req.body.createdBy;
 
             booking.save(function(err) {
-                if (err) {
-                    // duplicate entry
-                    if (err.code == 11000) { 
-                        return res.json({
-                            success: false,
-                            message: 'A user with that username already exists. '
-                        });
-                    }
+                if (err) return res.send(err);
 
-                    else 
-                        return res.send(err);
-                }
                 // return a message
                 res.json({message: 'Booking created.'});
             });
@@ -445,7 +437,7 @@ module.exports = function(app, express) {
         });
     })
 
-    // delete the user with this id
+    // delete the booking with this id
     .delete(function(req, res) {
         Booking.remove({
             _id: req.params.booking_id
@@ -467,6 +459,47 @@ module.exports = function(app, express) {
 
     // on routes that end in /rooms
     // -------------------------------
+    apiRouter.route('/rooms')
+        // create a room
+        .post(function(req, res) {
+
+            var room = new Room();      // create a new instance of the Room model
+            room.name = req.body.name;
+            room.capacity = req.body.capacity;
+            room.number = req.body.number;
+
+            room.save(function(err) {
+                if (err) {
+                    // duplicate entry
+                    if (err.code == 11000) { 
+                        return res.json({
+                            success: false,
+                            message: 'A room with that number already exists'
+                        });
+                    }
+
+                    else 
+                        return res.send(err);
+                }
+                // return a message
+                res.json({message: 'Room created.'});
+            });
+        });
+
+    // on routes that end in /rooms/:room_id
+    // -------------------------------
+    apiRouter.route('/rooms/:room_id')
+    
+    // delete the room with this id
+    .delete(function(req, res) {
+        Room.remove({
+            _id: req.params.room_id
+        }, function(err, booking) {
+            if (err) return res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    });
 
 	return apiRouter;
 };
