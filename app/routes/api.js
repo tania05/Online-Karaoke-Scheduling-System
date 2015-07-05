@@ -154,8 +154,9 @@ module.exports = function(app, express) {
         });
 
 
+    // on routes that end in /pwResetForgot
+    // ----------------------------------------------------
 	apiRouter.route('/pwResetForgot')
-
 
 		.post(function(req, res, next) {
 			async.waterfall([
@@ -210,6 +211,8 @@ module.exports = function(app, express) {
 
 		})
 				
+    // on routes that end in /pwReset/:token
+    // ----------------------------------------------------
 	apiRouter.route('/pwReset/:token')
 
 		// Checks to see if the reset token is valid
@@ -279,7 +282,9 @@ module.exports = function(app, express) {
 						
 
 
-    // route to authenticate a user	(POST http://localhost:8080/api/authenticate)
+    // on routes that end in /authenticate
+    // (POST http://localhost:8080/api/authenticate)
+    // ----------------------------------------------------
 	apiRouter.post('/authenticate', function (req,res){
 	    console.log(req.body.username);
 	
@@ -367,9 +372,10 @@ module.exports = function(app, express) {
     		});
     	}
     });
-
-    // api endpoint to get user information
-    // used on every request.
+    
+    // on routes that end in /me
+    // api endpoint to get user information used on every request.
+    // -------------------------------
     apiRouter.get('/me', function(req, res) {
         res.send(req.decoded);
     });
@@ -404,60 +410,63 @@ module.exports = function(app, express) {
             });
         });
 
-        // on routes that end in /bookings/:booking_id
-        // -------------------------------
-        apiRouter.route('/bookings/:booking_id')
+    // on routes that end in /bookings/:booking_id
+    // -------------------------------
+    apiRouter.route('/bookings/:booking_id')
         
+    // get a specific bookings
+    .get(function(req,res) {
+        Booking.findById(req.params.booking_id, function(err, booking) {
+            if(err) return res.send(err);
+                
+            // return the booking
+            res.json(booking);   
+        })
+    })
+        
+    // Update a booking
+    .put(function(req, res) {
+        Booking.findById(req.params.user_id, function(err, booking) {
+                
+            if(err) return res.send(err)
 
-        // get a specific bookings
-        .get(function(req,res) {
-            Booking.findById(req.params.booking_id, function(err, booking) {
+            // set the new booking information if it exists
+            if(req.body.start) booking.start = req.body.start;
+            if(req.body.end) booking.end = req.body.end;
+            if(req.body.inRoom) booking.inRoom = req.body.inRoom;
+
+            // save the booking
+            booking.save(function(err) {
                 if(err) return res.send(err);
-                
-                // return the booking
-                res.json(booking);   
-            })
-        })
-        
-        // Update a booking
-        .put(function(req, res) {
-            Booking.findById(req.params.user_id, function(err, booking) {
-                
-                if(err) return res.send(err)
 
-                // set the new booking information if it exists
-                if(req.body.start) booking.start = req.body.start;
-                if(req.body.end) booking.end = req.body.end;
-                if(req.body.inRoom) booking.inRoom = req.body.inRoom;
-
-                // save the booking
-                booking.save(function(err) {
-                    if(err) return res.send(err);
-
-                    // return a message
-                    res.json({ message: 'Booking updated!' });
-                });
-            });
-        })
-
-        // delete the user with this id
-        .delete(function(req, res) {
-            Booking.remove({
-                _id: req.params.booking_id
-            }, function(err, booking) {
-                if (err) return res.send(err);
-
-                res.json({ message: 'Successfully deleted' });
+                // return a message
+                res.json({ message: 'Booking updated!' });
             });
         });
+    })
+
+    // delete the user with this id
+    .delete(function(req, res) {
+        Booking.remove({
+            _id: req.params.booking_id
+        }, function(err, booking) {
+            if (err) return res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    });
         
         
-        apiRouter.route('/bookings/:user_id')
-        
+    // on routes that end in /bookings/:user_id
+    // -------------------------------
+    apiRouter.route('/bookings/:user_id')
         
     // on routes that end in /availability
     // -------------------------------
     apiRouter.route('/availability')
+
+    // on routes that end in /rooms
+    // -------------------------------
 
 	return apiRouter;
 };
