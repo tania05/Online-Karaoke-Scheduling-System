@@ -43,7 +43,9 @@ angular.module('mainCtrl', [])
             if(data.success) {
                 vm.loggedIn = true;
                 vm.user = data.userData;
-                $location.path('/'.concat(data.userData._id));
+
+                if(window.location.pathname == '/login')
+                    $location.path('/'.concat(data.userData._id));
             }
             // NOTE --- YOU CAN USE THIS ERROR MESSAGE
             // SHOWS HOW TO ON PAGE 184-186

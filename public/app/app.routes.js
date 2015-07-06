@@ -42,7 +42,6 @@
 
 
 
-
             //=====================================================
             // BOOKING ROUTES
             // ====================================================
@@ -66,9 +65,9 @@
             .when('/bookings/:user_id', {
                 templateUrl : 'app/views/pages/manageBooking.html',
                 controller  : 'bookingManageController',
-                controllerAs: 'user'
-            })  
-
+                controllerAs: 'booking'
+            })				
+			
 
 
             //======================================================

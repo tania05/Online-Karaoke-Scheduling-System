@@ -236,9 +236,6 @@ module.exports = function(app, express) {
     // AVAILABILITY ROUTES
     // =======================================================================
 
-    // on routes that end in /bookings/:user_id
-    // -------------------------------
-    apiRouter.route('/bookings/:user_id')
         
     // on routes that end in /availability
     apiRouter.route('/availability')
@@ -286,9 +283,6 @@ module.exports = function(app, express) {
             res.json({ message: 'Successfully deleted' });
         });
     });
-
-
-
 
 
 
@@ -415,15 +409,15 @@ module.exports = function(app, express) {
     });
 
 
-
-						
+	
 
     // =======================================================================
     // BOOKING ROUTES
     // =======================================================================
 
     // on routes that end in /bookings
-    apiRouter.route('/bookings')
+
+    apiRouter.route('/booking')
         // create a booking
         .post(function(req, res) {
 
@@ -431,7 +425,7 @@ module.exports = function(app, express) {
             booking.start      = req.body.start;
             booking.end        = req.body.end;
             booking.inRoom     = req.body.inRoom;
-            booking.creatyedBy = req.body.createdBy;
+            booking.createdBy = req.body.createdBy;
 
             booking.save(function(err) {
                 if (err) return res.send(err);
@@ -487,7 +481,21 @@ module.exports = function(app, express) {
         });
     });
         
-        
+
+    // on routes that end in /bookings/:user_id
+    // -------------------------------
+    apiRouter.route('/bookings/:user_id')
+
+    //get bookings associated with a specific user
+    .get(function(req, res) {
+        Booking.find({}, function(err, bookings) {
+            if (err) res.send(err); 
+            
+            //console.log(bookings);
+            // return all bookings found
+            return res.json(bookings);
+        });
+    });
 
 	return apiRouter;
 };
