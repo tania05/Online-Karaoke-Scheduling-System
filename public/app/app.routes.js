@@ -41,7 +41,7 @@
             .when('/bookings/:user_id', {
                 templateUrl : 'app/views/pages/manageBooking.html',
                 controller  : 'bookingManageController',
-                controllerAs: 'user'
+                controllerAs: 'booking'
             })				
 			
             // route for the contact page

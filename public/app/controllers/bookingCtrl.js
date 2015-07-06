@@ -37,15 +37,15 @@ angular.module('bookingCtrl', ['bookingService'])
 		};
 })
 
-
-.controller ('bookingManageController', function($routeParams,Booking){
+.controller ('bookingManageController', function($routeParams, Booking){
 	var vm = this;
 	
 	vm.message = 'Manage your bookings';
-	
+		
 		Booking.all($routeParams.user_id)
 			.success(function(data){
-				
+				console.log(data);
+				console.log(err);
 				// when all the bookings come back, remove the processing variable
 				vm.processing= false;
 				
@@ -55,6 +55,11 @@ angular.module('bookingCtrl', ['bookingService'])
 			})
 
 })
+
+
+
+
+
 
 .controller('bookingDeleteController', function($routeParams, Booking){
 	var vm = this;
