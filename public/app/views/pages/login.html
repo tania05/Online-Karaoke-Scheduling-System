@@ -1,0 +1,21 @@
+<!-- login.html -->
+	<div class="container">	
+		<div class="page-header" align="center">
+			<h1>Please log in to view this page</h1>
+		</div>
+		<div class="row" align="center">
+			<form role="login" ng-submit="main.doLogin()">
+				<div class="form-group form-group-sm">
+					<input type="text" class="form-control" style="width:300px" placeholder="Username" ng-model="main.loginData.username">
+					<input type="password" class="form-control" style="width:300px" placeholder="Password" ng-model="main.loginData.password">
+				</div>
+				<button type="submit" class="btn btn-default btn-sm">Login</button>
+			</form>
+			<div class="form-group">
+				<a href="/pwResetForgot">Forgot Your Password?</a><p>
+				<a href="/register">Register</a>
+			</div>
+		</div>
+	
+	
+	</div>

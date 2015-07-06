@@ -26,7 +26,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!-- LOAD CUSTOM CSS -->
-    <link rel="stylesheet" href="assets/css/main.css"/>
+    <link rel="stylesheet" href="assets/css/main.css">
 
     
     <!-- load angular and angular route via CDN -->
@@ -59,41 +59,47 @@
             <div class="col-md-6">
             	<a class="navbar-brand" href="/"><img src="http://i.imgur.com/pXx7ihe.png" width="73em" height="50em" style="display: inline-block; margin-bottom: 0.5em; margin-top: -0.5em"> Purple Fox Karaoke Club</a>
 			</div>
- 						<div class="col-md-6">
-							<div ng-if="!main.loggedIn">
-                	<form class="navbar-form navbar-right" role="login" ng-submit="main.doLogin()">
-                    	<div class="form-group form-group-sm">
-                        	<input type="text" class="form-control" placeholder="Username" ng-model="main.loginData.username">
-                        	<input type="password" class="form-control" placeholder="Password" ng-model="main.loginData.password">
-                    	</div>
-                  	  <button type="submit" class="btn btn-sm btn-default">Login</bgitutton>
-                	</form>
+
+ 			<div class="col-md-6">
+				<div ng-if="!main.isLoginPage()">
+					<div ng-if="!main.loggedIn">
+						<form class="navbar-form navbar-right" role="login" ng-submit="main.doLogin()">
+							<div class="form-group form-group-sm">
+								<input type="text" class="form-control" placeholder="Username" ng-model="main.loginData.username">
+								<input type="password" class="form-control" placeholder="Password" ng-model="main.loginData.password">
 							</div>
-							<div ng-if="main.loggedIn">
-                <p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/{{ main.user._id }}/" class="navbar-link">{{ main.user.username }}</a></p>
-								<p class="navbar-text navbar-right"><a href="/{{ main.user._id }}/" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
-            	</div>
-						</div>
+							<button type="submit" class="btn btn-sm btn-default">Login</button>
+						</form>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
+    				<div ng-if="main.loggedIn">
+    					<p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/{{ main.user._id }}/" class="navbar-link">{{ main.user.username }}</a></p>
+    					<p class="navbar-text navbar-right"><a href="/{{ main.user._id }}/" class="navbar-link" text-decoration="underline"><u>View Profile</u></a></p>
+    				</div>
+                </div>
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
             	<ul class="nav navbar-nav">
                 	<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
                 	<li><a href="/{{ main.id }}"><i class="fa fa-user"></i> Profile</a></li>
                 	<li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
                 	<li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
            		</ul>
-						</div>
-						<div class="col-md-6">
-							<div ng-if="!main.loggedIn">
-                	<p class="navbar-text navbar-right" style="margin-right: 0.3em"><a href="/pwResetForgot" class="navbar-link">Forgot Your Password?</a></p>
-                	<p class="navbar-text navbar-right" style="margin-right: 1.2em"><a href="/register" class="navbar-link">Register</a></p>
-            	</div>
-							<div ng-if="main.loggedIn">
-                <button type="button" class="btn btn-default btn-sm navbar-btn pull-right" ng-click="main.doLogout()">Logout</button>                
-            	</div>
-						</div>
+
+			</div>
+			<div class="col-md-6">
+				<div ng-if="!main.isLoginPage()">
+					<div ng-if="!main.loggedIn">
+						<p class="navbar-text navbar-right" style="margin-right: 0.3em"><a href="/pwResetForgot" class="navbar-link">Forgot Your Password?</a></p>
+						<p class="navbar-text navbar-right" style="margin-right: 1.2em"><a href="/register" class="navbar-link">Register</a></p>
 					</div>
+					<div ng-if="main.loggedIn">
+						<button type="button" class="btn btn-default navbar-btn pull-right" ng-click="main.doLogout()">Logout</button>                
+					</div>
+				</div>
+			</div>
+		</div>
     </nav>
 
 
