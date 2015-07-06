@@ -55,5 +55,21 @@ angular.module('mainCtrl', [])
         // NOTE --- CHANGE THIS IF YOU NEED TO
     };
 
+	// function to check current html page
+	vm.currPage = function() {
+		var path = window.location.pathname;
+		var page = path.split("/").pop();
+		return page;
+	};
 
+	// function to check if current html page is the login page
+	vm.isLoginPage = function() {
+		var loginPage = false;
+		if(vm.currPage() == "login"){
+			loginPage = true;
+		} else {
+			loginPage = false;
+		}
+		return loginPage;
+	};
 });
