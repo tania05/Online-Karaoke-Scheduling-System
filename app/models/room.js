@@ -1,6 +1,6 @@
 // Required packages for booking model
-var mongoose = require('mongoose')
-var Schema   = mongoose.Schema
+var mongoose = require('mongoose');
+var Schema   = mongoose.Schema;
 
 // Room schema
 var RoomSchema = new Schema({
@@ -11,5 +11,5 @@ var RoomSchema = new Schema({
     available: { type: Boolean, require: true }
 });
 
-module.exports = mongoose.model('Room', RoomSchema)
+module.exports = mongoose.model('Room', RoomSchema);
     

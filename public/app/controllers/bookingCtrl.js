@@ -9,39 +9,7 @@ angular.module('bookingCtrl', ['bookingService'])
     Booking.get($routeParams.booking_id)
     	.success(function(data){
     		vm.bookingData=data;
-    	})
-})
-
-.controller('TimepickerDemoCtrl', function ($scope, $log) {
-  $scope.mytime = new Date();
-
-  $scope.hstep = 1;
-  $scope.mstep = 15;
-
-  $scope.options = {
-    hstep: [1, 2, 3],
-    mstep: [1, 5, 10, 15, 25, 30]
-  };
-
-  $scope.ismeridian = true;
-  $scope.toggleMode = function() {
-    $scope.ismeridian = ! $scope.ismeridian;
-  };
-
-  $scope.update = function() {
-    var d = new Date();
-    d.setHours( 14 );
-    d.setMinutes( 0 );
-    $scope.mytime = d;
-  };
-
-  $scope.changed = function () {
-    $log.log('Time changed to: ' + $scope.mytime);
-  };
-
-  $scope.clear = function() {
-    $scope.mytime = null;
-  };
+    	});
 })
 
 .controller('bookingCreateController', function($routeParams, Booking, Room){
@@ -51,7 +19,6 @@ angular.module('bookingCtrl', ['bookingService'])
 	// difference between create or edit page
 	
 	vm.type='create';
-
         vm.processing=true;
 
         // Get all of the rooms to be displayed
@@ -61,9 +28,11 @@ angular.module('bookingCtrl', ['bookingService'])
                 vm.rooms=data;
                 vm.message = data.message;
             });
-	
+
+	vm.btn = 'Book';
+	vm.complete = false;
+
 	// function to create booking
-	
 	vm.saveBooking = function(){
 		vm.processing= true;
 		vm.message='';
@@ -72,9 +41,10 @@ angular.module('bookingCtrl', ['bookingService'])
 		Booking.create(vm.bookingData)
 			.success(function(data){
 				vm.processing=false;
+				vm.complete = true;
 				vm.bookingData={};
 				vm.message = data.message;
-			})
+			});
 		};
 })
 
@@ -85,19 +55,50 @@ angular.module('bookingCtrl', ['bookingService'])
 		
 		Booking.all($routeParams.user_id)
 			.success(function(data){
-				console.log(data);
-				console.log(err);
+				//console.log(data);
+				//console.log(err);
 				// when all the bookings come back, remove the processing variable
 				vm.processing= false;
 				
 				//bind the user that come back to vm.users
 				vm.bookings=data;
 			
-			})
+			});
 
 })
 
 
+.controller ('bookingEditController', function($routeParams, Booking){
+	var vm = this;
+	
+	vm.type = 'edit';
+	vm.complete = false;
+	vm.btn = "Save Changes";
+
+    Booking.get($routeParams.booking_id)
+    	.success(function(data){
+    		vm.bookingData = data;
+
+    	});
+
+
+	// function to save the booking
+	vm.saveBooking = function(){
+		vm.processing=true;
+		vm.message='';
+
+		//call the bookingService function to update
+		Booking.update($routeParams.booking_id, vm.bookingData)
+			.success(function(data) {
+				vm.processing= false;
+                vm.complete = true;
+				//clear the form
+				vm.bookingData = {};
+				//bind the message from API to vm.message
+				vm.message = data.message;	
+			});
+	};
+})
 
 
 
@@ -111,9 +112,9 @@ angular.module('bookingCtrl', ['bookingService'])
 		Booking.delete($routeParams.booking_id)
 			.success(function(data){
 				vm.deleted= true;
-			})
+			});
 	
-	}
+	};
 
 });
 

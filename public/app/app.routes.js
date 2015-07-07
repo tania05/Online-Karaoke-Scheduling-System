@@ -47,8 +47,8 @@
             // ====================================================
 
              // would be changed to '/profile/bookings/create'
-            .when('/bookings', {
-                templateUrl : 'app/views/pages/booking.html',
+            .when('/bookings/create', {
+                templateUrl : 'app/views/pages/bookingForm.html',
                 controller  : 'bookingCreateController',
                 controllerAs: 'booking'
             })
@@ -60,9 +60,16 @@
                 controllerAs: 'booking'
             })
 
+                          // would be changed to '/profile/bookings/delete'
+            .when('/bookings/:booking_id/edit', {
+                templateUrl : 'app/views/pages/bookingForm.html',
+                controller  : 'bookingEditController',
+                controllerAs: 'booking'
+            })
+
 
              // would be changed to '/profile/bookings'
-            .when('/bookings/:user_id', {
+            .when('/:user_id/bookings', {
                 templateUrl : 'app/views/pages/manageBooking.html',
                 controller  : 'bookingManageController',
                 controllerAs: 'booking'
@@ -112,6 +119,31 @@
                 templateUrl : 'app/views/pages/deleteUser.html',
                 controller  : 'userDeleteController',
                 controllerAs: 'user'
+            })
+
+            // page to view users bookings
+            .when('/admin/:user_id/bookings', {
+                templateUrl : 'app/views/pages/manageBooking.html',
+                controller  : 'bookingManageController',
+                controllerAs: 'booking'
+            })
+
+            .when('/admin/:user_id/bookings/create', {
+                templateUrl : 'app/views/pages/booking.html',
+                controller  : 'bookingCreateController',
+                controllerAs: 'booking'
+            })
+
+             .when('/admin/bookings/:booking_id/delete', {
+                templateUrl : 'app/views/pages/deleteBooking.html',
+                controller  : 'bookingDeleteController',
+                controllerAs: 'booking'
+            })
+
+            .when('/admin/bookings/:booking_id/edit', {
+                templateUrl : 'app/views/pages/deleteBooking.html',
+                controller  : 'bookingDeleteController',
+                controllerAs: 'booking'
             })
 
 

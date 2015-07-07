@@ -1,0 +1,28 @@
+angular.module('roomService',[])
+
+.factory('Room', function($http) {
+    
+    // create a new object
+    var roomFactory = {};
+
+    // create a booking
+    roomFactory.create = function(roomData) {
+        return $http.post('/api/rooms', roomData);
+    };
+
+    // delete a booking
+    roomFactory.delete = function(id) {
+        return $http.delete('/api/rooms/' + id);
+    };
+
+    // edit a booking
+    roomFactory.edit = function(id, roomData) {
+        return $http.put('/api/rooms/' + id, roomData);
+    };
+
+    // get all booking by user
+    roomFactory.all = function(id) {
+        return $http.get('/api/rooms/' + id);
+    };
+    return roomFactory;
+});

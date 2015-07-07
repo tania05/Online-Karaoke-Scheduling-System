@@ -7,7 +7,7 @@ angular.module('bookingService',[])
 
     // create a booking
     bookingFactory.create = function(bookingData) {
-        return $http.post('/api/bookings', bookingData);
+        return $http.post('/api/booking', bookingData);
     };
 
     // delete a booking
@@ -16,18 +16,13 @@ angular.module('bookingService',[])
     };
 
     // edit a booking
-    bookingFactory.update = function(id, bookingData) {
+    bookingFactory.edit = function(id, bookingData) {
         return $http.put('/api/bookings/' + id, bookingData);
     };
 
     // get all booking by user
-    bookingFactory.all = function(userID) {
-        return $http.get('/api/allBookings/' + userID);
-    };
-
-        // get all booking by user
-    bookingFactory.get = function(bookingID) {
-        return $http.get('/api/bookings/' + bookingID);
+    bookingFactory.all = function(id) {
+        return $http.get('/api/bookings/' + id);
     };
     return bookingFactory;
 });
