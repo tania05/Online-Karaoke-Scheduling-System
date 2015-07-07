@@ -9,7 +9,7 @@ angular.module('bookingCtrl', ['bookingService'])
     Booking.get($routeParams.booking_id)
     	.success(function(data){
     		vm.bookingData=data;
-    	})
+    	});
 })
 
 .controller('bookingCreateController', function($routeParams, Booking){
@@ -32,7 +32,7 @@ angular.module('bookingCtrl', ['bookingService'])
 				vm.processing=false;
 				vm.bookingData={};
 				vm.message = data.message;
-			})
+			});
 		};
 })
 
@@ -43,15 +43,15 @@ angular.module('bookingCtrl', ['bookingService'])
 		
 		Booking.all($routeParams.user_id)
 			.success(function(data){
-				console.log(data);
-				console.log(err);
+				//console.log(data);
+				//console.log(err);
 				// when all the bookings come back, remove the processing variable
 				vm.processing= false;
 				
 				//bind the user that come back to vm.users
 				vm.bookings=data;
 			
-			})
+			});
 
 })
 
@@ -69,9 +69,9 @@ angular.module('bookingCtrl', ['bookingService'])
 		Booking.delete($routeParams.booking_id)
 			.success(function(data){
 				vm.deleted= true;
-			})
+			});
 	
-	}
+	};
 
 });
 
