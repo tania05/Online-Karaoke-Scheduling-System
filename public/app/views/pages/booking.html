@@ -16,7 +16,7 @@
         					<option value="4">4</option>
         				</select>
         			</div>
-
+				
         			<div class="form-group">
         				<label for="room">Room</label>
         				<select name="Room" class="form-control" ng-model="booking.bookingData.room">
@@ -27,8 +27,9 @@
 
         			<div class="form-group">
         				<label for="date">Date</label>
-        				<input type="date" class="form-control" ng-model="booking.bookingData.date">
-        			</div>
+					<input type="date" min="2015-07-07" class="form-control" ng-model="booking.bookingData.date">
+        			
+				</div>
 
         			<div class="form-group">
         				<label for="start">Start Time</label>
@@ -39,6 +40,10 @@
         				<label for="end">End Time</label>
         				<input type="time" min="0" max="30" step="1800" class="form-control" ng-model="booking.bookingData.end">
         			</div>
+				
+				<!-- 
+					test() 
+				-->
 
         			<div class="form-group">
         				<label for="equip">Additional Equipment</label>
