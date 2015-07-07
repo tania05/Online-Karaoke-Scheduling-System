@@ -15,7 +15,7 @@ angular.module('mainCtrl', [])
     $rootScope.$on('$routeChangeStart', function() {
         vm.loggedIn = Auth.isLoggedIn();
 
-        if(!vm.loggedIn && window.location.pathname == "/booking") {
+        if(!vm.loggedIn && window.location.pathname == "/bookings/create") {
             $location.path('/login'); 
         }
 
