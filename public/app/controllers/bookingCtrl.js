@@ -52,7 +52,7 @@ angular.module('bookingCtrl', ['bookingService'])
 	
 	vm.type='create';
 	
-	// function to create booking 
+	// function to create booking
 	
 	vm.saveBooking = function(){
 		vm.processing= true;

@@ -20,11 +20,11 @@
             })
 
             // route for the login page
-			.when('/login', {
+            .when('/login', {
                 templateUrl : 'app/views/pages/login.html',
                 controller  : 'mainController',
                 controllerAs: 'login'
-            })     
+            })
 
             // route for the availability page
             .when('/availability', {
@@ -47,7 +47,7 @@
             // ====================================================
 
              // would be changed to '/profile/bookings/create'
-            .when('/booking', {
+            .when('/bookings', {
                 templateUrl : 'app/views/pages/booking.html',
                 controller  : 'bookingCreateController',
                 controllerAs: 'booking'

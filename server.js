@@ -9,7 +9,9 @@ var morgan      = require('morgan');
 var mongoose    = require('mongoose');
 var config      = require('./config');
 var path        = require('path');
-var User				= require('./app/models/user');
+var User        = require('./app/models/user');
+var Booking     = require('./app/models/booking');
+var Room        = require('./app/models/room');
 
 // APP CONFIGURATION
 // =============================

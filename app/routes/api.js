@@ -243,6 +243,13 @@ module.exports = function(app, express) {
     // on routes that end in /rooms
     // -------------------------------
     apiRouter.route('/rooms')
+        .get(function(req, res) {
+           Room.all({}, function(err, rooms) {
+                if (err) return res.send(err);
+ 
+                res.json({ message: 'Acquired all rooms' });
+            });
+        })
         // create a room
         .post(function(req, res) {
 
@@ -417,22 +424,30 @@ module.exports = function(app, express) {
 
     // on routes that end in /bookings
 
-    apiRouter.route('/booking')
+    apiRouter.route('/bookings')
         // create a booking
         .post(function(req, res) {
-
-            var booking = new Booking();      // create a new instance of the Booking model
-            booking.start      = req.body.start;
-            booking.end        = req.body.end;
-            booking.inRoom     = req.body.inRoom;
-            booking.createdBy = req.body.createdBy;
-
-            booking.save(function(err) {
+            // Lookup the user who is creating the booking
+            User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
+                // Find the room id by the room name from the view
+                Room.findOne({name : req.body.room}, function(err, room) {
+                    if (err) return res.send(err);
 
-                // return a message
-                res.json({message: 'Booking created.'});
+                    var booking = new Booking();      // create a new instance of the Booking model
+                    booking.start      = new Date(req.body.date + ' ' + req.body.start);
+                    booking.end        = new Date(req.body.date + ' ' + req.body.end);
+                    booking.inRoom     = room._id;
+                    booking.createdBy  = user._id;
+
+                    booking.save(function(err) {
+                        if (err) return res.send(err);
+                        // return a message
+                        res.json({message: 'Booking created.'});
+                    });
+                });
             });
+            
         });
 
     // on routes that end in /bookings/:booking_id

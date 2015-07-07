@@ -8,7 +8,6 @@ var RoomSchema = new Schema({
     name: { type: String, required: true },
     number: { type: Number, required: true, index: { unique: true }},
     capacity: { type: Number, required: true }
-
 });
 
 module.exports = mongoose.model('Room', RoomSchema)
