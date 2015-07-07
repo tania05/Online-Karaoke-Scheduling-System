@@ -19,6 +19,8 @@ angular.module('bookingCtrl', ['bookingService'])
 	// difference between create or edit page
 	
 	vm.type='create';
+	vm.btn = 'Book';
+	vm.complete = false;
 	
 	// function to create booking
 	
@@ -30,6 +32,7 @@ angular.module('bookingCtrl', ['bookingService'])
 		Booking.create(vm.bookingData)
 			.success(function(data){
 				vm.processing=false;
+				vm.complete = true;
 				vm.bookingData={};
 				vm.message = data.message;
 			});
@@ -56,6 +59,37 @@ angular.module('bookingCtrl', ['bookingService'])
 })
 
 
+.controller ('bookingEditController', function($routeParams, Booking){
+	var vm = this;
+	
+	vm.type = 'edit';
+	vm.complete = false;
+	vm.btn = "Save Changes";
+
+    Booking.get($routeParams.booking_id)
+    	.success(function(data){
+    		vm.bookingData = data;
+
+    	});
+
+
+	// function to save the booking
+	vm.saveBooking = function(){
+		vm.processing=true;
+		vm.message='';
+
+		//call the bookingService function to update
+		Booking.update($routeParams.booking_id, vm.bookingData)
+			.success(function(data) {
+				vm.processing= false;
+                vm.complete = true;
+				//clear the form
+				vm.bookingData = {};
+				//bind the message from API to vm.message
+				vm.message = data.message;	
+			});
+	};
+})
 
 
 

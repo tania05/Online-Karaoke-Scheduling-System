@@ -23,21 +23,23 @@
 			<th>_id</th>
 			<th>Name</th>
 			<th>Room</th>
+			<th>Date</th>
 			<th>Start Time</th>
 			<th>End Time</th>
 			<th class="col-sm-2"></th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="item in booking.bookings track by $index">
-			<td>{{ item._id }}</td>
-			<td>{{ item.createdBy }}</td>
-			<td>{{ item.inRoom }}</td>
-			<td>{{ item.start }}</td>
-			<td>{{ item.end }}</td>
+		<tr ng-repeat="booking in booking.bookings track by $index">
+			<td>{{ booking._id }}</td>
+			<td>{{ booking.createdBy }}</td>
+			<td>{{ booking.inRoom }}</td>
+			<td>{{ booking.date }}</td>
+			<td>{{ booking.start }}</td>
+			<td>{{ booking.end }}</td>
 			<td class="col-sm-2">
-				<a ng-href="/booking/{{ booking._id }}/edit" class="btn btn-danger">Edit</a>
-				<a href="/booking/{{ booking._id }}/delete" class="btn btn-primary">Cancel</a>
+				<a ng-href="/bookings/{{ booking._id }}/edit" class="btn btn-danger">Edit</a>
+				<a href="/bookings/{{ booking._id }}/delete" class="btn btn-primary">Cancel</a>
 			</td>
 		</tr>
 	</tbody>

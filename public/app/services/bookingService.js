@@ -16,13 +16,18 @@ angular.module('bookingService',[])
     };
 
     // edit a booking
-    bookingFactory.edit = function(id, bookingData) {
+    bookingFactory.update = function(id, bookingData) {
         return $http.put('/api/bookings/' + id, bookingData);
     };
 
     // get all booking by user
-    bookingFactory.all = function(id) {
-        return $http.get('/api/bookings/' + id);
+    bookingFactory.all = function(userID) {
+        return $http.get('/api/allBookings/' + userID);
+    };
+
+        // get all booking by user
+    bookingFactory.get = function(bookingID) {
+        return $http.get('/api/bookings/' + bookingID);
     };
     return bookingFactory;
 });

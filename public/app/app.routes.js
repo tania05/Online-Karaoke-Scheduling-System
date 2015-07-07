@@ -48,7 +48,7 @@
 
              // would be changed to '/profile/bookings/create'
             .when('/bookings/create', {
-                templateUrl : 'app/views/pages/booking.html',
+                templateUrl : 'app/views/pages/bookingForm.html',
                 controller  : 'bookingCreateController',
                 controllerAs: 'booking'
             })
@@ -62,8 +62,8 @@
 
                           // would be changed to '/profile/bookings/delete'
             .when('/bookings/:booking_id/edit', {
-                templateUrl : 'app/views/pages/deleteBooking.html',
-                controller  : 'bookingDeleteController',
+                templateUrl : 'app/views/pages/bookingForm.html',
+                controller  : 'bookingEditController',
                 controllerAs: 'booking'
             })
 
