@@ -1,10 +1,9 @@
 // Required packages for booking model
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 // Booking schema
 var BookingSchema = new Schema({
-
     start       : { type: Date, required: true},
     end         : { type: Date, required: true}, 
 //    equipment   : { type: Number, required: true

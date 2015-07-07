@@ -34,17 +34,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 
     <!-- controllers -->
-		<script src="app/controllers/pwResetCtrl.js"></script>
+    <script src="app/controllers/pwResetCtrl.js"></script>
     <script src="app/controllers/mainCtrl.js"></script>
-		<script src="app/controllers/adminCtrl.js"></script>
+    <script src="app/controllers/adminCtrl.js"></script>
     <script src="app/controllers/contactCtrl.js"></script>
     <script src="app/controllers/bookingCtrl.js"></script>
     <script src="app/controllers/userCtrl.js"></script>
 
     <!-- services -->
     <script src="app/services/userService.js"></script>
-	<script src="app/services/authService.js"></script>
-	<script src="app/services/bookingService.js"></script>
+    <script src="app/services/authService.js"></script>
+    <script src="app/services/bookingService.js"></script>
+    <script src="app/services/roomService.js"></script>
 
     <!-- main Angular app files -->
     <script src="app/app.routes.js"></script>
@@ -84,7 +85,7 @@
                 	<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
                 	<li><a href="/{{ main.id }}"><i class="fa fa-user"></i> Profile</a></li>
                 	<li><a href="/availability"><i class="fa fa-calendar-o"></i> Availability</a></li>
-                	<li><a href="/booking"><i class="fa fa-book"></i> Booking</a></li>
+                	<li><a href="/bookings"><i class="fa fa-book"></i> Booking</a></li>
            		</ul>
 
 			</div>
