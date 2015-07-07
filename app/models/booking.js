@@ -4,9 +4,9 @@ var Schema = mongoose.Schema;
 
 // Booking schema
 var BookingSchema = new Schema({
-    date        : { type: String, required: true},
-    start       : { type: String, required: true},
-    end         : { type: String, required: true},
+    date        : { type: Date, required: true},
+    start       : { type: Date, required: true},
+    end         : { type: Date, required: true},
 		iPad				: { type: Number, required: true},
 		mic					: { type: Number, required: true},
     
