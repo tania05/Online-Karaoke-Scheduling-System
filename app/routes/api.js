@@ -229,16 +229,7 @@ module.exports = function(app, express) {
                     }
             ]);
         });
-            
-
-
-    // =======================================================================
-    // AVAILABILITY ROUTES
-    // =======================================================================
-
         
-    // on routes that end in /availability
-    apiRouter.route('/availability')
 
     // on routes that end in /rooms
     // -------------------------------
@@ -290,6 +281,30 @@ module.exports = function(app, express) {
             res.json({ message: 'Successfully deleted' });
         });
     });
+	
+	//gets the rooms to populate
+    apiRouter.route('/rooms/capacity')
+
+		.get(function(req, res) {
+			var numPeople = req.body.people;
+			
+			if (numPeople <= 2 )
+				numPeople = 2;
+			else if (numPeople > 2 && numPeople <= 4 )
+				numPeople = 4;
+			else if (numPeople > 4 && numPeople <= 8 )
+				numPeople = 8;
+			else if (numPeople > 8)
+				numPeople = 12;
+
+
+			Room.find({ capacity: numPeople  }, function(err, rooms ){
+				if (err) return res.send(err);
+				
+				res.json(rooms);
+ 
+			});
+		});
 
 
 
@@ -415,6 +430,124 @@ module.exports = function(app, express) {
         res.send(req.decoded);
     });
 
+    // =======================================================================
+    // AVAILABILITY ROUTES
+    // =======================================================================
+		
+	apiRouter.route('/availability')
+
+		.get(function(req, res){
+
+			Booking.find({ date: req.body.date, inRoom: config.double1 }, function(err, double1) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.double2 }, function(err, double2) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.quad1 }, function(err, quad1) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.quad2 }, function(err, quad2) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.quad3 }, function(err, quad3) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.grande1 }, function(err, grande1) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.grande2 }, function(err, grande2) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.grande3 }, function(err, grande3) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.enorme1 }, function(err, enorme1) {
+				if(err) return res.send(err);		
+			})
+
+			Booking.find({ date: req.body.date, inRoom: config.enorme2 }, function(err, enorme2) {
+				if(err) return res.send(err);		
+			})
+			
+			return res.json({
+					'double1' : double1,
+					'double2' : double2,
+					'quad1'   : quad1,
+					'quad2'   : quad2,
+					'quad3'   : quad3,
+					'grande1' : grande1,
+					'grande2' : grande2,
+					'grande3' : grande3,
+					'enorme1' : enorme1,
+					'enorme2' : enorme2
+			});
+		});
+
+	apiRouter.route('/availability/room')
+
+		.get(function(req, res){
+
+			Booking.find({ date: req.body.date, inRoom: config.req.body.roomName }, function(err, avail){ 
+				if (err) return res.send(err);
+
+				res.json(avail);			
+
+			});
+
+		});
+
+	apiRouter.route('/availability/equip')
+
+		.get(function(req, res){ 
+
+			var availIPad = 10;
+			var availMic  = 10;
+			
+			Booking.find( {date: req.body.date, $or: [{start: { $gt: req.body.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.body.startTime}, end: {$lt: endTime }} ] }, 'mic' , function(err, mic){
+				if(err) return res.send(err);
+
+			})
+
+			Booking.find( {date: req.body.date, $or: [{start: { $gt: req.body.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.body.startTime}, end: {$lt: endTime }} ] }, 'iPad' , function(err, iPad){
+				if(err) return res.send(err);
+
+			})
+
+			for (var i = 0; i < mic.length; i++){
+				availMic =- mic[i];
+			}
+
+			for (var j = 0; j < iPad.length; j++){
+				availIPad =- iPad[i];
+			}
+			
+			if (availMic < 0 || availIPad < 0) return res.json({ message: 'broken' });
+			
+			res.json({ iPads: availIPad, mics: availMic });
+
+
+
+			/*Booking.find({ date: req.body.date, start: { $gt: req.body.startTime && $lt: endTime }}, function(err, step1){
+				if(err) return res.send(err);
+	
+			})
+
+			Booking.find({ date: req.body.date, end: { $gt: req.body.startTime && $lt: endTime }}, function(err, step2){
+				if(err) return res.send(err);
+	
+			})*/
+			
+			 
+		});		
 
 	
 
