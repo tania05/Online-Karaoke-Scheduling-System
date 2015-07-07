@@ -62,7 +62,7 @@
 
 
              // would be changed to '/profile/bookings'
-            .when('/bookings/:user_id', {
+            .when('/:user_id/bookings', {
                 templateUrl : 'app/views/pages/manageBooking.html',
                 controller  : 'bookingManageController',
                 controllerAs: 'booking'
@@ -113,6 +113,14 @@
                 controller  : 'userDeleteController',
                 controllerAs: 'user'
             })
+
+                        // page to view users bookings
+            .when('/admin/:user_id/bookings', {
+                templateUrl : 'app/views/pages/manageBooking.html',
+                controller  : 'bookingManageController',
+                controllerAs: 'booking'
+
+            }) 
 
 
 

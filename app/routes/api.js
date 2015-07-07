@@ -418,6 +418,19 @@ module.exports = function(app, express) {
     // on routes that end in /bookings
 
     apiRouter.route('/booking')
+
+        // get all bookings
+        .get(function(req, res) {
+
+            Booking.find({}, function(err, bookings) {
+                if (err) return res.send(err);
+
+                // return all bookings
+                res.json(bookings);
+            });
+
+        })
+
         // create a booking
         .post(function(req, res) {
 
@@ -434,6 +447,16 @@ module.exports = function(app, express) {
                 res.json({message: 'Booking created.'});
             });
         });
+
+
+/*
+
+TEMPORARILY COMMENTED OUT
+causes problems when viewing bookings because this route is activated instead of /bookings/:user_id
+This happens because it does not know the difference between the variables
+
+
+
 
     // on routes that end in /bookings/:booking_id
     // -------------------------------
@@ -481,15 +504,15 @@ module.exports = function(app, express) {
         });
     });
         
-
+*/
     // on routes that end in /bookings/:user_id
     // -------------------------------
     apiRouter.route('/bookings/:user_id')
 
     //get bookings associated with a specific user
     .get(function(req, res) {
-        Booking.find({}, function(err, bookings) {
-            if (err) res.send(err); 
+        Booking.find({ createdBy: req.params.user_id}).exec(function(err,bookings){
+            if (err) return res.send(err); 
             
             //console.log(bookings);
             // return all bookings found
