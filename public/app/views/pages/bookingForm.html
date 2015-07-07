@@ -21,9 +21,8 @@
     			<div class="form-group">
     				<label for="room">Room</label>
     				<select name="Room" class="form-control" ng-model="booking.bookingData.room">
-    					<option value="double1">Room 1</option>
-    					<option value="double2">Room 2</option>
-    				</select>git 
+        				<option ng-repeat="room in booking.rooms | filter: {available: true}" value="{{room.name}}">{{room.name}} [Capacity: {{room.capacity}}]</option>
+        			</select>
     			</div>
 
     			<div class="form-group">

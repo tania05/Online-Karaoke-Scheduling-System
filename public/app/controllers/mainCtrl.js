@@ -15,7 +15,7 @@ angular.module('mainCtrl', [])
     $rootScope.$on('$routeChangeStart', function() {
         vm.loggedIn = Auth.isLoggedIn();
 
-        if(!vm.loggedIn && window.location.pathname == "/booking") {
+        if(!vm.loggedIn && window.location.pathname == "/bookings/create") {
             $location.path('/login'); 
         }
 
@@ -43,6 +43,8 @@ angular.module('mainCtrl', [])
             if(data.success) {
                 vm.loggedIn = true;
                 vm.user = data.userData;
+                vm.id = data.userData._id;
+                vm.loginData = '';
 
                 if(window.location.pathname == '/login')
                     $location.path('/'.concat(data.userData._id));
@@ -61,6 +63,13 @@ angular.module('mainCtrl', [])
 
         // reset all user info
         vm.user = '';
+        vm.id = 'invalidID2';
+
+        var currentPath = window.location.pathname;
+
+        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/") {
+            $location.path('/'); 
+        }
 
         // update the view
         // NOTE --- CHANGE THIS IF YOU NEED TO

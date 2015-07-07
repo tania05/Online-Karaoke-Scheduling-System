@@ -235,10 +235,10 @@ module.exports = function(app, express) {
     // -------------------------------
     apiRouter.route('/rooms')
         .get(function(req, res) {
-           Room.all({}, function(err, rooms) {
+            Room.find({}, function(err, rooms) {
                 if (err) return res.send(err);
  
-                res.json({ message: 'Acquired all rooms' });
+                res.json(rooms);
             });
         })
         // create a room
