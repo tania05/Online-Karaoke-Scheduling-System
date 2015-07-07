@@ -12,18 +12,27 @@ angular.module('bookingCtrl', ['bookingService'])
     	});
 })
 
-.controller('bookingCreateController', function($routeParams, Booking){
+.controller('bookingCreateController', function($routeParams, Booking, Room){
 	var vm = this;
 	
 	// variable to hide/show elements of the view
 	// difference between create or edit page
 	
 	vm.type='create';
+        vm.processing=true;
+
+        // Get all of the rooms to be displayed
+        Room.all()
+            .success(function(data){
+                vm.processing=false;
+                vm.rooms=data;
+                vm.message = data.message;
+            });
+
 	vm.btn = 'Book';
 	vm.complete = false;
-	
+
 	// function to create booking
-	
 	vm.saveBooking = function(){
 		vm.processing= true;
 		vm.message='';

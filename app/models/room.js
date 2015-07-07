@@ -6,7 +6,9 @@ var Schema   = mongoose.Schema;
 var RoomSchema = new Schema({
     
     name: { type: String, required: true },
-    capacity: { type: Number, required: true }
+    number: { type: Number, required: true, index: { unique: true }},
+    capacity: { type: Number, required: true },
+    available: { type: Boolean, require: true }
 });
 
 module.exports = mongoose.model('Room', RoomSchema);
