@@ -244,10 +244,10 @@ module.exports = function(app, express) {
     // -------------------------------
     apiRouter.route('/rooms')
         .get(function(req, res) {
-           Room.all({}, function(err, rooms) {
+            Room.find({}, function(err, rooms) {
                 if (err) return res.send(err);
  
-                res.json({ message: 'Acquired all rooms' });
+                res.json(rooms);
             });
         })
         // create a room
@@ -446,9 +446,10 @@ module.exports = function(app, express) {
                 Room.findOne({name : req.body.room}, function(err, room) {
                     if (err) return res.send(err);
 
-                    var booking = new Booking();      // create a new instance of the Booking model
-                    booking.start      = new Date(req.body.date + ' ' + req.body.start);
-                    booking.end        = new Date(req.body.date + ' ' + req.body.end);
+                    var booking        = new Booking();      // create a new instance of the Booking model
+                    booking.date       = req.body.date;
+                    booking.start      = req.body.start;
+                    booking.end        = req.body.end;
                     booking.inRoom     = room._id;
                     booking.createdBy  = user._id;
 
@@ -463,14 +464,6 @@ module.exports = function(app, express) {
         });
 
 
-/*
-
-TEMPORARILY COMMENTED OUT
-causes problems when viewing bookings because this route is activated instead of /bookings/:user_id
-This happens because it does not know the difference between the variables
-
-
-
 
     // on routes that end in /bookings/:booking_id
     // -------------------------------
@@ -483,14 +476,14 @@ This happens because it does not know the difference between the variables
                 
             // return the booking
             res.json(booking);   
-        })
+        });
     })
         
     // Update a booking
     .put(function(req, res) {
-        Booking.findById(req.params.user_id, function(err, booking) {
+        Booking.findById(req.params.booking_id, function(err, booking) {
                 
-            if(err) return res.send(err)
+            if(err) return res.send(err);
 
             // set the new booking information if it exists
             if(req.body.start) booking.start = req.body.start;
@@ -518,10 +511,10 @@ This happens because it does not know the difference between the variables
         });
     });
         
-*/
+
     // on routes that end in /bookings/:user_id
     // -------------------------------
-    apiRouter.route('/bookings/:user_id')
+    apiRouter.route('/allBookings/:user_id')
 
     //get bookings associated with a specific user
     .get(function(req, res) {

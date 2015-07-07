@@ -4,8 +4,9 @@ var Schema = mongoose.Schema;
 
 // Booking schema
 var BookingSchema = new Schema({
-    start       : { type: Date, required: true},
-    end         : { type: Date, required: true}, 
+    date        : { type: String, required: true},
+    start       : { type: String, required: true},
+    end         : { type: String, required: true}, 
 //    equipment   : { type: Number, required: true
     
     // This links the booking to a specific room ID
