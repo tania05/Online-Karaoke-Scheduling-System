@@ -4,25 +4,23 @@ var Schema = mongoose.Schema;
 
 // Booking schema
 var BookingSchema = new Schema({
-    people      : { type: Number, required: true},
     date        : { type: String, required: true},
     start       : { type: String, required: true},
     end         : { type: String, required: true},
-		iPad				: { type: Number, required: true},
-		mic					: { type: Number, required: true},
+    iPad        : { type: Number, required: true},
+    mic         : { type: Number, required: true},
+    people      : { type: Number, required: true},
     
     // This links the booking to a specific room ID
     inRoom: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Room'    
+        ref: 'Room'
     },
-
     // This links the booking to a specific User ID
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }
-
 });
 
 // return the model
