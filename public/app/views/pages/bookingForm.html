@@ -29,7 +29,7 @@
 
     			<div class="form-group">
     				<label for="room">Room</label>
-    				<select name="Room" class="form-control" ng-model="booking.bookingData.roomSelected" ng-options="(room.name + ' [Capacity: ' + room.capacity + ' ]')  for room in booking.rooms | filter: {visible: true}">
+    				<select name="Room" class="form-control" ng-model="booking.bookingData.roomSelected" ng-options="room.name  for room in booking.rooms | filter: {visible: true}">
         			</select>
     			</div>
 

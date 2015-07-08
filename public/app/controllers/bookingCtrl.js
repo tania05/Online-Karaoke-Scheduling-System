@@ -84,8 +84,8 @@ angular.module('bookingCtrl', ['bookingService'])
     Booking.get($routeParams.booking_id)
     	.success(function(data){
             vm.bookingData = data;
-            console.log(bookingData.createdBy);
-            console.log(bookingData.createdBy._id);
+           // console.log(bookingData.createdBy);
+           // console.log(bookingData.createdBy._id);
             //vm.user = bookingData.createdBy._id;
             // Get all of the rooms to be displayed
             Room.all()
