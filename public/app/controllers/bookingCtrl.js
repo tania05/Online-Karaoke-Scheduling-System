@@ -80,12 +80,13 @@ angular.module('bookingCtrl', ['bookingService'])
     vm.type = 'edit';
     vm.complete = false;
     vm.btn = "Save Changes";
-
-    
-
+	    
     Booking.get($routeParams.booking_id)
     	.success(function(data){
             vm.bookingData = data;
+            console.log(bookingData.createdBy);
+            console.log(bookingData.createdBy._id);
+            //vm.user = bookingData.createdBy._id;
             // Get all of the rooms to be displayed
             Room.all()
                 .success(function(data){
