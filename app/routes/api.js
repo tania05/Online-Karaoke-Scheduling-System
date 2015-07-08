@@ -580,9 +580,12 @@ module.exports = function(app, express) {
                     if (err) return res.send(err);
 
                     var booking        = new Booking();      // create a new instance of the Booking model
+                    booking.people     = req.body.people;
                     booking.date       = req.body.date;
                     booking.start      = req.body.start;
                     booking.end        = req.body.end;
+                    booking.iPad       = req.body.iPad;
+                    booking.mic        = req.body.mic;
                     booking.inRoom     = room._id;
                     booking.createdBy  = user._id;
 
@@ -619,9 +622,14 @@ module.exports = function(app, express) {
             if(err) return res.send(err);
 
             // set the new booking information if it exists
+            if(req.body.people) booking.people = req.body.people;
+            if(req.body.date) booking.date = req.body.date;
             if(req.body.start) booking.start = req.body.start;
             if(req.body.end) booking.end = req.body.end;
             if(req.body.inRoom) booking.inRoom = req.body.inRoom;
+            if(req.body.createdBy) booking.createdBy = req.body.createdBy;
+            if(req.body.iPad) booking.iPad = req.body.iPad;
+            if(req.body.mic) booking.mic = req.body.mic;
 
             // save the booking
             booking.save(function(err) {

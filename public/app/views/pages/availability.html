@@ -1,5 +1,27 @@
 <!-- availability.html -->
-    <div class="jumbotron text-center">
-        <h1>Availability Page</h1>
+<html ng-app="dialog">
+  <head>
+    <title>Full Calendar Test</title>
+    <link rel="stylesheet" type="text/css" href="http://dl.dropbox.com/u/1510510/temp/demo/fullcalendar.css"></link>
+    <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
+   
+    <script src="https://raw.github.com/arshaw/fullcalendar/master/lib/jquery-ui-1.8.23.custom.min.js"></script>
+    <script src="http://code.angularjs.org/1.0.1/angular-1.0.1.js" ng:autobind></script>
+    <script src="https://raw.github.com/angular-ui/angular-ui/master/build/angular-ui.js"></script> 
+    <script src="http://dl.dropbox.com/u/1510510/temp/demo/fullcalendar.min.js"></script> 
 
-    </div>
+   
+  </head>
+
+    
+  <body ng-controller="MainCtrl">
+      <button ng-click="addChild()">Add Child</button>
+      <ul>
+        <li ng-repeat="e in events">
+            <inplace model="e.title" changed="events"/></inplace>
+            <a class="left" ng-click="remove($index)">[x]</a>
+        </li>
+    </ul>
+               <div dev-calendar="{height: 400,editable: true}" ng-model='events' changed='eventChanged' ></div>
+  </body>
+</html>
