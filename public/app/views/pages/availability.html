@@ -13,7 +13,7 @@
           </div>
         </div>
   </form>
-  <button ng-click="availability.getAvailability('2015-07-08')">Do stuff</button>
+  <button ng-click="availability.getAvailability(availability.dateString)">Do stuff</button>
 
 
 
@@ -22,6 +22,9 @@
     <tr>
       <th>Room</th>
       <th ng-repeat="obj in availability.bookings">{{ obj.room.name }}</th>
+    </tr>
+    <tr ng-repeat="time in ['1:00', '2:00']">
+      <td>{{time}}</td><td ng-repeat="n in availability.bookings"></td>
     </tr>
   </thead>
   <tbody>

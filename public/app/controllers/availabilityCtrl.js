@@ -12,18 +12,18 @@
 
 angular.module('availabilityCtrl', ['availService'])
 
-.controller('availabilityDateController',function($routeParams,Availability) {
+.controller('availabilityDateController',function($scope,Availability) {
     var vm = this;
     vm.bookings=[];
+    vm.date = new Date();
+    vm.dateString = vm.date.toISOString().substr(0, 10);
 
-    Availability.all($routeParams.date)
+    Availability.all($scope.date)
         .success(function(data){
             vm.bookings = data;   
-        
         });
     
     vm.getAvailability = function(date){
-
         Availability.all(date)
             .success(function(data){
                 vm.bookings = data;   
@@ -31,16 +31,16 @@ angular.module('availabilityCtrl', ['availService'])
     }
 }) 
 
-.controller('availabilityMainController',function(Availability) {
+.controller('availabilityMainController', function(Availability) {
     var vm = this;
     vm.bookings=[];
-    
-    vm.getAvailability = function(date){
+    vm.date = new Date();
+    vm.dateString = vm.date.toISOString().substr(0, 10);
 
+    vm.getAvailability = function(date){
         Availability.all(date)
             .success(function(data){
                 vm.bookings = data;   
             });   
     }
-}); 
-        
+});
