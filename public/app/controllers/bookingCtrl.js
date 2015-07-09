@@ -130,17 +130,24 @@ angular.module('bookingCtrl', ['bookingService'])
 
 
 .controller('bookingDeleteController', function($routeParams, Booking){
-	var vm = this;
-	
-	vm.deleted= false;
-	
-	vm.deleteBooking = function(){
+    var vm = this;
+    vm.deleted= false;	
+    Booking.get($routeParams.booking_id)
+    	.success(function(data){
+            var date = new Date();
+            var startDate = new Date(data.date + ' ' + data.start);
+            if(Math.abs(startDate - date) <= 1000 * 60 * 60 * 4){
+                vm.warningDelete = true;
+            }    
+            vm.deleteBooking = function(){
 		Booking.delete($routeParams.booking_id)
-			.success(function(data){
-				vm.deleted= true;
-			});
+                    .success(function(data){
+                        vm.deleted = true;
+                    });
+	    };
+    	});
 	
-	};
+	
 
 });
 

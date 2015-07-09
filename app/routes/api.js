@@ -641,13 +641,18 @@ module.exports = function(app, express) {
 
     // delete the booking with this id
     .delete(function(req, res) {
-        Booking.remove({
-            _id: req.params.booking_id
-        }, function(err, booking) {
+        Booking.findById(req.params.booking_id, function(err, booking) {
             if (err) return res.send(err);
 
-            res.json({ message: 'Successfully deleted' });
+
+
+            Booking.remove({_id: req.params.booking_id}, function(err, booking) {
+                if (err) return res.send(err);
+
+                res.json({ message: 'Successfully deleted' });
+            });
         });
+
     });
         
 
