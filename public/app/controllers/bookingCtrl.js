@@ -79,13 +79,12 @@ angular.module('bookingCtrl', ['bookingService'])
     vm.type = 'edit';
     vm.complete = false;
     vm.btn = "Save Changes";
-	    
+	
     Booking.get($routeParams.booking_id)
     	.success(function(data){
             vm.bookingData = data;
-            //console.log(bookingData.createdBy);
-            //console.log(bookingData.createdBy._id);
-            //vm.user = bookingData.createdBy._id;
+            vm.user_id = vm.bookingData.createdBy;
+
             // Get all of the rooms to be displayed
             Room.all()
                 .success(function(data){
@@ -134,6 +133,9 @@ angular.module('bookingCtrl', ['bookingService'])
     vm.deleted= false;	
     Booking.get($routeParams.booking_id)
         .success(function(data){
+        	vm.bookingData = data;
+        	vm.user_id = vm.bookingData.createdBy;
+        	
             var date = new Date();
             var startDate = new Date(data.date + ' ' + data.start);
             if(Math.abs(startDate - date) <= 1000 * 60 * 60 * 4){
