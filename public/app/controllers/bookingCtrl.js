@@ -35,13 +35,46 @@ angular.module('bookingCtrl', ['bookingService'])
                 // TODO: determine visibility here based on whether a room is available
                 vm.rooms[i].visible = true;
             }
-
+            
+            //Setting the default selection for the view
             if(vm.rooms[0]){
                 vm.bookingData.roomSelected = vm.rooms[0];
             }
 
             vm.message = data.message;
         });
+    
+    vm.changeRoomview= function(people){
+        var min = vm.rooms[0];
+        // for(var j = 0; j < vm.rooms.length; j++){
+        //     vm.rooms[j].visible = false;
+        // }
+
+        
+        for(var i = 0; i < vm.rooms.length; i++){
+            // TODO: determine visibility here based on whether a room is available
+            
+
+            if( vm.bookingData.people > vm.rooms[i].capacity){
+                
+
+                vm.rooms[i].visible = false;
+                min = vm.rooms[i+1];
+
+            }
+            
+            else if (min.capacity == vm.rooms[i].capacity){
+                vm.bookingData.roomSelected =min;
+                vm.rooms[i].visible = true;    
+                    
+            }
+            else{
+                vm.rooms[i].visible=false;
+            }
+            
+        }
+        
+    }    
 
     vm.bookingData.people=1;
     vm.bookingData.mic=0;

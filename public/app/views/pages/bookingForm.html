@@ -11,7 +11,7 @@
 
     			<div class="form-group">
     				<label for="people">Number of People</label>
-    				<select name="Number of People" class="form-control" ng-model="booking.bookingData.people">
+    				<select name="Number of People" class="form-control" ng-model="booking.bookingData.people" ng-change="booking.changeRoomview(booking.bookingData.people)">
     					<option value="1">1</option>
     					<option value="2">2</option>
     					<option value="3">3</option>
