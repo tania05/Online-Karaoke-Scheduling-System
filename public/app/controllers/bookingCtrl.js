@@ -59,7 +59,7 @@ angular.module('bookingCtrl', ['bookingService'])
 	
     vm.message = 'Manage your bookings';
 		
-    Booking.all($routeParams.user_id)
+    Booking.user($routeParams.user_id)
         .success(function(data){
             //console.log(data);
             //console.log(err);

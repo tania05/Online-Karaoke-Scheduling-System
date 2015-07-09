@@ -21,11 +21,11 @@ angular.module('bookingService',[])
     };
 
     // get all booking by user
-    bookingFactory.all = function(userID) {
-        return $http.get('/api/allBookings/' + userID);
+    bookingFactory.user = function(userID) {
+        return $http.get('/api/userBookings/' + userID);
     };
 
-        // get all booking by user
+        // get particular booking by Id
     bookingFactory.get = function(bookingID) {
         return $http.get('/api/bookings/' + bookingID);
     };

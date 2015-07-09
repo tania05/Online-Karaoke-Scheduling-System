@@ -196,7 +196,7 @@ module.exports = function(app, express) {
                             //changes the password and resets the tokens
                             user.password = req.body.password;
                             user.passwordResetToken = undefined;
-                            user.passwordResetExpires = undefined;
+                            user.passawordResetExpires = undefined;
 
                             user.save(function(err) {
                                 done(err, user);
@@ -665,7 +665,7 @@ module.exports = function(app, express) {
 
     // on routes that end in /bookings/:user_id
     // -------------------------------
-    apiRouter.route('/allBookings/:user_id')
+    apiRouter.route('/userBookings/:user_id')
 
     //get bookings associated with a specific user
     .get(function(req, res) {
