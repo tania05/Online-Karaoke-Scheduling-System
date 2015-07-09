@@ -23,5 +23,24 @@ var BookingSchema = new Schema({
     }
 });
 
+BookingSchema.methods.isAvailable = function(curr){
+    var booking = this;
+
+    var currentDate = new Date(booking.date + ' ' + curr);
+    var startDate = new Date(booking.date + ' ' + booking.start);
+    var endDate = new Date(booking.date + ' ' + booking.end);
+
+    console.log("made is to isAvailable");
+    console.log(curr);
+
+    // room is not available for the time slot
+    if(currentDate >= startDate && currentDate < endDate){
+        return false;
+    }
+    // room is available
+    return true;
+}
+
 // return the model
 module.exports = mongoose.model('Booking', BookingSchema);
+

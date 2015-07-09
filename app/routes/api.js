@@ -441,7 +441,7 @@ module.exports = function(app, express) {
             Room.find({}, function(err, rooms){
                 async.eachSeries(rooms,function(item,callback) {
                     Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
-                        bookingsArray.push({'room': item, 'bookings': bookings});
+                        bookingsArray.push({'room': item, 'bookings': bookings });
                         callback(err);
                     });
                 },function(err) {

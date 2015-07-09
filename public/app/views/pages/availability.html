@@ -23,16 +23,16 @@
       <th>Room</th>
       <th ng-repeat="obj in availability.bookings">{{ obj.room.name }}</th>
     </tr>
-    <tr ng-repeat="time in ['1:00', '2:00']">
-      <td>{{time}}</td><td ng-repeat="n in availability.bookings"></td>
-    </tr>
   </thead>
   <tbody>
-    <tr></tr>
+    <tr ng-repeat="time in ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '00:00', '00:30', '01:00', '01:30']">
+      <td>{{ time }}</td>
+      <td ng-repeat="booklist in availability.bookings">
+        <div ng-repeat="singlebook in booklist.bookings">
+          <div ng-if="!availability.isAvailable(singlebook, time)" style="background: #ff0000">X</div>
+          <div ng-if="availability.isAvailable(singlebook, time)">LINK</div>
+        </div>
+      </td>
+    </tr>
   </tbody>
 </table>
-
-
-
-
-
