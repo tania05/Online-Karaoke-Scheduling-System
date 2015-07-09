@@ -449,7 +449,7 @@ module.exports = function(app, express) {
 
             });
 
-			
+			console.dir(bookingsArray);
 			return res.json(bookingsArray);
 		});
 

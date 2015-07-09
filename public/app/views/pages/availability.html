@@ -1,27 +1,35 @@
 <!-- availability.html -->
-<html ng-app="dialog">
-  <head>
-    <title>Full Calendar Test</title>
-    <link rel="stylesheet" type="text/css" href="http://dl.dropbox.com/u/1510510/temp/demo/fullcalendar.css"></link>
-    <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
-   
-    <script src="https://raw.github.com/arshaw/fullcalendar/master/lib/jquery-ui-1.8.23.custom.min.js"></script>
-    <script src="http://code.angularjs.org/1.0.1/angular-1.0.1.js" ng:autobind></script>
-    <script src="https://raw.github.com/angular-ui/angular-ui/master/build/angular-ui.js"></script> 
-    <script src="http://dl.dropbox.com/u/1510510/temp/demo/fullcalendar.min.js"></script> 
+<div class="page-header">
+  <h1>Availability</h1>
+</div>
 
-   
-  </head>
+  <form ng-submit="user.sendBooking()">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+                <label for="date">Date</label>
+               <input type="date" min="{{booking.date | date: 'yyyy-MM-dd'}}"class="form-control" ng-model="booking.bookingData.date"> 
+            </div>
+          </div>
+        </div>
+  </form>
+  <button ng-click="availability.getAvailability('2015-07-08')">Do stuff</button>
 
-    
-  <body ng-controller="MainCtrl">
-      <button ng-click="addChild()">Add Child</button>
-      <ul>
-        <li ng-repeat="e in events">
-            <inplace model="e.title" changed="events"/></inplace>
-            <a class="left" ng-click="remove($index)">[x]</a>
-        </li>
-    </ul>
-               <div dev-calendar="{height: 400,editable: true}" ng-model='events' changed='eventChanged' ></div>
-  </body>
-</html>
+
+
+<table class="table table-bordered table-striped" ng-show="">
+  <thead>
+    <tr>
+      <th>Room</th>
+      <th ng-repeat="room in availability.bookings">{{ room.name }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr></tr>
+  </tbody>
+</table>
+
+
+
+
+

@@ -25,5 +25,5 @@ angular.module('availService',[])
     availFactory.roomAvail = function(date, roomName) {
         return $http.get('/api/availability/room', date, roomName);
     };
-    return bookingFactory;
+    return availFactory;
 });
