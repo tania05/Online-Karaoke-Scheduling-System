@@ -1,0 +1,8 @@
+#mouseover:hover {
+    background: #d3d3d3;
+    cursor: pointer;
+}
+
+#nopad {
+	padding: 0px;
+}
