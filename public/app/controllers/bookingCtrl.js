@@ -7,9 +7,9 @@ angular.module('bookingCtrl', ['bookingService'])
     vm.message = 'Injected Booking Page!';
     
     Booking.get($routeParams.booking_id)
-    	.success(function(data){
-    		vm.bookingData=data;
-    	});
+        .success(function(data){
+           vm.bookingData = data;
+        });
 })
 
 .controller('bookingCreateController', function($routeParams, Booking, Room){
@@ -42,7 +42,7 @@ angular.module('bookingCtrl', ['bookingService'])
     vm.saveBooking = function(){
         vm.processing= true;
         vm.message='';
-	
+
         //using the create function in the bookingService
         Booking.create(vm.bookingData)
             .success(function(data){
@@ -55,22 +55,21 @@ angular.module('bookingCtrl', ['bookingService'])
 })
 
 .controller ('bookingManageController', function($routeParams, Booking){
-	var vm = this;
+    var vm = this;
 	
-	vm.message = 'Manage your bookings';
+    vm.message = 'Manage your bookings';
 		
-		Booking.all($routeParams.user_id)
-			.success(function(data){
-				//console.log(data);
-				//console.log(err);
-				// when all the bookings come back, remove the processing variable
-				vm.processing= false;
+    Booking.all($routeParams.user_id)
+        .success(function(data){
+            //console.log(data);
+            //console.log(err);
+            // when all the bookings come back, remove the processing variable
+            vm.processing= false;
 				
 				//bind the user that come back to vm.users
-				vm.bookings=data;
+            vm.bookings=data;
 			
-			});
-
+        });
 })
 
 
@@ -84,8 +83,8 @@ angular.module('bookingCtrl', ['bookingService'])
     Booking.get($routeParams.booking_id)
     	.success(function(data){
             vm.bookingData = data;
-           // console.log(bookingData.createdBy);
-           // console.log(bookingData.createdBy._id);
+            //console.log(bookingData.createdBy);
+            //console.log(bookingData.createdBy._id);
             //vm.user = bookingData.createdBy._id;
             // Get all of the rooms to be displayed
             Room.all()
@@ -106,7 +105,7 @@ angular.module('bookingCtrl', ['bookingService'])
                     }
                     vm.message = data.message;
                 });
-    	});
+        });
 
 
     // function to save the booking
@@ -134,22 +133,19 @@ angular.module('bookingCtrl', ['bookingService'])
     var vm = this;
     vm.deleted= false;	
     Booking.get($routeParams.booking_id)
-    	.success(function(data){
+        .success(function(data){
             var date = new Date();
             var startDate = new Date(data.date + ' ' + data.start);
             if(Math.abs(startDate - date) <= 1000 * 60 * 60 * 4){
                 vm.warningDelete = true;
             }    
             vm.deleteBooking = function(){
-		Booking.delete($routeParams.booking_id)
+                Booking.delete($routeParams.booking_id)
                     .success(function(data){
                         vm.deleted = true;
                     });
-	    };
-    	});
-	
-	
-
+            };
+        });
 });
 
 

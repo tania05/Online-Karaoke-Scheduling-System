@@ -406,7 +406,6 @@ module.exports = function(app, express) {
                     // return a message
                     res.json({ message: 'User updated!' });
                 });
-
             });
         })
 
@@ -644,15 +643,17 @@ module.exports = function(app, express) {
         Booking.findById(req.params.booking_id, function(err, booking) {
             if (err) return res.send(err);
 
-
-
-            Booking.remove({_id: req.params.booking_id}, function(err, booking) {
+            User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
 
-                res.json({ message: 'Successfully deleted' });
+                var bNotBanned = user.validateBookingChange(booking);
+                Booking.remove({_id: req.params.booking_id}, function(err, booking) {
+                    if (err) return res.send(err);
+
+                    res.json({ message: bNotBanned ? 'Successfully deleted' : 'Deleted and banned' });
+                });
             });
         });
-
     });
         
 
