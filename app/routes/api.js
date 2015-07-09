@@ -436,59 +436,21 @@ module.exports = function(app, express) {
 	apiRouter.route('/availability')
 
 		.get(function(req, res){
+            // get all the rooms using find() and then put it into rooms array
+            var bookingsArray = {};
+            Room.find({}, function(err, rooms){
+                if (err) return res.send(err);
+                for ( var i = 0 ; i < rooms.length ; i++){
+                    //for each of the rooms , find all bookings by particular date and put it into bookings array
+                    Booking.find({date: req.body.date, inRoom: rooms[i]._id}, function(err, bookings){
+                        bookingsArray.push({'room': rooms[i], 'bookings': bookings});
+                    });     
+                }
 
-			Booking.find({ date: req.body.date, inRoom: config.double1 }, function(err, double1) {
-				if(err) return res.send(err);		
-			})
+            });
 
-			Booking.find({ date: req.body.date, inRoom: config.double2 }, function(err, double2) {
-				if(err) return res.send(err);		
-			})
-
-			Booking.find({ date: req.body.date, inRoom: config.quad1 }, function(err, quad1) {
-				if(err) return res.send(err);		
-			})
-
-			Booking.find({ date: req.body.date, inRoom: config.quad2 }, function(err, quad2) {
-				if(err) return res.send(err);		
-			})
-
-			Booking.find({ date: req.body.date, inRoom: config.quad3 }, function(err, quad3) {
-				if(err) return res.send(err);		
-			})
-
-			Booking.find({ date: req.body.date, inRoom: config.grande1 }, function(err, grande1) {
-				if(err) return res.send(err);		
-			})
-
-			Booking.find({ date: req.body.date, inRoom: config.grande2 }, function(err, grande2) {
-				if(err) return res.send(err);		
-			})
-
-			Booking.find({ date: req.body.date, inRoom: config.grande3 }, function(err, grande3) {
-				if(err) return res.send(err);		
-			})
-
-			Booking.find({ date: req.body.date, inRoom: config.enorme1 }, function(err, enorme1) {
-				if(err) return res.send(err);		
-			})
-
-			Booking.find({ date: req.body.date, inRoom: config.enorme2 }, function(err, enorme2) {
-				if(err) return res.send(err);		
-			})
 			
-			return res.json({
-					'double1' : double1,
-					'double2' : double2,
-					'quad1'   : quad1,
-					'quad2'   : quad2,
-					'quad3'   : quad3,
-					'grande1' : grande1,
-					'grande2' : grande2,
-					'grande3' : grande3,
-					'enorme1' : enorme1,
-					'enorme2' : enorme2
-			});
+			return res.json(bookingsArray);
 		});
 
 	apiRouter.route('/availability/room')

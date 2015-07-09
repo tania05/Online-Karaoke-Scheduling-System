@@ -32,6 +32,12 @@
                 controller  : 'availabilityController',
                 controllerAs: 'availability'
             })
+
+            .when('/availability/:date', {
+                templateUrl : 'app/views/pages/availability.html',
+                controller  : 'availabilityController',
+                controllerAs: 'availability'
+            })
 			
             // route for the contact page
             .when('/contact', {

@@ -8,12 +8,12 @@ angular.module('availService',[])
 
     // get rooms based on people
     availFactory.getRooms = function(people) {
-        return $http.delete('/api/rooms/capacity', people);
+        return $http.get('/api/rooms/capacity', people);
     };
 
     // get the available equipment
     availFactory.equipAvail = function(bookingData) {
-        return $http.put('/api/availability/equip', bookingData);
+        return $http.get('/api/availability/equip', bookingData);
     };
 
     // get all rooms availability for a particular day
