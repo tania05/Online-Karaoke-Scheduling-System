@@ -19,12 +19,11 @@
   <button ng-click="availability.getAvailability(availability.dateString)">Do stuff</button>
 
 
-
 <table class="table table-bordered table-striped">
   <thead>
-    <tr>
-      <th>Room</th>
-      <th ng-repeat="obj in availability.bookings">{{ obj.room.name }}</th>
+    <tr style="background-color: #95a5a6; text-align: center">
+      <th>Room<br>(Capacity)</th>
+      <th ng-repeat="obj in availability.bookings">{{ obj.room.name }}<br>( {{ obj.room.capacity }} )</th>
     </tr>
   </thead>
   <tbody>
@@ -32,8 +31,8 @@
       <td id="nopad">{{ time }}</td>
       <td ng-repeat="booklist in availability.bookings" id="nopad">
         <div ng-repeat="singlebook in booklist.bookings">
-          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #ff0000; text-align: center">X</div>
-          <div ng-if="availability.isAvailable(singlebook, time)" onclick="location.href='/bookings/create';" id="mouseover">LINK</div>
+          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #ff0000">X</div>
+          <div ng-if="availability.isAvailable(singlebook, time)" onclick="location.href='/bookings/create';" id="mouseover">BOOK</div>
         </div>
       </td>
     </tr>
