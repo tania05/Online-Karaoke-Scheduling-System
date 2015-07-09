@@ -44,8 +44,9 @@ angular.module('bookingCtrl', ['bookingService'])
         });
 
     vm.bookingData.people=1;
-    vm.bookingData.mic=1;
-    vm.bookingData.iPad=1;
+    vm.bookingData.mic=0;
+    vm.bookingData.iPad=0;
+    vm.bookingData.date= new Date().toISOString().substr(0,10);
     vm.complete = false;
 
     // function to create booking
