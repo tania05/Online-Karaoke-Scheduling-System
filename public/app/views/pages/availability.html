@@ -17,11 +17,11 @@
 
 
 
-<table class="table table-bordered table-striped" ng-show="">
+<table class="table table-bordered table-striped">
   <thead>
     <tr>
       <th>Room</th>
-      <th ng-repeat="room in availability.bookings">{{ room.name }}</th>
+      <th ng-repeat="obj in availability.bookings">{{ obj.room.name }}</th>
     </tr>
   </thead>
   <tbody>

@@ -18,7 +18,7 @@ angular.module('availService',[])
 
     // get all rooms availability for a particular day
     availFactory.all = function(date) {
-        return $http.get('/api/availability', date);
+        return $http.get('/api/availability/' + date);
     };
 
     // get a specific rooms availability

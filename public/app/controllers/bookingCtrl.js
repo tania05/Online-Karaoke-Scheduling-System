@@ -21,6 +21,8 @@ angular.module('bookingCtrl', ['bookingService'])
     vm.type='create';
     vm.processing=true;
     vm.date = new Date();
+    vm.bookingData={};
+    vm.btn = 'Book';
 
     // Get all of the rooms to be displayed
     Room.all()
@@ -33,10 +35,17 @@ angular.module('bookingCtrl', ['bookingService'])
                 // TODO: determine visibility here based on whether a room is available
                 vm.rooms[i].visible = true;
             }
+
+            if(vm.rooms[0]){
+                vm.bookingData.roomSelected = vm.rooms[0];
+            }
+
             vm.message = data.message;
         });
 
-    vm.btn = 'Book';
+    vm.bookingData.people=1;
+    vm.bookingData.mic=1;
+    vm.bookingData.iPad=1;
     vm.complete = false;
 
     // function to create booking

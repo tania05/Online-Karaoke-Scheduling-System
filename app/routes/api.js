@@ -433,24 +433,22 @@ module.exports = function(app, express) {
     // AVAILABILITY ROUTES
     // =======================================================================
 		
-	apiRouter.route('/availability')
+	apiRouter.route('/availability/:date')
 
 		.get(function(req, res){
             // get all the rooms using find() and then put it into rooms array
-            var bookingsArray = {};
+            var bookingsArray = [];
             Room.find({}, function(err, rooms){
-                if (err) return res.send(err);
-                for ( var i = 0 ; i < rooms.length ; i++){
-                    //for each of the rooms , find all bookings by particular date and put it into bookings array
-                    Booking.find({date: req.body.date, inRoom: rooms[i]._id}, function(err, bookings){
-                        bookingsArray.push({'room': rooms[i], 'bookings': bookings});
-                    });     
-                }
-
+                async.eachSeries(rooms,function(item,callback) {
+                    Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
+                        bookingsArray.push({'room': item, 'bookings': bookings});
+                        callback(err);
+                    });
+                },function(err) {
+                    if (err) return res.send(err);
+                    res.json(bookingsArray);
+                });
             });
-
-			console.dir(bookingsArray);
-			return res.json(bookingsArray);
 		});
 
 	apiRouter.route('/availability/room')

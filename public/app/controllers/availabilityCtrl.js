@@ -14,13 +14,13 @@ angular.module('availabilityCtrl', ['availService'])
 
 .controller('availabilityDateController',function($routeParams,Availability) {
     var vm = this;
-    vm.bookings={};
+    vm.bookings=[];
 
     Availability.all($routeParams.date)
         .success(function(data){
             vm.bookings = data;   
         
-        });   
+        });
     
     vm.getAvailability = function(date){
 
@@ -33,7 +33,7 @@ angular.module('availabilityCtrl', ['availService'])
 
 .controller('availabilityMainController',function(Availability) {
     var vm = this;
-    vm.bookings={};
+    vm.bookings=[];
     
     vm.getAvailability = function(date){
 
