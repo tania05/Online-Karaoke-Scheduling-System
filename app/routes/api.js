@@ -574,26 +574,24 @@ module.exports = function(app, express) {
             // Lookup the user who is creating the booking
             User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
+                if(req.body.date && req.body.start && req.body.end && req.body.people && req.body.iPad && req.body.mic && req.body.roomSelected._id) {
+                    var booking = new Booking();      // create a new instance of the Booking model
+                    booking.date       = req.body.date;
+                    booking.start      = req.body.start;
+                    booking.end        = req.body.end;
+                    booking.people     = req.body.people;
+                    booking.iPad       = req.body.iPad;
+                    booking.mic        = req.body.mic;
+                    booking.inRoom     = req.body.roomSelected._id; // See bookingForm.html (View creates two-way data representation to object directly via ng-model)
+                    booking.createdBy  = user._id;
 
-                // Find the room id by the room name from the view
-                console.dir(req.body);
-
-                var booking        = new Booking();      // create a new instance of the Booking model
-                booking.date       = req.body.date;
-                booking.start      = req.body.start;
-                booking.end        = req.body.end;
-                booking.people     = req.body.people;
-                booking.iPad       = req.body.iPad;
-                booking.mic        = req.body.mic;
-                booking.inRoom     = req.body.roomSelected._id; // See bookingForm.html (View creates two-way data representation to object directly via ng-model)
-                booking.createdBy  = user._id;
-
-                booking.save(function(err) {
-                    console.log(err);
-                    if (err) return res.send(err);
-                    // return a message
-                    res.json({message: 'Booking created.'});
-                });
+                    booking.save(function(err) {
+                        console.log(err);
+                        if (err) return res.send(err);
+                        // return a message
+                        res.json({message: 'Booking created.'});
+                    });
+                }
             });
         });
 
@@ -616,24 +614,30 @@ module.exports = function(app, express) {
     // Update a booking
     .put(function(req, res) {
         Booking.findById(req.params.booking_id, function(err, booking) {
-                
-            if(err) return res.send(err);
-
-            // set the new booking information if it exists
-            if(req.body.date) booking.date = req.body.date;
-            if(req.body.start) booking.start = req.body.start;
-            if(req.body.end) booking.end = req.body.end;
-            if(req.body.people) booking.people = req.body.people;
-            if(req.body.roomSelected) booking.inRoom = req.body.roomSelected._id; // Taken from the view's ng-model
-            if(req.body.iPad) booking.iPad = req.body.iPad;
-            if(req.body.mic) booking.mic = req.body.mic;
-
-            // save the booking
-            booking.save(function(err) {
+            User.findById(req.decoded._id, function(err, user) {
                 if(err) return res.send(err);
 
-                // return a message
-                res.json({ message: 'Booking updated!' });
+                // Store the time before we edited, if this time was within 4 hours then ban
+                var oldTime = new Date(booking.date + ' ' + booking.start);
+
+                // set the new booking information if it exists
+                if(req.body.date) booking.date = req.body.date;
+                if(req.body.start) booking.start = req.body.start;
+                if(req.body.end) booking.end = req.body.end;
+                if(req.body.people) booking.people = req.body.people;
+                if(req.body.roomSelected) booking.inRoom = req.body.roomSelected._id; // Taken from the view's ng-model
+                if(req.body.iPad) booking.iPad = req.body.iPad;
+                if(req.body.mic) booking.mic = req.body.mic;
+
+                var bNotBanned = user.validateBookingPeriodChange(oldTime);
+
+                // save the booking
+                booking.save(function(err) {
+                    if(err) return res.send(err);
+
+                    // return a message
+                    res.json({ message: bNotBanned ? 'Booking updated!' : 'Booking updated and banned!' });
+                });
             });
         });
     })
@@ -646,7 +650,9 @@ module.exports = function(app, express) {
             User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
 
-                var bNotBanned = user.validateBookingChange(booking);
+                 var bookingTime = new Date(booking.date + ' ' + booking.start);
+
+                var bNotBanned = user.validateBookingPeriodChange(bookingTime);
                 Booking.remove({_id: req.params.booking_id}, function(err, booking) {
                     if (err) return res.send(err);
 

@@ -45,12 +45,12 @@ UserSchema.methods.comparePassword = function(password) {
     return bcrypt.compareSync(password, user.password);
 };
 
-UserSchema.methods.validateBookingChange = function(booking) {
+// Checks if the specified date time is within 4 hours
+UserSchema.methods.validateBookingPeriodChange = function(bookingDateTime) {
     var user = this;
 
     var date = new Date();
-    var startDate = new Date(booking.date + ' ' + booking.start);
-    if(Math.abs(startDate - date) <= 1000 * 60 * 60 * 4){
+    if(Math.abs(bookingDateTime - date) <= 1000 * 60 * 60 * 4){
         // Set the ban to expire in 12 hours
         user.banExpires = new Date();
         user.banExpires.setHours(user.banExpires.getHours()+12);
