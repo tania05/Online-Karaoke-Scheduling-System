@@ -29,13 +29,13 @@
             // route for the availability page
             .when('/availability', {
                 templateUrl : 'app/views/pages/availability.html',
-                controller  : 'availabilityController',
+                controller  : 'availabilityMainController',
                 controllerAs: 'availability'
             })
 
             .when('/availability/:date', {
                 templateUrl : 'app/views/pages/availability.html',
-                controller  : 'availabilityController',
+                controller  : 'availabilityDateController',
                 controllerAs: 'availability'
             })
 			

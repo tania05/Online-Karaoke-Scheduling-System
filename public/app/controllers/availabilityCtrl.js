@@ -12,10 +12,28 @@
 
 angular.module('availabilityCtrl', ['availService'])
 
-.controller('availabilityController',function(Availability) {
+.controller('availabilityDateController',function($routeParams,Availability) {
     var vm = this;
-    vm.bookings={}
+    vm.bookings={};
 
+    Availability.all($routeParams.date)
+        .success(function(data){
+            vm.bookings = data;   
+        
+        });   
+    
+    vm.getAvailability = function(date){
+
+        Availability.all(date)
+            .success(function(data){
+                vm.bookings = data;   
+            });   
+    }
+}) 
+
+.controller('availabilityMainController',function(Availability) {
+    var vm = this;
+    vm.bookings={};
     
     vm.getAvailability = function(date){
 
@@ -25,4 +43,4 @@ angular.module('availabilityCtrl', ['availService'])
             });   
     }
 }); 
-    
+        
