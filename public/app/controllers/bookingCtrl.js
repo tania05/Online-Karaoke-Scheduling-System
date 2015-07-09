@@ -20,6 +20,7 @@ angular.module('bookingCtrl', ['bookingService'])
 	
     vm.type='create';
     vm.processing=true;
+    vm.date = new Date();
 
     // Get all of the rooms to be displayed
     Room.all()
@@ -79,6 +80,7 @@ angular.module('bookingCtrl', ['bookingService'])
     vm.type = 'edit';
     vm.complete = false;
     vm.btn = "Save Changes";
+    vm.date = new Date();
 	
     Booking.get($routeParams.booking_id)
     	.success(function(data){
