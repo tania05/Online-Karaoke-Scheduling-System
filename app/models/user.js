@@ -18,7 +18,8 @@ var UserSchema = new Schema({
     phone_number: { type: String, required: true },
     passwordResetToken: String,
     passwordResetExpires: Date,
-    banExpires: {type: Date}
+    banExpires: {type: Date},
+	isAdmin: {type: Boolean}
 });
 
 //hashing the password before the user is saved
