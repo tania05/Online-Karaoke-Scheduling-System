@@ -1,5 +1,5 @@
 # Online-Karaoke-Scheduling-System
-An application for scheduling / booking karaoke rooms online<br
+An application for scheduling / booking karaoke rooms online
 
 This application was created for summer 2015 SENG 299 term project at UVic.
 
@@ -15,7 +15,6 @@ Created by:
 To use the application:
 * Clone this repo
 * Install the dependencies
-* Start the mongoDB database
 * Run server.js using Node
 * Open your browser
 * Go to "localhost:8080"
