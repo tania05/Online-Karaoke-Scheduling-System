@@ -1,13 +1,13 @@
 <!-- availability.html -->
-<head>
+<head >
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-<div class="page-header">
+<div class="page-header" ng-init = "availability.getAvailability(availability.dateString)" >
   <h1>Availability</h1>
 </div>
 
   <form ng-submit="user.sendBooking()">
-        <div class="row">
+        <div class="row" >
           <div class="col-sm-6">
             <div class="form-group">
                 <label for="date">Date</label>
