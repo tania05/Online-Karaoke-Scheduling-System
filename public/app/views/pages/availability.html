@@ -36,7 +36,7 @@
       <td id="nopad">{{ time }}</td>
       <td ng-repeat="booklist in availability.bookings" id="nopad">
         <div ng-repeat="singlebook in booklist.bookings">
-          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #ff0000">X</div>
+          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #c0392b">X</div>
           <!-- <div ng-if="availability.isAvailable(singlebook, time)" onclick="location.href='/bookings/create';" id="mouseover">BOOK</div> -->
         </div>
       </td>

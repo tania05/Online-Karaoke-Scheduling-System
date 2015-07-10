@@ -1,5 +1,8 @@
+<head >
+<link rel="stylesheet" type="text/css" href="main.css">
+</head>
 
-<div class="page-header">
+<div class="page-header" ng-init = "availability.getAvailability(availability.dateString)">
 	<h1 ng-if="booking.type == 'create'">Create Booking</h1>
     <h1 ng-if="booking.type == 'edit'">Edit Booking</h1>
 </div>
@@ -73,12 +76,24 @@
     		</div>
 
             <div class="col-sm-6">
-                <!-- bookings-calendar goes here --> 
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr style="background-color: #95a5a6; text-align: center">
+                      <th>Room<br>(Capacity)</th>
+                      <th>{{ booking.bookingData.roomSelected.name }}<br>( {{ booking.bookingData.roomSelected.capacity }} )</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="time in ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '00:00', '00:30', '01:00', '01:30']">
+                      <td style="padding: 0px; text-align: center; width: 30px">{{ time }}</td>
+                      <td id="nopad">
+                          <div ng-if="!booking.isAvailable(booking.bookingData, booking.bookingData.date, time)" style="background-color: #c0392b">X</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
             </div>
-
         </div>
-
-
 
         <div class="row">
             <div class="container" style="padding-top:15px">

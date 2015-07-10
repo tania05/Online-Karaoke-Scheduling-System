@@ -96,6 +96,25 @@ angular.module('bookingCtrl', ['bookingService'])
                 vm.message = data.message;
              });
     };
+
+    vm.isAvailable = function(booking, date, curr) {
+        var currentDate = new Date(date + ' ' + curr);
+        var startDate = new Date(date + ' ' + booking.start);
+        var endDate = new Date(date + ' ' + booking.end);
+
+        console.log("made is to isAvailable");
+        console.log(curr);
+        console.dir(booking);
+        console.log(date);
+        
+        // room is not available for the time slot
+        if(currentDate >= startDate && currentDate < endDate){
+            return false;
+        }
+        // room is available
+        return true;
+    }
+
 })
 
 .controller ('bookingManageController', function($routeParams, Booking){
