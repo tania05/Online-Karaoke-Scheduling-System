@@ -10,47 +10,50 @@
         	<div class="col-sm-6">
 				<div class="form-group">
 				  	<label for="username">Username</label>
-				    <input type="text" class="form-control" placeholder="Username" ng-model="user.userData.username">
+				    <input type="text" class="form-control" placeholder="Username" ng-model="user.userData.username" required>
+				    <span style="color:red" ng-show="user.$invalid">
+						<span>Username is required.</span>
+					</span>
 				</div>
 				<div class="form-group" ng-if="user.type == 'create'">
 				  	<label for="password">Password</label>
-				    <input type="password" class="form-control" placeholder="Password" ng-model="user.userData.password">
+				    <input type="password" class="form-control" placeholder="Password" ng-model="user.userData.password" required>
 				</div>
 				<div class="form-group">
 				  	<label for="email">Email Address</label>
-				    <input type="email" class="form-control" placeholder="Email" ng-model="user.userData.email">
+				    <input type="email" class="form-control" placeholder="Email" ng-model="user.userData.email" required>
 				</div>
 				<div class="form-group">
 					<label for="phoneNum">Phone Number</label>
-					<input type="tel" class="form-control" placeholder="Phone Number" ng-model="user.userData.phone_number">
+					<input type="tel" class="form-control" placeholder="Phone Number" ng-model="user.userData.phone_number" required>
 				</div>
 				<div class="form-group">
 					<label for="bday">Birthday</label>
-					<input type="date" class="form-control" ng-model="user.userData.age">
+					<input type="date" class="form-control" ng-model="user.userData.age" required>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
 				  	<label class="control-label">Name</label>
-				    <input type="text" class="form-control" placeholder="First and Last" ng-model="user.userData.name">
+				    <input type="text" class="form-control" placeholder="First and Last" ng-model="user.userData.name" required>
 				</div>
 				<div class="form-group" ng-if="user.type == 'create'">
 				  	<label for="confirmPass">Confirm Password</label>
-				    <input type="password" class="form-control" placeholder="Password">
+				    <input type="password" class="form-control" placeholder="Password" required>
 				</div>
 				<!-- ADDRESS CURRENTLY ONLY HOLDS Home Address -->
 				<div class="form-group">
 					<label for="exampleInputEmail1">Home Address</label>
-					<input type="text" class="form-control" placeholder="Home Address" ng-model="user.userData.address">
+					<input type="text" class="form-control" placeholder="Home Address" ng-model="user.userData.address" required>
 				</div>
 				<div class="form-group">
 					<label for="city">City</label>
-					<input type="text" class="form-control" placeholder="City">
+					<input type="text" class="form-control" placeholder="City" required>
 				</div>
 				<div class="form-group">
 					<label for="postalCode">Postal Code</label>
-					<input type="text" class="form-control" placeholder="Postal Code">
+					<input type="text" class="form-control" placeholder="Postal Code" required>
 				</div>
 			</div>
 		</div>
