@@ -18,16 +18,16 @@ angular.module('bookingCtrl', ['bookingService'])
 	// variable to hide/show elements of the view
 	// difference between create or edit page
 	
-    vm.type='create';
-    vm.processing=true;
+    vm.type = 'create';
+    vm.processing = true;
     vm.date = new Date();
-    vm.bookingData={};
+    vm.bookingData = {};
     vm.btn = 'Book';
-    vm.bookingData.people=undefined;
-    vm.bookingData.mic=0;
-    vm.bookingData.iPad=0;
-    vm.bookingData.date= new Date().toISOString().substr(0,10);
-    vm.bookingData.compareDate= new Date().toISOString().substr(0,10);    
+    vm.bookingData.people = undefined;
+    vm.bookingData.mic = 0;
+    vm.bookingData.iPad = 0;
+    vm.bookingData.date = new Date().toISOString().substr(0,10);
+    vm.bookingData.compareDate = new Date().toISOString().substr(0,10);    
     vm.complete = false;
 
     // Get all of the rooms to be displayed
