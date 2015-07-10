@@ -1,5 +1,5 @@
 // start our angular module and inject userServices
-angular.module('userCtrl', ['userService'])
+angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors'])
 
 
 // ====
@@ -48,6 +48,35 @@ angular.module('userCtrl', ['userService'])
 })
 
 
+.directive('showErrors', function() {
+    return {
+          restrict: 'A',
+          require: '^form',
+          link: function (scope, el, attrs, formCtrl) {
+            // find the text box element, which has the 'name' attribute
+            var inputEl   = el[0].querySelector("[name]");
+            // convert the native text box element to an angular element
+            var inputNgEl = angular.element(inputEl);
+            // get the name on the text box
+            var inputName = inputNgEl.attr('name');
+            
+            // only apply the has-error class after the user leaves the text box
+            inputNgEl.bind('blur', function() {
+              el.toggleClass('has-error', formCtrl[inputName].$invalid);
+            });
+            
+            scope.$watch(function() {
+              return scope.showErrorsCheckValidity;
+            }, function(newVal, oldVal) {
+              if (!newVal) { return; }
+              el.toggleClass('has-error', formCtrl[inputName].$invalid);
+            });
+          }
+        }
+})
+
+
+
 
 
 // ====
@@ -56,7 +85,7 @@ angular.module('userCtrl', ['userService'])
 // ----
 // This controller covers the registration process.
 // ====
-.controller('userCreateController', function(User) {
+.controller('userCreateController', function($scope, User) {
 
      var vm = this;
 
@@ -73,14 +102,22 @@ angular.module('userCtrl', ['userService'])
         vm.processing = true;
         vm.message = '';
 
-        // use the create function in the userService
-        User.create(vm.userData)
-            .success(function(data) {
-                vm.processing = false;
-                vm.complete = true;
-                vm.userData = {};
-                vm.message = data.message;
-            });
+        vm.showErrorsCheckValidity = true;
+
+        // if the input is not valid, do not save the user
+        if(vm.userForm.$valid){
+
+            // use the create function in the userService
+            User.create(vm.userData)
+                .success(function(data) {
+                    vm.processing = false;
+                    vm.complete = true;
+                    vm.userData = {};
+                    vm.message = data.message;
+                });
+        } else {
+            alert("There are invalid fields");
+        }
             
     };  
 

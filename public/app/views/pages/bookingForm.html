@@ -35,7 +35,7 @@
         		<div ng-if="booking.bookingData.people >=1">
                     <div class="form-group">
                         <label for="date">Date</label>
-                        <input type="date" min="{{booking.date | date: 'yyyy-MM-dd'}}"class="form-control" ng-model="booking.bookingData.date">
+                        <input type="date" min="{{ booking.date | date: 'yyyy-MM-dd' }}" class="form-control" ng-model="booking.bookingData.date">
                     </div>
                  
 

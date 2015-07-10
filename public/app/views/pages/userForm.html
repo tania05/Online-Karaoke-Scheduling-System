@@ -5,55 +5,78 @@
 </div>
 
 <div ng-if="!user.complete">
-    <form ng-submit="user.saveUser()">
+  
+	<form name="userForm" ng-submit="user.saveUser()">
     	<div class="row">
         	<div class="col-sm-6">
+
 				<div class="form-group">
-				  	<label for="username">Username</label>
-				    <input type="text" class="form-control" placeholder="Username" ng-model="user.userData.username" required>
-				    <span style="color:red" ng-show="user.$invalid">
-						<span>Username is required.</span>
-					</span>
+				  	<label class="control-label">Name</label>
+				    <input type="text" class="form-control" placeholder="First and Last" ng-model="user.userData.name">
 				</div>
+
+
+
+				<div class="form-group" ng-if="user.type == 'create'">
+				  	<label for="username">Username</label>
+				    <input type="text" class="form-control" placeholder="Username" ng-model="user.userData.username">
+
+				</div>
+
+
+
 				<div class="form-group" ng-if="user.type == 'create'">
 				  	<label for="password">Password</label>
-				    <input type="password" class="form-control" placeholder="Password" ng-model="user.userData.password" required>
+				    <input type="password" class="form-control" placeholder="Password" ng-model="user.userData.password">
 				</div>
-				<div class="form-group">
+
+
+				<div class="form-group" ng-if="user.type == 'create'">
+				  	<label for="confirmPass">Confirm Password</label>
+				    <input type="password" class="form-control" placeholder="Password">
+				</div>
+
+
+
+
+
+				<div class="form-group" show-errors='{ showSuccess: true }'show-errors>
 				  	<label for="email">Email Address</label>
-				    <input type="email" class="form-control" placeholder="Email" ng-model="user.userData.email" required>
+				    <input type="email" class="form-control" name="email" placeholder="Email" ng-model="user.userData.email" required>
+				    <p class="help-block" ng-if="userForm.email.$error.required">The user's email is required</p>
+      				<p class="help-block" ng-if="userForm.email.$error.email">The email address is invalid</p>
 				</div>
-				<div class="form-group">
-					<label for="phoneNum">Phone Number</label>
-					<input type="tel" class="form-control" placeholder="Phone Number" ng-model="user.userData.phone_number" required>
-				</div>
-				<div class="form-group">
-					<label for="bday">Birthday</label>
-					<input type="date" class="form-control" ng-model="user.userData.age" required>
-				</div>
+
+				<div ng-if="user.type == 'edit'">
+			  		<a href="/editPass"><button class="btn btn-default">Login</button></a>
+			  	</div>
+
+
+
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
-				  	<label class="control-label">Name</label>
-				    <input type="text" class="form-control" placeholder="First and Last" ng-model="user.userData.name" required>
+					<label for="phoneNum">Phone Number</label>
+					<input type="tel" class="form-control" placeholder="Phone Number" ng-model="user.userData.phone_number">
 				</div>
-				<div class="form-group" ng-if="user.type == 'create'">
-				  	<label for="confirmPass">Confirm Password</label>
-				    <input type="password" class="form-control" placeholder="Password" required>
+				<div class="form-group">
+					<label for="bday">Birthday</label>
+					<input type="date" class="form-control" ng-model="user.userData.age">
 				</div>
+
 				<!-- ADDRESS CURRENTLY ONLY HOLDS Home Address -->
 				<div class="form-group">
 					<label for="exampleInputEmail1">Home Address</label>
-					<input type="text" class="form-control" placeholder="Home Address" ng-model="user.userData.address" required>
+					<input type="text" class="form-control" placeholder="Home Address" ng-model="user.userData.address">
 				</div>
 				<div class="form-group">
 					<label for="city">City</label>
-					<input type="text" class="form-control" placeholder="City" required>
+					<input type="text" class="form-control" placeholder="City">
 				</div>
 				<div class="form-group">
 					<label for="postalCode">Postal Code</label>
-					<input type="text" class="form-control" placeholder="Postal Code" required>
+					<input type="text" class="form-control" placeholder="Postal Code">
 				</div>
 			</div>
 		</div>
@@ -70,6 +93,7 @@
 			</div>
 		</div>
 	</form>
+	
 </div>
 
 

@@ -2,27 +2,23 @@
 <head >
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-<div class="page-header" ng-init="availability.getAvailability(availability.dateString)" >
+<div class="page-header" ng-init="availability.getAvailability(availability.date)" >
   <h1>Availability</h1>
 </div>
 
-  <form ng-submit="user.sendBooking()">
-        <div class="row" >
-          <div class="col-sm-6">
-            <div class="form-group">
-                <label for="date">Date</label>
-               <input type="date" min="{{booking.date | date: 'yyyy-MM-dd'}}"class="form-control" ng-model="booking.bookingData.date"> 
-            </div>
-          </div>
-
-          <div class="col-sm-6">
-              <br>
-              <a href="/bookings/create"><button class="btn btn-success" style="float: right">Book Now</button></a>
-          </div>
+    <div class="row" >
+      <div class="col-sm-6">
+        <div class="form-group">
+            <label for="date">Date</label>
+           <input type="date" min="{{ availability.date | date: 'yyyy-MM-dd' }}" max="{{ availability.maxDate | date: 'yyyy-MM-dd' }}" class="form-control" ng-model="availability.date" ng-change="availability.getAvailability(availability.date)"> 
         </div>
-  </form>
-  <button ng-click="availability.getAvailability(availability.dateString)">Do stuff</button>
+      </div>
 
+      <div class="col-sm-6">
+          <br>
+          <a href="/bookings/create"><button class="btn btn-success" style="float: right">Book Now</button></a>
+      </div>
+    </div>
 
 <table class="table table-bordered table-striped">
   <thead>
