@@ -10,7 +10,7 @@
       <div class="col-sm-6">
         <div class="form-group">
             <label for="date">Date</label>
-           <input type="date" min="{{ availability.date | date: 'yyyy-MM-dd' }}" max="{{ availability.maxDate | date: 'yyyy-MM-dd' }}" class="form-control" ng-model="availability.date" ng-change="availability.getAvailability(availability.date)"> 
+           <input type="date" min="{{ availability.initDate | date: 'yyyy-MM-dd' }}" max="{{ availability.maxDate | date: 'yyyy-MM-dd' }}" class="form-control" ng-model="availability.date" ng-change="availability.getAvailability(availability.date)"> 
         </div>
       </div>
 
