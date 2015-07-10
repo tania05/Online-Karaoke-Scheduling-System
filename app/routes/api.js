@@ -534,7 +534,7 @@ module.exports = function(app, express) {
             // Lookup the user who is creating the booking
             User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
-                if(req.body.date && req.body.start && req.body.end && req.body.people && req.body.iPad && req.body.mic && req.body.roomSelected._id) {
+                if(req.body.date && req.body.start && req.body.end && req.body.people && req.body.iPad != undefined && req.body.mic != undefined && req.body.roomSelected._id) {
                     var booking = new Booking();      // create a new instance of the Booking model
                     booking.date       = req.body.date;
                     booking.start      = req.body.start;

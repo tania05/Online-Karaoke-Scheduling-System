@@ -23,6 +23,12 @@ angular.module('bookingCtrl', ['bookingService'])
     vm.date = new Date();
     vm.bookingData={};
     vm.btn = 'Book';
+    vm.bookingData.people=undefined;
+    vm.bookingData.mic=0;
+    vm.bookingData.iPad=0;
+    vm.bookingData.date= new Date().toISOString().substr(0,10);
+    vm.bookingData.compareDate= new Date().toISOString().substr(0,10);    
+    vm.complete = false;
 
     // Get all of the rooms to be displayed
     Room.all()
@@ -33,17 +39,38 @@ angular.module('bookingCtrl', ['bookingService'])
             // traverse all the rooms and determine visibility of each room in the view
             for(var i = 0; i < vm.rooms.length; i++){
                 // TODO: determine visibility here based on whether a room is available
-                vm.rooms[i].visible = true;
-            }
-            
-            //Setting the default selection for the view
-            if(vm.rooms[0]){
-                vm.bookingData.roomSelected = vm.rooms[0];
+                vm.rooms[i].visible = false;
             }
 
+            /*for(var i = 0; i < vm.rooms.length; i++){
+                // TODO: determine visibility here based on whether a room is available
+                if(vm.rooms[i].capacity == 2){
+                    vm.bookingData.roomSelected = vm.rooms[i];
+                    vm.rooms[i].visible = true;
+                }
+            }*/
+            
+            //Setting the default selection for the view
+                
+            
             vm.message = data.message;
         });
-    
+
+    // function to create booking
+    vm.saveBooking = function(){
+        vm.processing= true;
+        vm.message='';
+
+        //using the create function in the bookingService
+        Booking.create(vm.bookingData)
+            .success(function(data){
+                vm.processing=false;
+                vm.complete = true;
+                vm.bookingData={};
+                vm.message = data.message;
+             });
+    };
+
     vm.changeRoomview= function(people){
         var min = vm.rooms[0];
         // for(var j = 0; j < vm.rooms.length; j++){
@@ -75,12 +102,6 @@ angular.module('bookingCtrl', ['bookingService'])
         }
         
     }    
-
-    vm.bookingData.people=1;
-    vm.bookingData.mic=0;
-    vm.bookingData.iPad=0;
-    vm.bookingData.date= new Date().toISOString().substr(0,10);
-    vm.complete = false;
 
     // function to create booking
     vm.saveBooking = function(){
