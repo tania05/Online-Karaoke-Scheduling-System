@@ -1,5 +1,40 @@
 <!-- availability.html -->
-    <div class="jumbotron text-center">
-        <h1>Availability Page</h1>
+<head>
+<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<div class="page-header">
+  <h1>Availability</h1>
+</div>
 
-    </div>
+  <form ng-submit="user.sendBooking()">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+                <label for="date">Date</label>
+               <input type="date" min="{{booking.date | date: 'yyyy-MM-dd'}}"class="form-control" ng-model="booking.bookingData.date"> 
+            </div>
+          </div>
+        </div>
+  </form>
+  <button ng-click="availability.getAvailability(availability.dateString)">Do stuff</button>
+
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr style="background-color: #95a5a6; text-align: center">
+      <th>Room<br>(Capacity)</th>
+      <th ng-repeat="obj in availability.bookings">{{ obj.room.name }}<br>( {{ obj.room.capacity }} )</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="time in ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '00:00', '00:30', '01:00', '01:30']">
+      <td id="nopad">{{ time }}</td>
+      <td ng-repeat="booklist in availability.bookings" id="nopad">
+        <div ng-repeat="singlebook in booklist.bookings">
+          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #ff0000">X</div>
+          <div ng-if="availability.isAvailable(singlebook, time)" onclick="location.href='/bookings/create';" id="mouseover">BOOK</div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

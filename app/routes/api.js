@@ -196,7 +196,7 @@ module.exports = function(app, express) {
                             //changes the password and resets the tokens
                             user.password = req.body.password;
                             user.passwordResetToken = undefined;
-                            user.passwordResetExpires = undefined;
+                            user.passawordResetExpires = undefined;
 
                             user.save(function(err) {
                                 done(err, user);
@@ -229,16 +229,7 @@ module.exports = function(app, express) {
                     }
             ]);
         });
-            
-
-
-    // =======================================================================
-    // AVAILABILITY ROUTES
-    // =======================================================================
-
         
-    // on routes that end in /availability
-    apiRouter.route('/availability')
 
     // on routes that end in /rooms
     // -------------------------------
@@ -290,6 +281,30 @@ module.exports = function(app, express) {
             res.json({ message: 'Successfully deleted' });
         });
     });
+	
+	//gets the rooms to populate
+    apiRouter.route('/rooms/capacity')
+
+		.get(function(req, res) {
+			var numPeople = req.body.people;
+			
+			if (numPeople <= 2 )
+				numPeople = 2;
+			else if (numPeople > 2 && numPeople <= 4 )
+				numPeople = 4;
+			else if (numPeople > 4 && numPeople <= 8 )
+				numPeople = 8;
+			else if (numPeople > 8)
+				numPeople = 12;
+
+
+			Room.find({ capacity: numPeople  }, function(err, rooms ){
+				if (err) return res.send(err);
+				
+				res.json(rooms);
+ 
+			});
+		});
 
 
 
@@ -391,7 +406,6 @@ module.exports = function(app, express) {
                     // return a message
                     res.json({ message: 'User updated!' });
                 });
-
             });
         })
 
@@ -415,6 +429,84 @@ module.exports = function(app, express) {
         res.send(req.decoded);
     });
 
+    // =======================================================================
+    // AVAILABILITY ROUTES
+    // =======================================================================
+		
+	apiRouter.route('/availability/:date')
+
+		.get(function(req, res){
+            // get all the rooms using find() and then put it into rooms array
+            var bookingsArray = [];
+            Room.find({}, function(err, rooms){
+                async.eachSeries(rooms,function(item,callback) {
+                    Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
+                        bookingsArray.push({'room': item, 'bookings': bookings });
+                        callback(err);
+                    });
+                },function(err) {
+                    if (err) return res.send(err);
+                    res.json(bookingsArray);
+                });
+            });
+		});
+
+	apiRouter.route('/availability/room')
+
+		.get(function(req, res){
+
+			Booking.find({ date: req.body.date, inRoom: config.req.body.roomName }, function(err, avail){ 
+				if (err) return res.send(err);
+
+				res.json(avail);			
+
+			});
+
+		});
+
+	apiRouter.route('/availability/equip')
+
+		.get(function(req, res){ 
+
+			var availIPad = 10;
+			var availMic  = 10;
+			
+			Booking.find( {date: req.body.date, $or: [{start: { $gt: req.body.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.body.startTime}, end: {$lt: endTime }} ] }, 'mic' , function(err, mic){
+				if(err) return res.send(err);
+
+			})
+
+			Booking.find( {date: req.body.date, $or: [{start: { $gt: req.body.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.body.startTime}, end: {$lt: endTime }} ] }, 'iPad' , function(err, iPad){
+				if(err) return res.send(err);
+
+			})
+
+			for (var i = 0; i < mic.length; i++){
+				availMic =- mic[i];
+			}
+
+			for (var j = 0; j < iPad.length; j++){
+				availIPad =- iPad[i];
+			}
+			
+			if (availMic < 0 || availIPad < 0) return res.json({ message: 'broken' });
+			
+			res.json({ iPads: availIPad, mics: availMic });
+
+
+
+			/*Booking.find({ date: req.body.date, start: { $gt: req.body.startTime && $lt: endTime }}, function(err, step1){
+				if(err) return res.send(err);
+	
+			})
+
+			Booking.find({ date: req.body.date, end: { $gt: req.body.startTime && $lt: endTime }}, function(err, step2){
+				if(err) return res.send(err);
+	
+			})*/
+			
+			 
+		});		
 
 	
 
@@ -442,25 +534,25 @@ module.exports = function(app, express) {
             // Lookup the user who is creating the booking
             User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
-                // Find the room id by the room name from the view
-                Room.findOne({name : req.body.room}, function(err, room) {
-                    if (err) return res.send(err);
-
-                    var booking        = new Booking();      // create a new instance of the Booking model
+                if(req.body.date && req.body.start && req.body.end && req.body.people && req.body.iPad && req.body.mic && req.body.roomSelected._id) {
+                    var booking = new Booking();      // create a new instance of the Booking model
                     booking.date       = req.body.date;
                     booking.start      = req.body.start;
                     booking.end        = req.body.end;
-                    booking.inRoom     = room._id;
+                    booking.people     = req.body.people;
+                    booking.iPad       = req.body.iPad;
+                    booking.mic        = req.body.mic;
+                    booking.inRoom     = req.body.roomSelected._id; // See bookingForm.html (View creates two-way data representation to object directly via ng-model)
                     booking.createdBy  = user._id;
 
                     booking.save(function(err) {
+                        console.log(err);
                         if (err) return res.send(err);
                         // return a message
                         res.json({message: 'Booking created.'});
                     });
-                });
+                }
             });
-            
         });
 
 
@@ -482,39 +574,58 @@ module.exports = function(app, express) {
     // Update a booking
     .put(function(req, res) {
         Booking.findById(req.params.booking_id, function(err, booking) {
-                
-            if(err) return res.send(err);
-
-            // set the new booking information if it exists
-            if(req.body.start) booking.start = req.body.start;
-            if(req.body.end) booking.end = req.body.end;
-            if(req.body.inRoom) booking.inRoom = req.body.inRoom;
-
-            // save the booking
-            booking.save(function(err) {
+            User.findById(req.decoded._id, function(err, user) {
                 if(err) return res.send(err);
 
-                // return a message
-                res.json({ message: 'Booking updated!' });
+                // Store the time before we edited, if this time was within 4 hours then ban
+                var oldTime = new Date(booking.date + ' ' + booking.start);
+
+                // set the new booking information if it exists
+                if(req.body.date) booking.date = req.body.date;
+                if(req.body.start) booking.start = req.body.start;
+                if(req.body.end) booking.end = req.body.end;
+                if(req.body.people) booking.people = req.body.people;
+                if(req.body.roomSelected) booking.inRoom = req.body.roomSelected._id; // Taken from the view's ng-model
+                if(req.body.iPad) booking.iPad = req.body.iPad;
+                if(req.body.mic) booking.mic = req.body.mic;
+
+                var bNotBanned = user.validateBookingPeriodChange(oldTime);
+
+                // save the booking
+                booking.save(function(err) {
+                    if(err) return res.send(err);
+
+                    // return a message
+                    res.json({ message: bNotBanned ? 'Booking updated!' : 'Booking updated and banned!' });
+                });
             });
         });
     })
 
     // delete the booking with this id
     .delete(function(req, res) {
-        Booking.remove({
-            _id: req.params.booking_id
-        }, function(err, booking) {
+        Booking.findById(req.params.booking_id, function(err, booking) {
             if (err) return res.send(err);
 
-            res.json({ message: 'Successfully deleted' });
+            User.findById(req.decoded._id, function(err, user) {
+                if (err) return res.send(err);
+
+                 var bookingTime = new Date(booking.date + ' ' + booking.start);
+
+                var bNotBanned = user.validateBookingPeriodChange(bookingTime);
+                Booking.remove({_id: req.params.booking_id}, function(err, booking) {
+                    if (err) return res.send(err);
+
+                    res.json({ message: bNotBanned ? 'Successfully deleted' : 'Deleted and banned' });
+                });
+            });
         });
     });
         
 
     // on routes that end in /bookings/:user_id
     // -------------------------------
-    apiRouter.route('/allBookings/:user_id')
+    apiRouter.route('/userBookings/:user_id')
 
     //get bookings associated with a specific user
     .get(function(req, res) {
