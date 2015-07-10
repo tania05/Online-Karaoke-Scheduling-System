@@ -4,8 +4,13 @@
 		<h3>Are you sure you would like to delete this booking?</h3>
 		<form ng-submit="booking.deleteBooking()">
 			<br/>
-			<input type="password" class="form-control" style="width:300px"placeholder="Enter your password" ng-model="main.password">
-			<br/>
+
+			<div ng-if="booking.warningDelete" class="alert alert-danger" role="alert">
+			  <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+			  <span class="sr-only">Error:</span>
+			  Warning: Cancelling this booking less than 4 hours before the start time of the booking will result in a 12-hour booking ban.
+			</div>
+
 			<button type="submit" class="btn btn-danger">Delete</button>
 			<a href="/{{ main.user._id }}/bookings"><button class="btn btn-default">Cancel</button></a>
 		</form>

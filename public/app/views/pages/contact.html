@@ -3,30 +3,55 @@
 		<div class="page-header">
 			<h1>Contact Us</h1>
 		</div>
-	
-		
-		<form>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label class="return-email">Return Email</label>
-					<!-- contactUs.email is not actually a function yet -->
-					<input type="text" class="form-control" placeholder="Your Email" ng-model="contactUs.email">
-				</div>
-				<div class="form-group">
-					<label class="message">Your Message</label>
-					<textarea class="form-control" rows="5" id="message"></textarea>
-				</div>
-				<div class="container">
-					<button type="submit" class="btn btn-success">Send</button>
+		<div class="row">
+		<div class="alert alert-success" ng-if="contact.message">
+				{{ contact.message }}
+		</div>
+		</div>
+		<form ng-submit="contact.sendMail()">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="email">Return Email</label>
+						<!-- contactUs.email is not actually a function yet -->
+						<input type="email" class="form-control" placeholder="Your Email" ng-model="contact.userData.email">
+					</div>
 				</div>
 			</div>
-			
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label>Subject</label>
+						<input type="text" class="form-control" placeholder="Subject" ng-model="contact.userData.subject">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="message">Your Message</label>
+						<textarea class="form-control" rows="5" id="message" ng-model="contact.userData.message"></textarea>
+					</div>
+				</div>
+			</div>	
+			<div class="row">
+				<div class="col-sm-6">
+					<button type="submit" class="btn btn-success">Send</button>
+				</div>
+			</div>			
 		</form>
-		<p></p>
-		<p>Contact Information: </p>
-		<UL>
-		<LI>Phone number: 250-555-5555</LI>
-		<LI>1234 Place Ave. A1B 2C3</LI>
-		</UL>
-		
+		<div class="row">
+			<div class="col-sm-6">
+			</div>
+			<div class="col-sm-6">
+				<p></p>
+				<p>Contact Information: </p>
+				<ul>
+				<li>Phone number: 250-555-5555</li>
+				<li>1234 Place Ave. A1B 2C3</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+			</div>
+		</div>		
 	</div>
