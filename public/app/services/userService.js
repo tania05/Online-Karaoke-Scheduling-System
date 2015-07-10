@@ -30,18 +30,21 @@ angular.module('userService', [])
         return $http.delete('/api/users/' + id);
     };
 
-		userFactory.createToken = function(userData) {
-			return $http.post('/api/pwResetForgot/', userData);
-		};
+	userFactory.createToken = function(userData) {
+		return $http.post('/api/pwResetForgot/', userData);
+	};
 
-		userFactory.testToken = function(token) {
-			return $http.get('/api/pwReset/' + token );
-		};
+	userFactory.testToken = function(token) {
+		return $http.get('/api/pwReset/' + token );
+	};
 
-		userFactory.passReset = function(token, userData) {
-			return $http.post('/api/pwReset/' + token, userData );
-		};
+	userFactory.passReset = function(token, userData) {
+		return $http.post('/api/pwReset/' + token, userData );
+	};
 
+	userFactory.contact = function(userData) {
+		return $http.post('/api/contact/', userData );
+	};
     // return our entire userFactory object
     return userFactory;
 

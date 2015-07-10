@@ -71,6 +71,38 @@ module.exports = function(app, express) {
     });
 
     // =======================================================================
+    // CONTACT ROUTE
+    // =======================================================================
+
+	apiRouter.route('/contact')
+		
+		.post(function(req, res){
+
+ 			var smtpTransport = nodemailer.createTransport('SMTP', {
+				service: 'gmail',
+				auth: {
+					user: 'purplefoxcontact@gmail.com',
+					pass: 'Seng2993'
+				}
+			})
+			var mailOptions = {
+				to: 'purplefoxcontact@gmail.com',
+  				from: req.body.email,
+				subject: req.body.subject,
+				text: 'Return Email: '+ req.body.email + '\n\n' + req.body.message
+			}
+			smtpTransport.sendMail(mailOptions, function(err) {
+				return res.json({ 
+					message: 'Your message has been succesfully sent to our support team.' 
+				});
+			})
+		
+
+	
+		});
+
+
+    // =======================================================================
     // CREATE USER ROUTE
     // =======================================================================
 
@@ -509,7 +541,7 @@ module.exports = function(app, express) {
 		});		
 
 	
-
+		
     // =======================================================================
     // BOOKING ROUTES
     // =======================================================================
