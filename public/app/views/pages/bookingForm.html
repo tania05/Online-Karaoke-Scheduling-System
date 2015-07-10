@@ -1,8 +1,8 @@
 <head >
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-
-<div class="page-header" ng-init = "availability.getAvailability(availability.dateString)">
+<div ng-controller="availabilityMainController as availability" ng-init="availability.getAvailability(availability.dateString)">
+<div class="page-header">
 	<h1 ng-if="booking.type == 'create'">Create Booking</h1>
     <h1 ng-if="booking.type == 'edit'">Edit Booking</h1>
 </div>
@@ -81,7 +81,7 @@
                     </div>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-6" ng-if="booking.bookingData.people >=1">
                 <table class="table table-bordered table-striped">
                   <thead>
                     <tr style="background-color: #95a5a6; text-align: center">
@@ -90,10 +90,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="time in ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '00:00', '00:30', '01:00', '01:30']">
-                      <td style="padding: 0px; text-align: center; width: 30px">{{ time }}</td>
-                      <td id="nopad">
-                          <div ng-if="!booking.isAvailable(booking.bookingData, booking.bookingData.date, time)" style="background-color: #c0392b">X</div>
+                    <tr ng-repeat="time in availability.times">
+                      <td style="padding: 0px; text-align: center;">{{ time }}</td>
+                      <td ng-repeat="booklist in availability.bookings | filter: {room: {_id: booking.bookingData.roomSelected._id}}" id="nopad">
+                        <div ng-repeat="singlebook in booklist.bookings">
+                          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #c0392b">X</div>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -108,7 +110,7 @@
         </div>
     </form>
 </div>
-
+</div>
 
 <!-- displayed once user has submitted the form-->
 <div ng-if="booking.complete">
