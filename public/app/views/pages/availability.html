@@ -14,6 +14,11 @@
                <input type="date" min="{{booking.date | date: 'yyyy-MM-dd'}}"class="form-control" ng-model="booking.bookingData.date"> 
             </div>
           </div>
+
+          <div class="col-sm-6">
+              <br>
+              <a href="/bookings/create"><button class="btn btn-success" style="float: right">Book Now</button></a>
+          </div>
         </div>
   </form>
   <button ng-click="availability.getAvailability(availability.dateString)">Do stuff</button>
@@ -32,7 +37,7 @@
       <td ng-repeat="booklist in availability.bookings" id="nopad">
         <div ng-repeat="singlebook in booklist.bookings">
           <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #ff0000">X</div>
-          <div ng-if="availability.isAvailable(singlebook, time)" onclick="location.href='/bookings/create';" id="mouseover">BOOK</div>
+          <!-- <div ng-if="availability.isAvailable(singlebook, time)" onclick="location.href='/bookings/create';" id="mouseover">BOOK</div> -->
         </div>
       </td>
     </tr>
