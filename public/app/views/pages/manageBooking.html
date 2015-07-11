@@ -20,8 +20,6 @@
 <table class="table table-bordered table-striped" ng-show="booking.bookings">
 	<thead>
 		<tr>
-			<th>_id</th>
-			<th>Name</th>
 			<th>Room</th>
 			<th>Date</th>
 			<th>Start Time</th>
@@ -31,9 +29,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="booking in booking.bookings track by $index">
-			<td>{{ booking._id }}</td>
-			<td>{{ booking.createdBy }}</td>
-			<td>{{ booking.inRoom }}</td>
+			<td>{{ booking.inRoom.name }}</td>
 			<td>{{ booking.date }}</td>
 			<td>{{ booking.start }}</td>
 			<td>{{ booking.end }}</td>

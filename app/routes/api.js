@@ -346,13 +346,17 @@ module.exports = function(app, express) {
 
     apiRouter.use(function (req, res, next){
         //do logging
+		var url = req.originalUrl;
         console.log('Somebody just came to our app!');
 
         //check header or url parameters or post parameters for token
-        var token =req.body.token || req.query.token || req.headers['x-access-token'];
-
+        var token = req.body.token || req.query.token || req.headers['x-access-token'];
+		
         //decode token
-        if (token) {
+		if(/\/availability\/.*/.test(url.toString())) {
+			next();
+
+        }else if (token) {
 
             // verifies secret and checks exp
             jwt.verify(token, superSecret, function(err, decoded) {
@@ -372,7 +376,7 @@ module.exports = function(app, express) {
                 }
             });
 
-        } else {
+		}else{
 
             console.log('No token provided');
             //if there is no token
@@ -661,7 +665,7 @@ module.exports = function(app, express) {
 
     //get bookings associated with a specific user
     .get(function(req, res) {
-        Booking.find({ createdBy: req.params.user_id}).exec(function(err,bookings){
+        Booking.find({ createdBy: req.params.user_id}).populate('inRoom').exec(function(err,bookings){
             if (err) return res.send(err); 
             
             //console.log(bookings);
