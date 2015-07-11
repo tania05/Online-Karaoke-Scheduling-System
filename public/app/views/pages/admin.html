@@ -1,5 +1,5 @@
 <!-- all.html -->
-
+<div ng-if="admin.isAdmin">
 <div class="page-header">
 	<h1>
 		Admin Page 
@@ -47,3 +47,8 @@
 		</tr>
 	</tbody>
 </table>
+</div>
+<div ng-if="!admin.isAdmin" class="alert alert-danger">
+	<p>The account you are using is not a site administrator, please log in as an administrator.</p>
+</div>
+	

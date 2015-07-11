@@ -1,5 +1,5 @@
 // start our angular module and inject userServices
-angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors'])
+angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authService'])
 
 
 // ====
@@ -131,7 +131,7 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors'])
 // ----
 // This controller cover the edit user info process. See pages 196-200
 // ====
-.controller('userEditController', function($routeParams, User) {
+.controller('userEditController', function($routeParams, User, Auth) {
     
     var vm = this;
 
@@ -147,6 +147,10 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors'])
 
     	});
 
+	Auth.getUser()
+            .then(function(data) {
+                vm.isAdmin = data.data.isAdmin;
+            });
 
 	// function to save the user
 	vm.saveUser = function(){
