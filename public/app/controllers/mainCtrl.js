@@ -8,6 +8,12 @@ angular.module('mainCtrl', [])
 
     // get info if a person is logged in
     vm.loggedIn = Auth.isLoggedIn();
+	
+	//Checks if the person is an admin
+	Auth.getUser()
+            .then(function(data) {
+                vm.isAdmin = data.data.isAdmin;
+            });
 
     vm.path = window.location.pathname;
 
@@ -24,6 +30,7 @@ angular.module('mainCtrl', [])
             .then(function(data) {
                 vm.user = data.data;
                 vm.id = data.data._id;
+				vm.isAdmin = data.data.isAdmin;
             });
     });
 

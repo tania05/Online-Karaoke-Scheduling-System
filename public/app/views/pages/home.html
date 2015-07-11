@@ -15,10 +15,19 @@
 	  	<a href="/availability" type="button" class="btn btn-block btn-default btn-lg">Availability</a>
 	  	<a href="/bookings/create" type="button" class="btn btn-block btn-default btn-lg">Booking</a>
 	  </div>
-	  <div class="col-xs-6">
-			<a href="/admin" type="button" class="btn btn-block btn-default btn-lg">Administrator</a>
-			<a href="/{{ main.id }}/" type="button" class="btn btn-block btn-default btn-lg">Profile</a>
-	  </div>
+		<div ng-if="main.loggedIn && main.isAdmin">
+	  		<div class="col-xs-6">
+				<a href="/{{ main.id }}/" type="button" class="btn btn-block btn-default btn-lg">Profile</a>
+				<a href="/admin" type="button" class="btn btn-block btn-default btn-lg">Administrator</a>
+	  		</div>
+		</div>
+		<div ng-if="!main.loggedIn || !main.isAdmin">
+			<div class="col-xs-3">
+			</div>
+	  		<div class="col-xs-6">
+				<a href="/{{ main.id }}/" type="button" class="btn btn-block btn-default btn-lg">Profile</a>
+	  		</div>
+		</div>
 	</div>
 
 </div>

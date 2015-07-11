@@ -27,7 +27,7 @@ module.exports = function(app, express) {
         //select the password explicitly since mongoose is not returning it by default
         User.findOne({
             username: req.body.username     
-        }).select('_id name username password').exec(function(err,user){
+        }).select('_id name username password isAdmin').exec(function(err,user){
         
             if(err) throw err;
         
@@ -53,7 +53,8 @@ module.exports = function(app, express) {
                     var token = jwt.sign({
                         _id: user._id,
                         name: user.name,
-                        username: user.username
+                        username: user.username,
+						isAdmin: user.isAdmin
                     }, superSecret, {
                       expiresInMinutes: 1440 // expires in 24 hours
                     });
@@ -339,6 +340,24 @@ module.exports = function(app, express) {
 		});
 
 
+	apiRouter.route('/availability/:date')
+
+		.get(function(req, res){
+            // get all the rooms using find() and then put it into rooms array
+            var bookingsArray = [];
+            Room.find({}, function(err, rooms){
+                async.eachSeries(rooms,function(item,callback) {
+                    Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
+                        bookingsArray.push({'room': item, 'bookings': bookings });
+                        callback(err);
+                    });
+                },function(err) {
+                    if (err) return res.send(err);
+                    res.json(bookingsArray);
+                });
+            });
+		});
+
 
     // =======================================================================
     // ROUTE MIDDLEWARE to verify a token 
@@ -353,10 +372,10 @@ module.exports = function(app, express) {
         var token = req.body.token || req.query.token || req.headers['x-access-token'];
 		
         //decode token
-		if(/\/availability\/.*/.test(url.toString())) {
-			next();
+		//if(/\/availability\/.*/.test(url.toString())) {
+			//next();
 
-        }else if (token) {
+        if (token) {
 
             // verifies secret and checks exp
             jwt.verify(token, superSecret, function(err, decoded) {
@@ -469,23 +488,7 @@ module.exports = function(app, express) {
     // AVAILABILITY ROUTES
     // =======================================================================
 		
-	apiRouter.route('/availability/:date')
-
-		.get(function(req, res){
-            // get all the rooms using find() and then put it into rooms array
-            var bookingsArray = [];
-            Room.find({}, function(err, rooms){
-                async.eachSeries(rooms,function(item,callback) {
-                    Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
-                        bookingsArray.push({'room': item, 'bookings': bookings });
-                        callback(err);
-                    });
-                },function(err) {
-                    if (err) return res.send(err);
-                    res.json(bookingsArray);
-                });
-            });
-		});
+	
 
 	apiRouter.route('/availability/room')
 
