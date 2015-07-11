@@ -665,7 +665,7 @@ module.exports = function(app, express) {
 
     //get bookings associated with a specific user
     .get(function(req, res) {
-        Booking.find({ createdBy: req.params.user_id}).exec(function(err,bookings){
+        Booking.find({ createdBy: req.params.user_id}).populate('inRoom').exec(function(err,bookings){
             if (err) return res.send(err); 
             
             //console.log(bookings);
