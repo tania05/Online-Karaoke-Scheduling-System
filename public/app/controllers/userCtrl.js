@@ -105,7 +105,8 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors'])
         vm.showErrorsCheckValidity = true;
 
         // if the input is not valid, do not save the user
-        if(vm.userForm.$valid){
+        // FOR SOME REASON $valid CAUSES ERRORS
+        //if(vm.userForm.$valid){
 
             // use the create function in the userService
             User.create(vm.userData)
@@ -115,9 +116,9 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors'])
                     vm.userData = {};
                     vm.message = data.message;
                 });
-        } else {
-            alert("There are invalid fields");
-        }
+        // } else {
+        //     alert("There are invalid fields");
+        // }
             
     };  
 

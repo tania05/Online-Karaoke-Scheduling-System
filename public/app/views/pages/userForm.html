@@ -6,7 +6,7 @@
 
 <div ng-if="!user.complete">
   
-	<form name="userForm" ng-submit="user.saveUser()">
+	<form name="userForm" ng-submit="user.saveUser()" novalidate>
     	<div class="row">
         	<div class="col-sm-6">
 
@@ -40,7 +40,7 @@
 
 
 
-				<div class="form-group" show-errors='{ showSuccess: true }'show-errors>
+				<div class="form-group" show-errors='{ showSuccess: true }' show-errors>
 				  	<label for="email">Email Address</label>
 				    <input type="email" class="form-control" name="email" placeholder="Email" ng-model="user.userData.email" required>
 				    <p class="help-block" ng-if="userForm.email.$error.required">The user's email is required</p>
@@ -84,7 +84,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div ng-if="user.type == 'create'">
-			  		<button type="submit" class="btn btn-success">Register</button>
+			  		<button type="submit" class="btn btn-success" ng-disabled="userForm.$invalid">Register</button>
 			  	</div>
 			  	<div ng-if="user.type == 'edit'">
 			  		<button type="submit" class="btn btn-success">Save Changes</button>
