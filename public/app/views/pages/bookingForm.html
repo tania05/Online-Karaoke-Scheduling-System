@@ -29,8 +29,6 @@
                         <option value="12">12</option>
     				</select>
     			</div>
-
-    			
                 
         		<div ng-if="booking.bookingData.people >=1">
                     <div class="form-group">
@@ -45,16 +43,25 @@
                         </select>
                     </div>
                     
-
         			<div class="form-group">
         				<label for="start">Start Time</label>
-        				<input type="time" min="0" step="1800" class="form-control" ng-model="booking.bookingData.start">
+        				<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start">
         			</div>
-
+					
+					<div ng-if="booking.bookingData.start < '14:00:00' && booking.bookingData.start >= '01:30:00'">
+						<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
+						<p>Please select a time after 2:00 PM and before 1:30 AM</p> </div>
+					</div>
+					
         			<div class="form-group">
         				<label for="end">End Time</label>
-        				<input type="time" class="form-control" ng-model="booking.bookingData.end">
+        				<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end">
         			</div>
+					
+					<div ng-if="booking.bookingData.end > '02:00:00' && booking.bookingData.end < '14:30:00'">
+						<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!<p> 
+						<p>Please select a time after 2:30 PM and before 2:00 AM</p> </div>
+					</div>
 
         			<div class="form-group">
         				<label for="equip">iPads</label>
