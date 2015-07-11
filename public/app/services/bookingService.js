@@ -5,8 +5,34 @@ angular.module('bookingService',[])
     // create a new object
     var bookingFactory = {};
 
+
+
+    // function modifyBack(time){
+    //     var modifiedTime = Number(time.substring(0, 2))-3;
+    //     if(modifiedTime < 0)
+    //         modifiedTime += 24;
+    //     if(modifiedTime == 0)
+    //         return modifiedTime.toString().concat('0').concat(time.substring(2, 5));
+
+    //     return modifiedTime.toString().concat(time.substring(2, 5));
+    // }
+
+    //     function modifyForward(time){
+    //     var modifiedTime = Number(time.substring(0, 2))+3;
+    //     if(modifiedTime < 0)
+    //         modifiedTime += 24;
+    //     return modifiedTime.toString().concat(time.substring(2, 5));
+    // }
+
+
+
+
     // create a booking
     bookingFactory.create = function(bookingData) {
+
+        // bookingData.start = modifyBack(bookingData.start);
+        // bookingData.end = modifyBack(bookingData.end);
+
         return $http.post('/api/bookings', bookingData);
     };
 
