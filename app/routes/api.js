@@ -397,7 +397,7 @@ module.exports = function(app, express) {
 
 		}else{
 
-            console.log('No token provided');
+            coersnsole.log('No token provided');
             //if there is no token
             // return an HTTP response of 403 (access forbidden) and an error message
             return res.status(403).send({
@@ -466,14 +466,34 @@ module.exports = function(app, express) {
 
         // delete the user with this id
         .delete(function(req, res) {
-            User.remove({
-                _id: req.params.user_id
-            }, function(err, user) {
-                if (err) return res.send(err);
+			User.find({ _id: req.body.userId }, function(err, user) {
+			
+				var valid = false;
+				console.log(req.body.password);
+				if(req.body.password){
+					console.log('made it inside');
+					valid = user.comparePassword(req.body.password);
+				}
 
-                res.json({ message: 'Successfully deleted' });
-            });
-        });
+				if (valid){
+            		User.remove({
+                		_id: req.params.user_id
+            		}, function(err, user) {
+                		if (err) return res.send(err);
+
+                		res.json({ 
+							success: true,							
+							message: 'Successfully deleted' });
+            		});
+				}else{
+					res.json({
+						message: 'Invalid password entered',
+						success: false
+					})				
+				}
+				
+        	});
+        })
 
 
 

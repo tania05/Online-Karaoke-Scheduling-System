@@ -52,6 +52,7 @@ angular.module('mainCtrl', [])
                 vm.user = data.userData;
                 vm.id = data.userData._id;
                 vm.loginData = '';
+				vm.isAdmin = data.userData.isAdmin;
 
                 if(window.location.pathname == '/login')
                     $location.path('/'.concat(data.userData._id));
@@ -71,6 +72,7 @@ angular.module('mainCtrl', [])
         // reset all user info
         vm.user = '';
         vm.id = 'invalidID2';
+		vm.isAdmin = false;
 
         var currentPath = window.location.pathname;
 
