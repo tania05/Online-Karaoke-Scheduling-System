@@ -120,6 +120,7 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
     vm.saveUser = function() {
         vm.processing = true;
         vm.message = '';
+        vm.invalidUserName = false;
 
         vm.showErrorsCheckValidity = true;
 

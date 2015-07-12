@@ -129,7 +129,7 @@ module.exports = function(app, express) {
                         return res.send(err);
                 }
                 // return a message
-                res.json({message: 'User created.'});
+                res.json({ success: true, message: 'User created.'});
             });
         });
 
