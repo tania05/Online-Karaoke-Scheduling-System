@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <div ng-controller="availabilityMainController as availability" ng-init="availability.getAvailability(availability.date)">
-<div class="page-header" ng-init="booking.changeRoomview(booking.bookingData.people">
+<div class="page-header">
 	<h1 ng-if="booking.type == 'create'">Create Booking</h1>
     <h1 ng-if="booking.type == 'edit'">Edit Booking</h1>
 </div>
