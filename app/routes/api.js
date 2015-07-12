@@ -118,7 +118,7 @@ module.exports = function(app, express) {
             user.age = req.body.age;  // set the users age (comes from the request)
             user.address = req.body.address;  // set the users address (comes from the request)
             user.phone_number = req.body.phone_number;  // set the users phone_number (comes from the request)
-
+			user.banExpires = Date.now();
 
             user.save(function(err) {
                 if (err) {
@@ -132,7 +132,7 @@ module.exports = function(app, express) {
                         return res.send(err);
                 }
                 // return a message
-                res.json({message: 'User created.'});
+                res.json({ success: true, message: 'User created.'});
             });
         });
 
