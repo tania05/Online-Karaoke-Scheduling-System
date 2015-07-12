@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <div ng-controller="availabilityMainController as availability" ng-init="availability.getAvailability(availability.date)">
-<div class="page-header" ng-init="booking.changeRoomview(booking.bookingData.people">
+<div class="page-header">
 	<h1 ng-if="booking.type == 'create'">Create Booking</h1>
     <h1 ng-if="booking.type == 'edit'">Edit Booking</h1>
 </div>
@@ -14,8 +14,8 @@
 
     			<div class="form-group">
     				<label for="people">Number of People</label>
-    				<select name="Number of People" class="form-control" ng-model="booking.bookingData.people" ng-change="booking.changeRoomview(booking.bookingData.people)">
-    					<option value="1">1</option>
+    				<input type="number" min="2" max="12" name="Number of People" class="form-control" ng-model="booking.bookingData.people" ng-change="booking.changeRoomview(booking.bookingData.people)" >
+<!--    					<option value="1">1</option>
     					<option value="2">2</option>
     					<option value="3">3</option>
     					<option value="4">4</option>
@@ -27,7 +27,7 @@
                         <option value="10">10</option>
                         <option value="11">11</option>
                         <option value="12">12</option>
-    				</select>
+    				</select> -->
     			</div>
                 
         		<div ng-if="booking.bookingData.people >=1">
@@ -50,7 +50,7 @@
 								 
 						<div class="form-group">
 							<label for="start">Start Time</label>
-							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start">
+							<input type="datetime24" data-format="HH:mm" step="1800" class="form-control" ng-model="booking.bookingData.start">
 						</div>
 					
 						<div ng-if="booking.bookingData.start < '15:59:00' && booking.bookingData.start > '00:30:00'">
@@ -119,11 +119,10 @@
                         </select>
                     </div>
 
+                      <button type="submit" class="btn btn-default" ng-click="booking.roomsDontWork(booking.bookingData.people)">Times don't work?</button>
 
-                    <div class="container">
-                        <button type="submit" class="btn btn-default">Times don't work?</button>
-        			</div>
-                </div>
+                    </div>
+
             </div>
 
             <div class="col-sm-6" ng-if="booking.bookingData.people >=1">
@@ -183,16 +182,15 @@
             </div>
         </div>
 		
-		<div>
-			<p style="text-align: right"> Date: {{ booking.bookingData.date }} </p>
-			<p style="text-align: right"> Day of the week: {{ booking.bookingData.date | date: 'EEEE' }} </p>
-		</div>
-
-        <div class="row">
-            <div class="container" style="padding-top:15px">
+        <div class="row" ng-if="booking.bookingData.people >=1">
+			<div class="col-sm-6">
                     <button type="submit" class="btn btn-success">{{ booking.btn }}</button>
             </div>
-        </div>
+			<div class="col-sm-6">
+				<p style="text-align: right"> Date: {{ booking.bookingData.date }} </p>
+				<p style="text-align: right"> Day of the week: {{ booking.bookingData.date | date: 'EEEE' }} </p>
+			</div>
+		</div>
     </form>
 </div>
 </div>
