@@ -10,24 +10,31 @@
 
 <div class="container" style="width:50%">
 
-	<div class="row" align="center">
-	  <div class="col-xs-6">
-	  	<a href="/availability" type="button" class="btn btn-block btn-default btn-lg">Availability</a>
-	  	<a href="/bookings/create" type="button" class="btn btn-block btn-default btn-lg">Booking</a>
-	  </div>
-		<div ng-if="main.loggedIn && main.isAdmin">
-	  		<div class="col-xs-6">
-				<a href="/{{ main.id }}/" type="button" class="btn btn-block btn-default btn-lg">Profile</a>
-				<a href="/admin" type="button" class="btn btn-block btn-default btn-lg">Administrator</a>
-	  		</div>
+	<div class="row" style="margin-bottom:1em" align="center">
+	  	<div class="col-xs-6">
+	  		<a href="/availability" type="button" class="btn btn-block btn-default btn-lg">Availability</a>
+	  	</div>
+	  	<div class="col-xs-6">
+	  		<a href="/bookings/create" type="button" class="btn btn-block btn-default btn-lg">Booking</a>
+	  	</div>
+	 </div>
+
+
+
+	<div class="row" align="center" ng-if="main.loggedIn && main.isAdmin">
+  		<div class="col-xs-6">
+			<a href="/{{ main.id }}/" type="button" class="btn btn-block btn-default btn-lg">Profile</a>
 		</div>
-		<div ng-if="!main.loggedIn || !main.isAdmin">
-			<div class="col-xs-3">
-			</div>
-	  		<div class="col-xs-6">
+		<div class="col-xs-6">
+			<a href="/admin" type="button" class="btn btn-block btn-default btn-lg">Administrator</a>
+  		</div>
+	</div>
+
+
+	<div class="row" align="center" ng-if="!main.loggedIn || !main.isAdmin">
+	  		<div style="width:50%">
 				<a href="/{{ main.id }}/" type="button" class="btn btn-block btn-default btn-lg">Profile</a>
 	  		</div>
-		</div>
 	</div>
 
 </div>
