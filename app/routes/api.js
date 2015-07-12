@@ -521,11 +521,11 @@ module.exports = function(app, express) {
 			})
 
 			for (var i = 0; i < mic.length; i++){
-				availMic =- mic[i];
+				availMic -= mic[i];
 			}
 
 			for (var j = 0; j < iPad.length; j++){
-				availIPad =- iPad[i];
+				availIPad -= iPad[i];
 			}
 			
 			if (availMic < 0 || availIPad < 0) return res.json({ message: 'broken' });
