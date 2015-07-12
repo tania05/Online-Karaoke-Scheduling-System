@@ -1,21 +1,24 @@
 <head >
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-<div ng-controller="availabilityMainController as availability" ng-init="availability.getAvailability(availability.date)">
+<div ng-controller="availabilityMainController as availability" ng-init="availability.getAvailability(availability.date); booking.checkIfBanned();">
 <div class="page-header">
 	<h1 ng-if="booking.type == 'create'">Create Booking</h1>
     <h1 ng-if="booking.type == 'edit'">Edit Booking</h1>
 </div>
 
-<div ng-if="!booking.complete">
+<div class="alert alert-danger" ng-if="booking.isBanned">
+    You can't create any new bookings once you've been banned!
+</div>
+
+<div ng-if="!booking.complete && !booking.isBanned">
     <form ng-submit="booking.saveBooking()">
         <div class="row">
     		<div class="col-sm-6">
-
     			<div class="form-group">
     				<label for="people">Number of People</label>
-    				<select name="Number of People" class="form-control" ng-model="booking.bookingData.people" ng-change="booking.changeRoomview(booking.bookingData.people)">
-    					<option value="1">1</option>
+    				<input type="number" min="2" max="12" name="Number of People" class="form-control" ng-model="booking.bookingData.people" ng-change="booking.changeRoomview(booking.bookingData.people)" >
+<!--    					<option value="1">1</option>
     					<option value="2">2</option>
     					<option value="3">3</option>
     					<option value="4">4</option>
@@ -27,7 +30,7 @@
                         <option value="10">10</option>
                         <option value="11">11</option>
                         <option value="12">12</option>
-    				</select>
+    				</select> -->
     			</div>
                 
         		<div ng-if="booking.bookingData.people >=1" >
@@ -36,74 +39,73 @@
                         <input type="date" min="{{ availability.initDate | date: 'yyyy-MM-dd' }}" max="{{ availability.maxDate | date: 'yyyy-MM-dd' }}" class="form-control" ng-model="booking.bookingData.date" ng-change="availability.getAvailability(booking.bookingData.date); availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
                     </div>
                  
-
                     <div class="form-group">
                         <label for="room">Room</label>
                         <select name="Room" class="form-control" ng-model="booking.bookingData.roomSelected" ng-options="(room.name + ' [Capacity: ' + room.capacity + ' ]')  for room in booking.rooms | filter: {visible: true}">
                         </select>
                     </div>
-                    
-
-        			<div class="form-group" >
-        				<label for="start">Start Time</label>
-        				<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
-        			</div>
 					
-                    <div ng-if="(   (booking.bookingData.date | date: 'EEE') == 'Mon' || 
-                                    (booking.bookingData.date | date: 'EEE') == 'Tue' ||
-                                    (booking.bookingData.date | date: 'EEE') == 'Wed' ||
-                                    (booking.bookingData.date | date: 'EEE') == 'Thu' ) &&
-                                booking.bookingData.start < '15:30:00' && booking.bookingData.start >= '00:30:00'">
-                        <div class="alert alert-danger" role="alert">
-                            <p>The start time you have chosen is Invalid!<p> 
-                            <p>Please select a start time starting 4:00 PM until 1:00 AM Monday to Thursday</p>
-                        </div>
-                    </div>
-
-                    <div ng-if="(   (booking.bookingData.date | date: 'EEE') == 'Sun' || 
-                                    (booking.bookingData.date | date: 'EEE') == 'Fri' ||
-                                    (booking.bookingData.date | date: 'EEE') == 'Sat' ) &&
-                                booking.bookingData.start < '13:30:00' && booking.bookingData.start >= '01:30:00'">
-						<div class="alert alert-danger" role="alert">
-                            <p>The start time you have chosen is Invalid!<p>
-                            <p>Please select a start time starting 2:00 PM until 2:00 AM Friday to Sunday</p>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="end">End Time</label>
-                        <input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
-                    </div>
-
-                    <div ng-if="(   (booking.bookingData.date | date: 'EEE') == 'Mon' || 
-                                    (booking.bookingData.date | date: 'EEE') == 'Tue' ||
-                                    (booking.bookingData.date | date: 'EEE') == 'Wed' ||
-                                    (booking.bookingData.date | date: 'EEE') == 'Thu' ) &&
-                                booking.bookingData.end > '01:00:00' && booking.bookingData.end < '16:00:00'">
-                        <div class="alert alert-danger" role="alert">
-                            <p>The start time you have chosen is Invalid!<p> 
-                            <p>Please select an end time after 4:00 PM until 1:00 AM Monday to Thursday</p>
-                        </div>
-                    </div>
-
-                    <div ng-if="(   (booking.bookingData.date | date: 'EEE') == 'Sun' || 
-                                    (booking.bookingData.date | date: 'EEE') == 'Fri' ||
-                                    (booking.bookingData.date | date: 'EEE') == 'Sat' ) &&
-                                booking.bookingData.end > '02:00:00' && booking.bookingData.end < '14:00:00'">
-                        <div class="alert alert-danger" role="alert">
-                            <p>The start time you have chosen is Invalid!<p>
-                            <p>Please select an end time after 2:00 PM until 2:00 AM Friday to Sunday</p>
-                        </div>
-                    </div>
+					<!-- timepicker for Mon/Tues/Wed/Thur -->
+                    <div ng-if="(booking.bookingData.date | date: 'EEE') == 'Mon' || 
+                                 (booking.bookingData.date | date: 'EEE') == 'Tue' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Wed' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Thu'">
+								 
+						<div class="form-group">
+							<label for="start">Start Time</label>
+							<input type="datetime24" data-format="HH:mm" step="1800" class="form-control" ng-model="booking.bookingData.start" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
+						</div>
+					
+						<div ng-if="booking.bookingData.start < '15:59:00' && booking.bookingData.start > '00:30:00'">
+							<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
+							<p>Please select a time between 4:00 PM and 12:30 AM inclusive.</p> </div>
+						</div>
+					
+						<div class="form-group">
+							<label for="end">End Time</label>
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
+						</div>
+					
+						<div ng-if="booking.bookingData.end > '01:00:00' && booking.bookingData.end < '16:30:00'">
+							<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!<p> 
+							<p>Please select a time between 4:30 PM and 1:00 AM inclusive.</p> </div>
+						</div>
+					
+					</div>
+					<!-- endtimepicker -->
+					
+					
+					<!-- timepicker for Fri/Sat/Sun -->
+					<div ng-if="(booking.bookingData.date | date: 'EEE') == 'Sun' || 
+                                 (booking.bookingData.date | date: 'EEE') == 'Fri' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Sat'">
+								 
+						<div class="form-group">
+							<label for="start">Start Time</label>
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
+						</div>
+					
+						<div ng-if="booking.bookingData.start < '13:59:00' && booking.bookingData.start > '01:30:00'">
+							<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
+							<p>Please select a time between 2:00 PM and 1:30 AM, inclusive</p> </div>
+						</div>
+					
+						<div class="form-group">
+							<label for="end">End Time</label>
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
+						</div>
+					
+						<div ng-if="booking.bookingData.end > '02:00:00' && booking.bookingData.end < '14:29:00'">
+							<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!<p> 
+							<p>Please select a time between 2:30 PM and 2:00 AM, inclusive</p> </div>
+						</div>
+					
+					</div>
+					<!-- endtimepicker -->
 
         			<div class="form-group">
         				<label for="equip">iPads</label>
         				<select name="iPad" class="form-control" ng-model="booking.bookingData.iPad" ng-options="n for n in availability.Range(0, availability.iPads)">
-                        <!-- <select name="iPad" class="form-control" ng-model="booking.bookingData.iPad" > -->
-                             <!-- <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option> -->
                         </select>
                         
         			</div>
@@ -111,26 +113,22 @@
                     <div class="form-group">
                         <label for="equip">Mics</label>
                         <select name="mic" class="form-control" ng-model="booking.bookingData.mic" ng-options="n for n in availability.Range(0, availability.mics)">
-                            
                         </select>
                     </div>
 
-<!-- I have no idea what I'm doing lol
-                    <div class="form-group">
-                        <label for="equip">Mics</label>                        
-                        <select name="mic" class="form-control" ng-model="booking.bookingData.mic" ng-options="mic for mic in mics" ng-change="availability.getAvailability(booking.bookingData)">
-                        </select>
-                    </div>
- -->
+                      <button type="submit" class="btn btn-default" ng-click="booking.roomsDontWork(booking.bookingData.people)">Times don't work?</button>
 
-                    <div class="container">
-                        <button type="submit" class="btn btn-default">Times don't work?</button>
-        			</div>
                     </div>
+
             </div>
 
             <div class="col-sm-6" ng-if="booking.bookingData.people >=1">
-                <table class="table table-bordered table-striped">
+                
+				<div ng-if="(booking.bookingData.date | date: 'EEE') == 'Sun' || 
+                                 (booking.bookingData.date | date: 'EEE') == 'Fri' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Sat'">
+				
+				<table class="table table-bordered table-striped">
                   <thead>
                     <tr style="background-color: #95a5a6; text-align: center">
                       <th>Room<br>(Capacity)</th>
@@ -138,7 +136,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="time in availability.times">
+                    <tr ng-repeat="time in availability.hrTimes">
                       <td style="padding: 0px; text-align: center;">{{ time }}</td>
                       <td ng-repeat="booklist in availability.bookings | filter: {room: {_id: booking.bookingData.roomSelected._id}}" id="nopad">
                         <div ng-repeat="singlebook in booklist.bookings">
@@ -148,16 +146,48 @@
                     </tr>
                   </tbody>
                 </table>
-                <p style="text-align: right"> Date: {{ booking.bookingData.date }} </p>
-                <p style="text-align: right"> Day of the week: {{ booking.bookingData.date | date: 'EEEE' }} </p>
-            </div>
-        </div> 
-
-        <div class="row">
-            <div class="container" style="padding-top:15px">
-                    <button type="submit" class="btn btn-success">{{ booking.btn }}</button>
+				
+				</div>
+				
+				
+				<div ng-if="(booking.bookingData.date | date: 'EEE') == 'Mon' || 
+                                 (booking.bookingData.date | date: 'EEE') == 'Tue' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Wed' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Thu'">
+				
+				<table class="table table-bordered table-striped">
+                  <thead>
+                    <tr style="background-color: #95a5a6; text-align: center">
+                      <th>Room<br>(Capacity)</th>
+                      <th>{{ booking.bookingData.roomSelected.name }}<br>( {{ booking.bookingData.roomSelected.capacity }} )</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="time in ['4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM', '11:00 PM', '11:30 PM', '12:00 AM', '12:30 AM']">
+                      <td style="padding: 0px; text-align: center;">{{ time }}</td>
+                      <td ng-repeat="booklist in availability.bookings | filter: {room: {_id: booking.bookingData.roomSelected._id}}" id="nopad">
+                        <div ng-repeat="singlebook in booklist.bookings">
+                          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #c0392b">X</div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+				
+				</div>
+				
             </div>
         </div>
+		
+        <div class="row" ng-if="booking.bookingData.people >=1">
+			<div class="col-sm-6">
+                    <button type="submit" class="btn btn-success">{{ booking.btn }}</button>
+            </div>
+			<div class="col-sm-6">
+				<p style="text-align: right"> Date: {{ booking.bookingData.date }} </p>
+				<p style="text-align: right"> Day of the week: {{ booking.bookingData.date | date: 'EEEE' }} </p>
+			</div>
+		</div>
     </form>
 </div>
 </div>
@@ -169,7 +199,7 @@
         <a href="/"><button class="btn btn-default">Home</button></a>
     </div>
     <div ng-if="booking.type == 'edit'">
-        <h3>Changes Saved</h3>  
+        <h3>Changes Saved</h3>
         <a href="/{{ booking.user_id }}/bookings "><button class="btn btn-default">Back to Bookings</button></a>
     </div>
 </div>

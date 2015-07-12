@@ -10,9 +10,9 @@ var bcrypt   = require('bcrypt-nodejs');
 
 var UserSchema = new Schema({
     name: { type: String, required: true },
-    username: { type: String, required: true, index: { unique: true}},
+    username: { type: String, required: true, index: { unique: true} },
     password: { type: String, required: true, select: false },	
-    email: { type: String, required: true },
+    email: { type: String, required: true, index: {unique: true} },
     age: String,
     address: String,
     phone_number: String,
@@ -57,7 +57,7 @@ UserSchema.methods.validateBookingPeriodChange = function(bookingDateTime) {
         user.banExpires.setHours(user.banExpires.getHours()+12);
 
         // Returns false if the user should be banned, save the model after
-        console.log('User ' + user.name + ' banned.');
+        console.log('User ' + user.username + ' banned.');
         user.save();
         return false;
     }

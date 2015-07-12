@@ -45,6 +45,10 @@ angular.module('userService', [])
 	userFactory.contact = function(userData) {
 		return $http.post('/api/contact/', userData );
 	};
+
+    userFactory.banned = function() {
+        return $http.get('/api/banned/');
+    };
     // return our entire userFactory object
     return userFactory;
 

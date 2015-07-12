@@ -27,7 +27,7 @@ module.exports = function(app, express) {
         //select the password explicitly since mongoose is not returning it by default
         User.findOne({
             username: req.body.username     
-        }).select('_id name username password isAdmin').exec(function(err,user){
+        }).select('_id name username password isAdmin banExpires').exec(function(err,user){
         
             if(err) throw err;
         
@@ -54,7 +54,8 @@ module.exports = function(app, express) {
                         _id: user._id,
                         name: user.name,
                         username: user.username,
-						isAdmin: user.isAdmin
+						isAdmin: user.isAdmin,
+                        banExpires: user.banExpires
                     }, superSecret, {
                       expiresInMinutes: 1440 // expires in 24 hours
                     });
@@ -117,7 +118,7 @@ module.exports = function(app, express) {
             user.age = req.body.age;  // set the users age (comes from the request)
             user.address = req.body.address;  // set the users address (comes from the request)
             user.phone_number = req.body.phone_number;  // set the users phone_number (comes from the request)
-
+			user.banExpires = Date.now();
 
             user.save(function(err) {
                 if (err) {
@@ -131,7 +132,7 @@ module.exports = function(app, express) {
                         return res.send(err);
                 }
                 // return a message
-                res.json({message: 'User created.'});
+                res.json({ success: true, message: 'User created.'});
             });
         });
 
@@ -512,22 +513,11 @@ module.exports = function(app, express) {
 
             var start = new Date(req.params.date + ' ' + req.params.startTime);
             var end = new Date(req.params.date + ' ' + req.params.endTime);
-			//console.dir(req.params);
 
             Booking.find({date: req.params.date}, function(err, bookings){
-            
-            //Room.find({}, function(err, rooms){
                 async.eachSeries(bookings,function(item,callback) {
-                    //Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
                     var bookingStart = new Date(item.date + ' ' + item.start);
-                    var bookingEnd = new Date(item.date + ' ' + item.end);
-
-                    // console.log(bookingEnd);
-                    // if(start >= bookingStart){
-                                
-
-                    //     console.log(availMic);
-                    // }                    
+                    var bookingEnd = new Date(item.date + ' ' + item.end);            
 
                     if((start >= bookingStart && end <= bookingEnd) ||
                        (start <= bookingStart && end >= bookingEnd) ||
@@ -543,39 +533,12 @@ module.exports = function(app, express) {
                     }
 
                     callback(err);
-                    //});
                 },function(err) {
                     if (err) return res.send(err);
                     console.log(availIPad);
                     return res.json({ iPads: availIPad, mics: availMic });
                 });
             });
-
-
-
-			// Booking.find( {date: req.params.date, $or: [{start: { $gt: req.params.startTime}, start:{ $lt: req.params.endTime }}, {end: { $gt: req.params.startTime}, end: {$lt: endTime }} ] }, 'mic' , function(err, mic){
-			// 	if(err) return res.send(err);
-
-			// })
-
-			// Booking.find( {date: req.params.date, $or: [{start: { $gt: req.params.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.params.startTime}, end: {$lt: endTime }} ] }, 'iPad' , function(err, iPad){
-			// 	if(err) return res.send(err);
-
-			// })
-
-			// for (var i = 0; i < mic.length; i++){
-			// 	availMic -= mic[i];
-			// }
-
-			// for (var j = 0; j < iPad.length; j++){
-			// 	availIPad -= iPad[i];
-			// }
-			
-			// if (availMic < 0 || availIPad < 0) return res.json({ message: 'broken' });
-			
-			// res.json({ iPads: availIPad, mics: availMic });
-
-			 
 		});		
 
 	
@@ -666,7 +629,7 @@ module.exports = function(app, express) {
                     if(err) return res.send(err);
 
                     // return a message
-                    res.json({ message: bNotBanned ? 'Booking updated!' : 'Booking updated and banned!' });
+                    res.json({ message: bNotBanned ? 'Booking updated!' : 'Booking updated and user banned!' });
                 });
             });
         });
@@ -677,18 +640,19 @@ module.exports = function(app, express) {
         Booking.findById(req.params.booking_id, function(err, booking) {
             if (err) return res.send(err);
 
+
             User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
                 console.log("found user. ID: ");
                 console.log(user._id);
 
-                 var bookingTime = new Date(booking.date + ' ' + booking.start);
-
+                var bookingTime = new Date(booking.date + ' ' + booking.start);
                 var bNotBanned = user.validateBookingPeriodChange(bookingTime);
+
                 Booking.remove({_id: req.params.booking_id}, function(err, booking) {
                     if (err) return res.send(err);
 
-                    res.json({ message: bNotBanned ? 'Successfully deleted' : 'Deleted and banned' });
+                    res.json({ message: bNotBanned ? 'Successfully deleted!' : 'Booking deleted and user banned!' });
                 });
             });
         });
@@ -722,5 +686,30 @@ module.exports = function(app, express) {
         });
     });
 
+    apiRouter.route('/banned')
+        .get(function(req, res) {
+            User.findOne( { _id: req.decoded._id, banExpires: {$lt:Date.now()} }, 'banExpires', function(err, user) {
+                if(err) return res.send(err);
+
+                var date = new Date();
+
+                console.log(user);
+                //console.log(user.banExpires);
+                console.log(date);
+
+                if(!user)
+                    return res.json({
+                        banned: true,
+                        message: 'User is banned'
+                    })
+                else
+                    return res.json({
+                        banned: false
+                    })
+
+            });
+        });
+
 	return apiRouter;
 };
+

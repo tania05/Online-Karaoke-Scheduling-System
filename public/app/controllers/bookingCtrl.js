@@ -1,4 +1,4 @@
-angular.module('bookingCtrl', ['bookingService'])
+angular.module('bookingCtrl', ['bookingService', 'userService'])
 
 .controller('bookingController', function($routeParams, Booking) {
 
@@ -12,9 +12,9 @@ angular.module('bookingCtrl', ['bookingService'])
         });
 })
 
-.controller('bookingCreateController', function($routeParams, Booking, Room){
+.controller('bookingCreateController', function($routeParams, Booking, Room, User){
     var vm = this;
-	
+	var run = 0;
 	// variable to hide/show elements of the view
 	// difference between create or edit page
 	
@@ -75,6 +75,8 @@ angular.module('bookingCtrl', ['bookingService'])
     
 
     vm.changeRoomview= function(people){
+
+        
         var min = vm.rooms[0];
         // for(var j = 0; j < vm.rooms.length; j++){
         //     vm.rooms[j].visible = false;
@@ -104,7 +106,62 @@ angular.module('bookingCtrl', ['bookingService'])
             
         }
         
-    }    
+    }
+	
+	vm.roomsDontWork= function(people){
+        var min = vm.rooms[0];
+
+		if( run == 0 ){ 
+			var people = vm.bookingData.people * 2;
+			run++;
+		}else if ( run == 1){
+			var people = vm.bookingData.people * 4;
+			run++;
+		}else{
+			var people = vm.bookingData.people * 6;
+			run++;
+		}
+
+		if (people > 12) people = 12;
+        // for(var j = 0; j < vm.rooms.length; j++){
+        //     vm.rooms[j].visible = false;
+        // }
+
+        
+        for(var i = 0; i < vm.rooms.length; i++){
+            // TODO: determine visibility here based on whether a room is available
+            
+
+            if( people > vm.rooms[i].capacity){
+                
+
+                vm.rooms[i].visible = false;
+                min = vm.rooms[i+1];
+
+            }
+            
+            else if (min.capacity == vm.rooms[i].capacity){
+                vm.bookingData.roomSelected =min;
+                vm.rooms[i].visible = true;    
+                    
+            }
+            else{
+                vm.rooms[i].visible=false;
+            }
+            
+        }
+        
+    }
+
+    vm.checkIfBanned = function(){
+
+        User.banned()
+            .success(function(data){
+                if(data.banned)
+                    vm.isBanned = true;
+                else vm.isBanned = false;
+            });
+    };    
 
     // function to create booking
     vm.saveBooking = function(){
@@ -124,13 +181,16 @@ angular.module('bookingCtrl', ['bookingService'])
 
 .controller ('bookingManageController', function($routeParams, Booking){
     var vm = this;
+
+    vm.noBookings = false;
 	
     vm.message = 'Manage your bookings';
 		
     Booking.user($routeParams.user_id)
         .success(function(data){
-            //console.log(data);
-            //console.log(err);
+
+            if(data.length == 0)
+                vm.noBookings = true;
             // when all the bookings come back, remove the processing variable
             vm.processing= false;
 				
@@ -174,7 +234,38 @@ angular.module('bookingCtrl', ['bookingService'])
                     vm.message = data.message;
                 });
         });
+	
+	vm.changeRoomview= function(people){
+        var min = vm.rooms[0];
+        // for(var j = 0; j < vm.rooms.length; j++){
+        //     vm.rooms[j].visible = false;
+        // }
 
+        
+        for(var i = 0; i < vm.rooms.length; i++){
+            // TODO: determine visibility here based on whether a room is available
+            
+
+            if( vm.bookingData.people > vm.rooms[i].capacity){
+                
+
+                vm.rooms[i].visible = false;
+                min = vm.rooms[i+1];
+
+            }
+            
+            else if (min.capacity == vm.rooms[i].capacity){
+                vm.bookingData.roomSelected =min;
+                vm.rooms[i].visible = true;    
+                    
+            }
+            else{
+                vm.rooms[i].visible=false;
+            }
+            
+        }
+        
+    }    
 
     // function to save the booking
     vm.saveBooking = function(){
@@ -209,6 +300,7 @@ angular.module('bookingCtrl', ['bookingService'])
             var startDate = new Date(data.date + ' ' + data.start);
             if(Math.abs(startDate - date) <= 1000 * 60 * 60 * 4){
                 vm.warningDelete = true;
+                vm.message = "User has been banned.";
             }    
             vm.deleteBooking = function(){
                 Booking.delete($routeParams.booking_id)
