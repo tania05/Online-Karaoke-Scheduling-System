@@ -87,12 +87,11 @@ angular.module('mainCtrl', [])
 
         var currentPath = window.location.pathname;
 
-        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/") {
+        var isUserDeletePath = /^\/[a-z0-9]{24}\/delete$/.test(currentPath);
+
+        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/" && !isUserDeletePath) {
             $location.path('/'); 
         }
-
-        // update the view
-        // NOTE --- CHANGE THIS IF YOU NEED TO
     };
 
 	// function to check current html page
