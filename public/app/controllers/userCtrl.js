@@ -32,17 +32,32 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
 })
 
 
-.controller('userDeleteController', function($routeParams, User) {
+.controller('userDeleteController', function($routeParams, User, Auth, Booking) {
 
     var vm = this;
 
     vm.deleted = false;
+
+
+    User.get($routeParams.user_id)
+        .success(function(data){
+            vm.username = data.username;
+            vm.userID = data._id;
+        });
+
 	
     // function to delete a user
     vm.deleteUser = function() {
-        User.delete($routeParams.user_id)
-            .success(function(data){
-                vm.deleted = true;
+
+        //first delete all bookings created by user to be deleted
+        Booking.deleteAll(vm.userID)
+            .success(function(){
+
+                //then delete the user
+                User.delete($routeParams.user_id)
+                    .success(function(data){
+                        vm.deleted = true;
+                    });
             });
     };
 })
@@ -85,7 +100,7 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
 // ----
 // This controller covers the registration process.
 // ====
-.controller('userCreateController', function($scope, User) {
+.controller('userCreateController', function($scope, User, Auth) {
 
      var vm = this;
 
@@ -94,6 +109,10 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
      vm.type = 'create';
      vm.complete = false;
 
+    Auth.getUser()
+        .then(function(data) {
+            vm.isAdmin = data.data.isAdmin;
+        });
 
     // ====
     // function to create a user

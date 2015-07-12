@@ -648,6 +648,8 @@ module.exports = function(app, express) {
 
             User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
+                console.log("found user. ID: ");
+                console.log(user._id);
 
                  var bookingTime = new Date(booking.date + ' ' + booking.start);
 
@@ -674,6 +676,18 @@ module.exports = function(app, express) {
             //console.log(bookings);
             // return all bookings found
             return res.json(bookings);
+        });
+    })
+
+    apiRouter.route('/userBookings/:user_id')
+    .delete(function(req, res) {
+        Booking.remove({ createdBy: req.params.user_id}).exec(function(err,bookings){
+            if (err) return res.send(err);
+
+            
+            console.log("deleting users bookings");
+            // return all bookings found
+            return res.json({ message: "Bookings successfully deleted" });
         });
     });
 

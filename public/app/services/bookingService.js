@@ -41,6 +41,11 @@ angular.module('bookingService',[])
         return $http.delete('/api/bookings/' + id);
     };
 
+    // delete all bookings created by userID
+    bookingFactory.deleteAll = function(userID) {
+        return $http.delete('/api/userBookings/' + userID);
+    };
+
     // edit a booking
     bookingFactory.update = function(id, bookingData) {
         return $http.put('/api/bookings/' + id, bookingData);
