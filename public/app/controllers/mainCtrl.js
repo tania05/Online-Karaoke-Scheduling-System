@@ -83,7 +83,6 @@ angular.module('mainCtrl', [])
 
         // reset all user info
         vm.user = '';
-        vm.id = 'invalidID2';
 		vm.isAdmin = false;
 
         var currentPath = window.location.pathname;
