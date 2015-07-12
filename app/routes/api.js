@@ -503,47 +503,78 @@ module.exports = function(app, express) {
 
 		});
 
-	apiRouter.route('/availability/equip')
+	apiRouter.route('/availability/equip/:date/:startTime/:endTime')
 
 		.get(function(req, res){ 
 
 			var availIPad = 10;
 			var availMic  = 10;
+
+            var start = new Date(req.params.date + ' ' + req.params.startTime);
+            var end = new Date(req.params.date + ' ' + req.params.endTime);
+			//console.dir(req.params);
+
+            Booking.find({date: req.params.date}, function(err, bookings){
+            
+            //Room.find({}, function(err, rooms){
+                async.eachSeries(bookings,function(item,callback) {
+                    //Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
+                    var bookingStart = new Date(item.date + ' ' + item.start);
+                    var bookingEnd = new Date(item.date + ' ' + item.end);
+
+                    // console.log(bookingEnd);
+                    // if(start >= bookingStart){
+                                
+
+                    //     console.log(availMic);
+                    // }                    
+
+                    if((start >= bookingStart && end <= bookingEnd) ||
+                       (start <= bookingStart && end >= bookingEnd) ||
+                       (start <= bookingStart && end <= bookingEnd && end > bookingStart) ||
+                       (start >= bookingStart && end >= bookingEnd && start < bookingEnd)
+                       ) {
+                        console.dir(item);
+                        availIPad -= item.iPad;
+                        availIPad = Math.max(0, availIPad);
+                        
+                        availMic -= item.mic;
+                        availMic = Math.max(0, availMic);
+                    }
+
+                    callback(err);
+                    //});
+                },function(err) {
+                    if (err) return res.send(err);
+                    console.log(availIPad);
+                    return res.json({ iPads: availIPad, mics: availMic });
+                });
+            });
+
+
+
+			// Booking.find( {date: req.params.date, $or: [{start: { $gt: req.params.startTime}, start:{ $lt: req.params.endTime }}, {end: { $gt: req.params.startTime}, end: {$lt: endTime }} ] }, 'mic' , function(err, mic){
+			// 	if(err) return res.send(err);
+
+			// })
+
+			// Booking.find( {date: req.params.date, $or: [{start: { $gt: req.params.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.params.startTime}, end: {$lt: endTime }} ] }, 'iPad' , function(err, iPad){
+			// 	if(err) return res.send(err);
+
+			// })
+
+			// for (var i = 0; i < mic.length; i++){
+			// 	availMic -= mic[i];
+			// }
+
+			// for (var j = 0; j < iPad.length; j++){
+			// 	availIPad -= iPad[i];
+			// }
 			
-			Booking.find( {date: req.body.date, $or: [{start: { $gt: req.body.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.body.startTime}, end: {$lt: endTime }} ] }, 'mic' , function(err, mic){
-				if(err) return res.send(err);
-
-			})
-
-			Booking.find( {date: req.body.date, $or: [{start: { $gt: req.body.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.body.startTime}, end: {$lt: endTime }} ] }, 'iPad' , function(err, iPad){
-				if(err) return res.send(err);
-
-			})
-
-			for (var i = 0; i < mic.length; i++){
-				availMic -= mic[i];
-			}
-
-			for (var j = 0; j < iPad.length; j++){
-				availIPad -= iPad[i];
-			}
+			// if (availMic < 0 || availIPad < 0) return res.json({ message: 'broken' });
 			
-			if (availMic < 0 || availIPad < 0) return res.json({ message: 'broken' });
-			
-			res.json({ iPads: availIPad, mics: availMic });
+			// res.json({ iPads: availIPad, mics: availMic });
 
-
-
-			/*Booking.find({ date: req.body.date, start: { $gt: req.body.startTime && $lt: endTime }}, function(err, step1){
-				if(err) return res.send(err);
-	
-			})
-
-			Booking.find({ date: req.body.date, end: { $gt: req.body.startTime && $lt: endTime }}, function(err, step2){
-				if(err) return res.send(err);
-	
-			})*/
-			
 			 
 		});		
 
