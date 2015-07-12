@@ -9,7 +9,7 @@
 		</form>
 	</div>
 	
-	<div class="container" ng-if="user.deleted">
+	<div class="container" ng-if="user.deleted" ng-init="main.doLogout()">
 		<h3>User Successfully Deleted</h3>
 		</br>
 		<a href="/"><button class="btn btn-default">Go Home</button></a>
