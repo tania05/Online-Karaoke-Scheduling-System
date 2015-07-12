@@ -48,7 +48,7 @@
         				<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start">
         			</div>
 					
-					<div ng-if="booking.bookingData.start < '14:00:00' && booking.bookingData.start >= '01:30:00'">
+					<div ng-if="booking.bookingData.start < '13:30:00' && booking.bookingData.start >= '01:30:00'">
 						<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
 						<p>Please select a time after 2:00 PM and before 1:30 AM</p> </div>
 					</div>
