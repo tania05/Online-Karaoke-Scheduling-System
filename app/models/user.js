@@ -57,7 +57,7 @@ UserSchema.methods.validateBookingPeriodChange = function(bookingDateTime) {
         user.banExpires.setHours(user.banExpires.getHours()+12);
 
         // Returns false if the user should be banned, save the model after
-        console.log('User ' + user.name + ' banned.');
+        console.log('User ' + user.username + ' banned.');
         user.save();
         return false;
     }

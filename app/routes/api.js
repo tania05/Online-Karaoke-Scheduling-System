@@ -120,13 +120,12 @@ module.exports = function(app, express) {
 
             user.save(function(err) {
                 if (err) {
-                    /* TEMPORARILY COMMENTED OUT TO GET MORE DETAILED ERROR INFO
                     // duplicate entry
-                    if (err.code == 11000) 
+                    if (err.code == 11000){
+                        console.log("A user with that username already exists.");
                         return res.json({ success: false, message: 'A user with that username already exists. '});
-
+                    }
                     else 
-                    */
                         return res.send(err);
                 }
                 // return a message
@@ -634,7 +633,7 @@ module.exports = function(app, express) {
                     if(err) return res.send(err);
 
                     // return a message
-                    res.json({ message: bNotBanned ? 'Booking updated!' : 'Booking updated and banned!' });
+                    res.json({ message: bNotBanned ? 'Booking updated!' : 'Booking updated and user banned!' });
                 });
             });
         });
@@ -645,18 +644,19 @@ module.exports = function(app, express) {
         Booking.findById(req.params.booking_id, function(err, booking) {
             if (err) return res.send(err);
 
+
             User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
                 console.log("found user. ID: ");
                 console.log(user._id);
 
-                 var bookingTime = new Date(booking.date + ' ' + booking.start);
-
+                var bookingTime = new Date(booking.date + ' ' + booking.start);
                 var bNotBanned = user.validateBookingPeriodChange(bookingTime);
+
                 Booking.remove({_id: req.params.booking_id}, function(err, booking) {
                     if (err) return res.send(err);
 
-                    res.json({ message: bNotBanned ? 'Successfully deleted' : 'Deleted and banned' });
+                    res.json({ message: bNotBanned ? 'Successfully deleted!' : 'Booking deleted and user banned!' });
                 });
             });
         });
