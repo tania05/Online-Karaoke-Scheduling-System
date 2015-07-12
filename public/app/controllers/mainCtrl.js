@@ -21,6 +21,7 @@ angular.module('mainCtrl', [])
     $rootScope.$on('$routeChangeStart', function() {
         vm.loggedIn = Auth.isLoggedIn();
         vm.errorMsg = "";
+        vm.loginData = "";
 
         if(!vm.loggedIn && window.location.pathname == "/bookings/create") {
             $location.path('/login'); 
@@ -65,12 +66,12 @@ angular.module('mainCtrl', [])
                 // SHOWS HOW TO ON PAGE 184-186
                 else {
                     vm.error = data.message;
-                    vm.errorMsg = 'Username or password is incorrect';
+                    vm.errorMsg = '* Username or password is incorrect';
                     vm.loginData = '';
                 }
             });
         } else {
-            vm.errorMsg = "Error: missing fields";
+            vm.errorMsg = "* Username and password are required";
         }
     };
 

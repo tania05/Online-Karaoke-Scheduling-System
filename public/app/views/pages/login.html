@@ -9,8 +9,10 @@
 					<input type="text" class="form-control" style="width:300px" placeholder="Username" ng-model="main.loginData.username">
 					<input type="password" class="form-control" style="width:300px" placeholder="Password" ng-model="main.loginData.password">
 				</div>
+				<p class="text-danger">{{ main.errorMsg }}</p>
 				<button type="submit" class="btn btn-default btn-sm">Login</button>
 			</form>
+			<br>
 			<div class="form-group">
 				<a href="/pwResetForgot">Forgot Your Password?</a><p>
 				<a href="/register">Register</a>
