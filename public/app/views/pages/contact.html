@@ -4,10 +4,11 @@
 			<h1>Contact Us</h1>
 		</div>
 		<div class="row">
-		<div class="alert alert-success" ng-if="contact.message">
+		<div class="alert alert-success" ng-show="contact.message">
 				{{ contact.message }}
 		</div>
 		</div>
+		<div ng-hide="contact.message">
 		<form ng-submit="contact.sendMail()">
 			<div class="row">
 				<div class="col-sm-4">
@@ -40,6 +41,8 @@
 				</div>
 			</div>			
 		</form>
+		</div>
+		<br></br>
 		<div class="row">
 			<div class="col-sm-6">
 			</div>
