@@ -36,33 +36,71 @@
                         <input type="date" min="{{ availability.initDate | date: 'yyyy-MM-dd' }}" max="{{ availability.maxDate | date: 'yyyy-MM-dd' }}" class="form-control" ng-model="booking.bookingData.date" ng-change="availability.getAvailability(booking.bookingData.date)">
                     </div>
                  
-
                     <div class="form-group">
                         <label for="room">Room</label>
                         <select name="Room" class="form-control" ng-model="booking.bookingData.roomSelected" ng-options="(room.name + ' [Capacity: ' + room.capacity + ' ]')  for room in booking.rooms | filter: {visible: true}">
                         </select>
                     </div>
-                    
-        			<div class="form-group">
-        				<label for="start">Start Time</label>
-        				<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start">
-        			</div>
 					
-					<div ng-if="booking.bookingData.start < '13:59:00' && booking.bookingData.start > '01:30:00'">
-						<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
-						<p>Please select a time between 2:00 PM and 1:30 AM</p> </div>
+					<!-- timepicker for Mon/Tues/Wed/Thur -->
+                    <div ng-if="(booking.bookingData.date | date: 'EEE') == 'Mon' || 
+                                 (booking.bookingData.date | date: 'EEE') == 'Tue' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Wed' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Thu'">
+								 
+						<div class="form-group">
+							<label for="start">Start Time</label>
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start">
+						</div>
+					
+						<div ng-if="booking.bookingData.start < '15:59:00' && booking.bookingData.start > '00:30:00'">
+							<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
+							<p>Please select a time between 4:00 PM and 12:30 AM, inclusive</p> </div>
+						</div>
+					
+						<div class="form-group">
+							<label for="end">End Time</label>
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end">
+						</div>
+					
+						<div ng-if="booking.bookingData.end > '01:00:00' && booking.bookingData.end < '16:30:00'">
+							<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!<p> 
+							<p>Please select a time between 4:30 PM and 1:00 AM, inclusive</p> </div>
+						</div>
+					
 					</div>
+					<!-- endtimepicker -->
 					
-        			<div class="form-group">
-        				<label for="end">End Time</label>
-        				<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end">
-        			</div>
 					
-					<div ng-if="booking.bookingData.end > '02:00:00' && booking.bookingData.end < '14:30:00'">
-						<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!<p> 
-						<p>Please select a time between 2:30 PM and 2:00 AM</p> </div>
+					<!-- timepicker for Fri/Sat/Sun -->
+					<div ng-if="(booking.bookingData.date | date: 'EEE') == 'Sun' || 
+                                 (booking.bookingData.date | date: 'EEE') == 'Fri' ||
+                                 (booking.bookingData.date | date: 'EEE') == 'Sat'">
+								 
+						<div class="form-group">
+							<label for="start">Start Time</label>
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start">
+						</div>
+					
+						<div ng-if="booking.bookingData.start < '13:59:00' && booking.bookingData.start > '01:30:00'">
+							<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
+							<p>Please select a time between 2:00 PM and 1:30 AM, inclusive</p> </div>
+						</div>
+					
+						<div class="form-group">
+							<label for="end">End Time</label>
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end">
+						</div>
+					
+						<div ng-if="booking.bookingData.end > '02:00:00' && booking.bookingData.end < '14:30:00'">
+							<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!<p> 
+							<p>Please select a time between 2:30 PM and 2:00 AM, inclusive</p> </div>
+						</div>
+					
 					</div>
-
+					<!-- endtimepicker -->
+					
+				
         			<div class="form-group">
         				<label for="equip">iPads</label>
         				<select name="iPad" class="form-control" ng-model="booking.bookingData.iPad">
