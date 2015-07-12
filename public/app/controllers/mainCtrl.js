@@ -87,7 +87,9 @@ angular.module('mainCtrl', [])
 
         var currentPath = window.location.pathname;
 
-        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/" && currentPath.split("/").pop() != "delete") {
+        var isUserDeletePath = /^\/[a-z0-9]{24}\/delete$/.test(currentPath);
+
+        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/" && !isUserDeletePath) {
             $location.path('/'); 
         }
     };

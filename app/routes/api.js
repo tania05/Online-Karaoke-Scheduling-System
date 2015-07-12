@@ -6,7 +6,6 @@ var crypto      = require('crypto');
 var nodemailer  = require('nodemailer');
 var Booking     = require('../models/booking');
 var Room        = require('../models/room');
-
 //super secret for creating tokens
 var superSecret = config.secret;
 
@@ -682,7 +681,7 @@ module.exports = function(app, express) {
 
     apiRouter.route('/userBookings/:user_id')
     .delete(function(req, res) {
-        Booking.remove({ createdBy: req.params.user_id}).exec(function(err,bookings){
+        Booking.remove({ createdBy: req.params.user_id, start: { $gt: Date.now() } }).exec(function(err,bookings){
             if (err) return res.send(err);
 
             

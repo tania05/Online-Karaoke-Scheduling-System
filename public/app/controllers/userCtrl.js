@@ -52,13 +52,16 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
         //first delete all bookings created by user to be deleted
         Booking.deleteAll(vm.userID)
             .success(function(){
-
                 //then delete the user
                 User.delete($routeParams.user_id)
                     .success(function(data){
-                        vm.deleted = true;
-                    });
+						//Auth.logout()
+							//.success(function(data){
+                        		vm.deleted = true;
+                    		//});
+					});	
             });
+		
     };
 })
 
