@@ -57,7 +57,7 @@
 <body ng-controller="mainController as main">
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-inverse" role="navigation" style="padding-right: 2em">
+    <nav class="navbar navbar-inverse" role="navigation" style="padding-right: 2em; height:108px">
         <div class="row">
             <div class="col-md-6">
             	<a class="navbar-brand" href="/"><img src="http://i.imgur.com/pXx7ihe.png" width="73em" height="50em" style="display: inline-block; margin-bottom: 0.5em; margin-top: -0.5em"> Purple Fox Karaoke Club</a>
@@ -68,15 +68,17 @@
 					<div ng-if="!main.loggedIn">
 						<form class="navbar-form navbar-right" role="login" ng-submit="main.doLogin()">
 							<div class="form-group form-group-sm">
-								<input type="text" class="form-control" placeholder="Username" ng-model="main.loginData.username">
-								<input type="password" class="form-control" placeholder="Password" ng-model="main.loginData.password">
+								<input type="text" class="form-control" placeholder="Username" value="null" ng-model="main.loginData.username">
+								<input type="password" class="form-control" placeholder="Password" value="null" ng-model="main.loginData.password">
 							</div>
 							<button type="submit" class="btn btn-sm btn-default">Login</button>
+                            <p class="text-danger" style="margin-bottom:-21px; margin-top:5px">{{ main.errorMsg }}</p>                           
 						</form>
+                        <div>
+                        </div>   
 					</div>
     				<div ng-if="main.loggedIn">
-    					<p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/{{ main.user._id }}/" class="navbar-link">{{ main.user.username }}</a></p>
-    				
+    					<p class="navbar-text navbar-right" style="margin-right:2em">Signed in as: <a href="/{{ main.user._id }}/" class="navbar-link">{{ main.user.username }}</a></p>			
     				</div>
                 </div>
             </div>

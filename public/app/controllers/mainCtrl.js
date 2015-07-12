@@ -20,6 +20,7 @@ angular.module('mainCtrl', [])
     // check to see if a user is logged in on every request
     $rootScope.$on('$routeChangeStart', function() {
         vm.loggedIn = Auth.isLoggedIn();
+        vm.errorMsg = "";
 
         if(!vm.loggedIn && window.location.pathname == "/bookings/create") {
             $location.path('/login'); 
@@ -41,33 +42,43 @@ angular.module('mainCtrl', [])
 
         vm.error = '';
 
-        // call the Auth.login() function
-        Auth.login(vm.loginData.username, vm.loginData.password)
-        .success(function(data) {
-            vm.processing = false;
-            // if a user successfully logs in, update the view.
-            // NOTE --- CHANGE THIS IF YOU NEED TO
-            if(data.success) {
-                vm.loggedIn = true;
-                vm.user = data.userData;
-                vm.id = data.userData._id;
-                vm.loginData = '';
-				vm.isAdmin = data.userData.isAdmin;
+        // if username or password is not entered
+        if(vm.loginData.username != null &&  vm.loginData.password != null){
 
-                if(window.location.pathname == '/login')
-                    $location.path('/'.concat(data.userData._id));
-            }
-            // NOTE --- YOU CAN USE THIS ERROR MESSAGE
-            // SHOWS HOW TO ON PAGE 184-186
-            else
-                vm.error = data.message;
-        });
+            // call the Auth.login() function
+            Auth.login(vm.loginData.username, vm.loginData.password)
+            .success(function(data) {
+                vm.processing = false;
+                // if a user successfully logs in, update the view.
+                // NOTE --- CHANGE THIS IF YOU NEED TO
+                if(data.success) {
+                    vm.loggedIn = true;
+                    vm.user = data.userData;
+                    vm.id = data.userData._id;
+                    vm.loginData = '';
+    				vm.isAdmin = data.userData.isAdmin;
+
+                    if(window.location.pathname == '/login')
+                        $location.path('/'.concat(data.userData._id));
+                }
+                // NOTE --- YOU CAN USE THIS ERROR MESSAGE
+                // SHOWS HOW TO ON PAGE 184-186
+                else {
+                    vm.error = data.message;
+                    vm.errorMsg = 'Username or password is incorrect';
+                    vm.loginData = '';
+                }
+            });
+        } else {
+            vm.errorMsg = "Error: missing fields";
+        }
     };
 
     // function to handle logging out
     vm.doLogout = function() {
         Auth.logout();
         vm.loggedIn = false;
+        vm.errorMsg = "";
 
         // reset all user info
         vm.user = '';
