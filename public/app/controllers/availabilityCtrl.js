@@ -49,10 +49,6 @@ angular.module('availabilityCtrl', ['availService'])
         var startDate = new Date(booking.date + ' ' + booking.start);
         var endDate = new Date(booking.date + ' ' + booking.end);
 
-        console.log(curr);
-        console.log(booking.start);
-        console.log(booking.end);
-
         //check if the slot is booked (false if booked, true if available)
         if(currentDate >= startDate && currentDate < endDate) return false;
         else if(endDate < startDate){
