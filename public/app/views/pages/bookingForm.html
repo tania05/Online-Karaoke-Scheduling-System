@@ -130,7 +130,10 @@
             </div>
 
             <div class="col-sm-6" ng-if="booking.bookingData.people >=1">
-                <table class="table table-bordered table-striped">
+                <div ng-if="(booking.bookingData.date | date: 'EEE') == 'Sun' || 
+                                    (booking.bookingData.date | date: 'EEE') == 'Fri' ||
+                                    (booking.bookingData.date | date: 'EEE') == 'Sat'">
+				<table class="table table-bordered table-striped">
                   <thead>
                     <tr style="background-color: #95a5a6; text-align: center">
                       <th>Room<br>(Capacity)</th>
@@ -148,6 +151,33 @@
                     </tr>
                   </tbody>
                 </table>
+				</div>
+				
+				<div ng-if="(booking.bookingData.date | date: 'EEE') == 'Mon' || 
+                                    (booking.bookingData.date | date: 'EEE') == 'Tue' ||
+                                    (booking.bookingData.date | date: 'EEE') == 'Wed' ||
+                                    (booking.bookingData.date | date: 'EEE') == 'Thu'">
+				<table class="table table-bordered table-striped">
+                  <thead>
+                    <tr style="background-color: #95a5a6; text-align: center">
+                      <th>Room<br>(Capacity)</th>
+                      <th>{{ booking.bookingData.roomSelected.name }}<br>( {{ booking.bookingData.roomSelected.capacity }} )</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="time in ['16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '00:00', '00:30']">
+                      <td style="padding: 0px; text-align: center;">{{ time }}</td>
+                      <td ng-repeat="booklist in availability.bookings | filter: {room: {_id: booking.bookingData.roomSelected._id}}" id="nopad">
+                        <div ng-repeat="singlebook in booklist.bookings">
+                          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #c0392b">X</div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+				</div>
+				
+				</div>
                 <p style="text-align: right"> Date: {{ booking.bookingData.date }} </p>
                 <p style="text-align: right"> Day of the week: {{ booking.bookingData.date | date: 'EEEE' }} </p>
             </div>
