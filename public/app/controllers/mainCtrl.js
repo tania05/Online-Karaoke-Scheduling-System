@@ -33,6 +33,7 @@ angular.module('mainCtrl', [])
                 vm.user = data.data;
                 vm.id = data.data._id;
 				vm.isAdmin = data.data.isAdmin;
+                vm.banExpires = data.data.banExpires;
             });
     });
 

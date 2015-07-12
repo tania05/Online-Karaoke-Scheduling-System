@@ -1,17 +1,19 @@
 <head >
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-<div ng-controller="availabilityMainController as availability" ng-init="availability.getAvailability(availability.date)">
+<div ng-controller="availabilityMainController as availability" ng-init="availability.getAvailability(availability.date); booking.checkIfBanned();">
 <div class="page-header">
 	<h1 ng-if="booking.type == 'create'">Create Booking</h1>
     <h1 ng-if="booking.type == 'edit'">Edit Booking</h1>
 </div>
 
-<div ng-if="!booking.complete">
+
+<p>Is the user banned?: {{ booking.isBanned }} </p>
+
+<div ng-if="!booking.complete && !booking.isBanned">
     <form ng-submit="booking.saveBooking()">
         <div class="row">
     		<div class="col-sm-6">
-
     			<div class="form-group">
     				<label for="people">Number of People</label>
     				<input type="number" min="2" max="12" name="Number of People" class="form-control" ng-model="booking.bookingData.people" ng-change="booking.changeRoomview(booking.bookingData.people)" >

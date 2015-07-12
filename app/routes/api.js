@@ -6,6 +6,7 @@ var crypto      = require('crypto');
 var nodemailer  = require('nodemailer');
 var Booking     = require('../models/booking');
 var Room        = require('../models/room');
+
 //super secret for creating tokens
 var superSecret = config.secret;
 
@@ -26,7 +27,7 @@ module.exports = function(app, express) {
         //select the password explicitly since mongoose is not returning it by default
         User.findOne({
             username: req.body.username     
-        }).select('_id name username password isAdmin').exec(function(err,user){
+        }).select('_id name username password isAdmin banExpires').exec(function(err,user){
         
             if(err) throw err;
         
@@ -53,7 +54,8 @@ module.exports = function(app, express) {
                         _id: user._id,
                         name: user.name,
                         username: user.username,
-						isAdmin: user.isAdmin
+						isAdmin: user.isAdmin,
+                        banExpires: user.banExpires
                     }, superSecret, {
                       expiresInMinutes: 1440 // expires in 24 hours
                     });
@@ -120,12 +122,13 @@ module.exports = function(app, express) {
 
             user.save(function(err) {
                 if (err) {
+                    /* TEMPORARILY COMMENTED OUT TO GET MORE DETAILED ERROR INFO
                     // duplicate entry
-                    if (err.code == 11000){
-                        console.log("A user with that username already exists.");
+                    if (err.code == 11000) 
                         return res.json({ success: false, message: 'A user with that username already exists. '});
-                    }
+
                     else 
+                    */
                         return res.send(err);
                 }
                 // return a message
@@ -680,7 +683,7 @@ module.exports = function(app, express) {
 
     apiRouter.route('/userBookings/:user_id')
     .delete(function(req, res) {
-        Booking.remove({ createdBy: req.params.user_id, start: { $gt: Date.now() } }).exec(function(err,bookings){
+        Booking.remove({ createdBy: req.params.user_id}).exec(function(err,bookings){
             if (err) return res.send(err);
 
             
@@ -690,5 +693,30 @@ module.exports = function(app, express) {
         });
     });
 
+    apiRouter.route('/banned')
+        .get(function(req, res) {
+            User.findOne( { _id: req.decoded._id, banExpires: {$lt:Date.now()} }, 'banExpires', function(err, user) {
+                if(err) return res.send(err);
+
+                var date = new Date();
+
+                console.log(user);
+                //console.log(user.banExpires);
+                console.log(date);
+
+                if(!user)
+                    return res.json({
+                        banned: true,
+                        message: 'User is banned'
+                    })
+                else
+                    return res.json({
+                        banned: false
+                    })
+
+            });
+        });
+
 	return apiRouter;
 };
+

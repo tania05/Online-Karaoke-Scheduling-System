@@ -1,4 +1,4 @@
-angular.module('bookingCtrl', ['bookingService'])
+angular.module('bookingCtrl', ['bookingService', 'userService'])
 
 .controller('bookingController', function($routeParams, Booking) {
 
@@ -12,7 +12,7 @@ angular.module('bookingCtrl', ['bookingService'])
         });
 })
 
-.controller('bookingCreateController', function($routeParams, Booking, Room){
+.controller('bookingCreateController', function($routeParams, Booking, Room, User){
     var vm = this;
 	
 	// variable to hide/show elements of the view
@@ -135,7 +135,17 @@ angular.module('bookingCtrl', ['bookingService'])
             
         }
         
-    }    
+    }
+
+    vm.checkIfBanned = function(){
+
+        User.banned()
+            .success(function(data){
+                if(data.banned)
+                    vm.isBanned = true;
+                else vm.isBanned = false;
+            });
+    };    
 
     // function to create booking
     vm.saveBooking = function(){
