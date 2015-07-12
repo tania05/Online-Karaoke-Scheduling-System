@@ -72,6 +72,8 @@ angular.module('bookingCtrl', ['bookingService'])
     };
 
     vm.changeRoomview= function(people){
+
+        
         var min = vm.rooms[0];
         // for(var j = 0; j < vm.rooms.length; j++){
         //     vm.rooms[j].visible = false;
@@ -121,13 +123,16 @@ angular.module('bookingCtrl', ['bookingService'])
 
 .controller ('bookingManageController', function($routeParams, Booking){
     var vm = this;
+
+    vm.noBookings = false;
 	
     vm.message = 'Manage your bookings';
 		
     Booking.user($routeParams.user_id)
         .success(function(data){
-            //console.log(data);
-            //console.log(err);
+
+            if(data.length == 0)
+                vm.noBookings = true;
             // when all the bookings come back, remove the processing variable
             vm.processing= false;
 				
