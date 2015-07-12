@@ -14,7 +14,7 @@ angular.module('bookingCtrl', ['bookingService'])
 
 .controller('bookingCreateController', function($routeParams, Booking, Room){
     var vm = this;
-	
+	var run = 0;
 	// variable to hide/show elements of the view
 	// difference between create or edit page
 	
@@ -107,8 +107,19 @@ angular.module('bookingCtrl', ['bookingService'])
 	
 	vm.roomsDontWork= function(people){
         var min = vm.rooms[0];
-		var people = vm.bookingData.people * 2;
 
+		if( run == 0 ){ 
+			var people = vm.bookingData.people * 2;
+			run++;
+		}else if ( run == 1){
+			var people = vm.bookingData.people * 4;
+			run++;
+		}else{
+			var people = vm.bookingData.people * 6;
+			run++;
+		}
+
+		if (people > 12) people = 12;
         // for(var j = 0; j < vm.rooms.length; j++){
         //     vm.rooms[j].visible = false;
         // }
