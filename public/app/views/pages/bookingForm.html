@@ -7,8 +7,9 @@
     <h1 ng-if="booking.type == 'edit'">Edit Booking</h1>
 </div>
 
-
-<p>Is the user banned?: {{ booking.isBanned }} </p>
+<div class="alert alert-danger" ng-if="booking.isBanned">
+    You can't create any new bookings once you've been banned!
+</div>
 
 <div ng-if="!booking.complete && !booking.isBanned">
     <form ng-submit="booking.saveBooking()">
@@ -204,7 +205,7 @@
         <a href="/"><button class="btn btn-default">Home</button></a>
     </div>
     <div ng-if="booking.type == 'edit'">
-        <h3>Changes Saved</h3>  
+        <h3>Changes Saved</h3>
         <a href="/{{ booking.user_id }}/bookings "><button class="btn btn-default">Back to Bookings</button></a>
     </div>
 </div>

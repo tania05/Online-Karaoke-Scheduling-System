@@ -18,6 +18,9 @@
 	
 	<div class="container" ng-if="booking.deleted">
 		<h3>Booking Successfully Deleted</h3>
+		<div class="alert alert-danger">
+          {{ booking.message }}  	
+        </div>
 		</br>
 		<a href="/{{ booking.user_id }}/bookings "><button class="btn btn-default">Back to Bookings</button></a>
 	</div>

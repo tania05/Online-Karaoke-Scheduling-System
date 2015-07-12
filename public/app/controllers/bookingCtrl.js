@@ -297,6 +297,7 @@ angular.module('bookingCtrl', ['bookingService', 'userService'])
             var startDate = new Date(data.date + ' ' + data.start);
             if(Math.abs(startDate - date) <= 1000 * 60 * 60 * 4){
                 vm.warningDelete = true;
+                vm.message = "User has been banned.";
             }    
             vm.deleteBooking = function(){
                 Booking.delete($routeParams.booking_id)
