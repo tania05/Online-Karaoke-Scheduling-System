@@ -13,12 +13,12 @@ var UserSchema = new Schema({
     username: { type: String, required: true, index: { unique: true}},
     password: { type: String, required: true, select: false },	
     email: { type: String, required: true },
-    age: { type: String, required: true },
-    address: { type: String, required: true },
-    phone_number: { type: String, required: true },
+    age: String,
+    address: String,
+    phone_number: String,
     passwordResetToken: String,
     passwordResetExpires: Date,
-    banExpires: {type: Date},
+    banExpires: Date,
 	isAdmin: {type: Boolean}
 });
 

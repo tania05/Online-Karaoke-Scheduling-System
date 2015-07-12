@@ -453,7 +453,7 @@ module.exports = function(app, express) {
                 if (req.body.age) user.age = req.body.age; 
                 if (req.body.address) user.address = req.body.address; 
                 if (req.body.phone_number) user.phone_number = req.body.phone_number;
-
+				if (req.body.isAdmin) user.isAdmin = req.body.isAdmin;
                 // save the user
                 user.save(function(err) {
                     if (err) return res.send(err);

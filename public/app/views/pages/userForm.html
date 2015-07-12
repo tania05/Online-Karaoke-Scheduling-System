@@ -80,7 +80,11 @@
 				</div>
 			</div>
 		</div>
-
+		<div ng-if="user.isAdmin">			
+			<div class="checkbox">
+ 				 <label><input type="checkbox" ng-model="user.userData.isAdmin">Make user an administrator</label>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-sm-6">
 				<div ng-if="user.type == 'create'">
