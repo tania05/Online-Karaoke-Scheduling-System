@@ -49,12 +49,15 @@ angular.module('availabilityCtrl', ['availService'])
         var startDate = new Date(booking.date + ' ' + booking.start);
         var endDate = new Date(booking.date + ' ' + booking.end);
 
-        // room is not available for the time slot
-        if(currentDate >= startDate && currentDate < endDate){
-            return false;
+        //check if the slot is booked (false if booked, true if available)
+        if(currentDate >= startDate && currentDate < endDate) return false;
+        else if(endDate < startDate){
+            if(currentDate >= startDate) return false;
+            else if(currentDate < startDate && currentDate < endDate) return false;
+            else return true;
         }
-        // room is available
-        return true;
+        else return true;
+
     }
 
     vm.getAvailability = function(date){
