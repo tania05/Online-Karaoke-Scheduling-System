@@ -90,10 +90,6 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
         }
 })
 
-
-
-
-
 // ====
 // ----
 // userCreateController
@@ -108,6 +104,7 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
     // differentiates between create or edit pages
      vm.type = 'create';
      vm.complete = false;
+     vm.invalidUserName = false;
 
     Auth.getUser()
         .then(function(data) {
@@ -125,19 +122,26 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
 
         // if the input is not valid, do not save the user
         // FOR SOME REASON $valid CAUSES ERRORS
-        //if(vm.userForm.$valid){
+        // if(vm.userForm.$valid){
 
             // use the create function in the userService
             User.create(vm.userData)
                 .success(function(data) {
                     vm.processing = false;
-                    vm.complete = true;
-                    vm.userData = {};
                     vm.message = data.message;
+                    if(data.success == true){
+                        vm.complete = true;
+                        vm.userData = {};
+                    }
+                    else{
+                        vm.complete = false;
+                        vm.invalidUserName = true;
+                    }
                 });
-        // } else {
+        //}
+        //else {
         //     alert("There are invalid fields");
-        // }
+        //}
             
     };  
 
