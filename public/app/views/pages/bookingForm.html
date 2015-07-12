@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <div ng-controller="availabilityMainController as availability" ng-init="availability.getAvailability(availability.date)">
-<div class="page-header">
+<div class="page-header" ng-init="booking.changeRoomview(booking.bookingData.people">
 	<h1 ng-if="booking.type == 'create'">Create Booking</h1>
     <h1 ng-if="booking.type == 'edit'">Edit Booking</h1>
 </div>
@@ -55,7 +55,7 @@
 					
 						<div ng-if="booking.bookingData.start < '15:59:00' && booking.bookingData.start > '00:30:00'">
 							<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
-							<p>Please select a time between 4:00 PM and 12:30 AM, inclusive</p> </div>
+							<p>Please select a time between 4:00 PM and 12:30 AM inclusive.</p> </div>
 						</div>
 					
 						<div class="form-group">
@@ -65,7 +65,7 @@
 					
 						<div ng-if="booking.bookingData.end > '01:00:00' && booking.bookingData.end < '16:30:00'">
 							<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!<p> 
-							<p>Please select a time between 4:30 PM and 1:00 AM, inclusive</p> </div>
+							<p>Please select a time between 4:30 PM and 1:00 AM inclusive.</p> </div>
 						</div>
 					
 					</div>
@@ -123,7 +123,7 @@
                     <div class="container">
                         <button type="submit" class="btn btn-default">Times don't work?</button>
         			</div>
-                    </div>
+                </div>
             </div>
 
             <div class="col-sm-6" ng-if="booking.bookingData.people >=1">
