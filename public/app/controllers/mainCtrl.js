@@ -87,12 +87,9 @@ angular.module('mainCtrl', [])
 
         var currentPath = window.location.pathname;
 
-        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/") {
+        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/" && currentPath.split("/").pop() != "delete") {
             $location.path('/'); 
         }
-
-        // update the view
-        // NOTE --- CHANGE THIS IF YOU NEED TO
     };
 
 	// function to check current html page
