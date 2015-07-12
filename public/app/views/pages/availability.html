@@ -20,6 +20,34 @@
       </div>
     </div>
 
+<div ng-if="(availability.date | date: 'EEE') == 'Mon' || 
+                                    (availability.date | date: 'EEE') == 'Tue' ||
+                                    (availability.date | date: 'EEE') == 'Wed' ||
+                                    (availability.date | date: 'EEE') == 'Thu'">
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr style="background-color: #95a5a6; text-align: center">
+      <th>Room<br>(Capacity)</th>
+      <th ng-repeat="obj in availability.bookings">{{ obj.room.name }}<br>( {{ obj.room.capacity }} )</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="time in ['16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '00:00', '00:30']">
+      <td id="nopad">{{ time }}</td>
+      <td ng-repeat="booklist in availability.bookings" id="nopad">
+        <div ng-repeat="singlebook in booklist.bookings">
+          <div ng-if="!availability.isAvailable(singlebook, time)" style="background-color: #c0392b">X</div>
+          <!-- <div ng-if="availability.isAvailable(singlebook, time)" onclick="location.href='/bookings/create';" id="mouseover">BOOK</div> -->
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div ng-if="(availability.date | date: 'EEE') == 'Fri' || 
+                                    (availability.date | date: 'EEE') == 'Sat' ||
+                                    (availability.date | date: 'EEE') == 'Sun'">
 <table class="table table-bordered table-striped">
   <thead>
     <tr style="background-color: #95a5a6; text-align: center">
@@ -39,3 +67,4 @@
     </tr>
   </tbody>
 </table>
+</div>
