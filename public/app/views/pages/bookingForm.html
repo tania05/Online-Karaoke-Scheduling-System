@@ -73,20 +73,20 @@
 						</div>
 					
 						<div ng-if="booking.bookingData.start < '13:59:00' && booking.bookingData.start > '01:30:00'">
-							<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!<p> 
+							<div class="alert alert-danger" role="alert"><p>The start time you have chosen is Invalid!</p> 
 							<p>Please select a time between 2:00 PM and 1:30 AM, inclusive</p> </div>
 						</div>
-					
+
 						<div class="form-group">
 							<label for="end">End Time</label>
 							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
 						</div>
 					
 						<div ng-if="booking.bookingData.end > '02:00:00' && booking.bookingData.end < '14:29:00'">
-							<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!<p> 
+							<div class="alert alert-danger" role="alert"><p>The end time you have chosen is Invalid!</p> 
 							<p>Please select a time between 2:30 PM and 2:00 AM, inclusive</p> </div>
 						</div>
-					
+                  
 					</div>
 					<!-- endtimepicker -->
 
@@ -176,7 +176,10 @@
 				
             </div>
         </div>
-		
+
+ 
+
+                        
         <div class="row" ng-if="booking.bookingData.people >=1">
 			<div class="col-sm-6">
                     <button type="submit" class="btn btn-success">{{ booking.btn }}</button>
@@ -190,14 +193,15 @@
 </div>
 </div>
 
+
 <!-- displayed once user has submitted the form-->
 <div ng-if="booking.complete">
-    <div ng-if="booking.type == 'create'">
-        <h3>Booking Created</h3>
+    <div ng-if="booking.type == 'create'" >
+        <h3 class="alert alert-danger" >{{booking.message}}</h3>
         <a href="/"><button class="btn btn-default">Home</button></a>
     </div>
-    <div ng-if="booking.type == 'edit'">
-        <h3>Changes Saved</h3>
+    <div ng-if="booking.type == 'edit'" >
+        <h3 class="alert alert-danger">{{booking.message}}</h3>
         <a href="/{{ booking.user_id }}/bookings "><button class="btn btn-default">Back to Bookings</button></a>
     </div>
 </div>

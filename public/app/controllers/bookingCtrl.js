@@ -65,7 +65,7 @@ angular.module('bookingCtrl', ['bookingService', 'userService', 'availService'])
         Booking.create(vm.bookingData)
             .success(function(data){
                 vm.processing=false;
-                vm.complete = true;
+                vm.complete = !data.timeConflict;
                 vm.bookingData={};
                 vm.message = data.message;
              });

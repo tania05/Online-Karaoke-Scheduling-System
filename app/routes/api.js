@@ -620,13 +620,38 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                     booking.mic        = req.body.mic;
                     booking.inRoom     = req.body.roomSelected._id; // See bookingForm.html (View creates two-way data representation to object directly via ng-model)
                     booking.createdBy  = user._id;
+                    var start = new Date(booking.date + ' ' + booking.start);
+                    var end = new Date(booking.date + ' ' + booking.end);
+                    
+                    Booking.find({inRoom: booking.inRoom}, function(err, bookings){
+                        async.forEach(bookings,function(item, callback){
+                    
+                            var bookingStart = new Date(item.date + ' ' + item.start);
+                            var bookingEnd = new Date(item.date + ' ' + item.end);            
 
-                    booking.save(function(err) {
-                        console.log(err);
-                        if (err) return res.send(err);
-                        // return a message
-                        res.json({message: 'Booking created.'});
+                            if((start >= bookingStart && end <= bookingEnd) ||
+                               (start <= bookingStart && end >= bookingEnd) ||
+                               (start <= bookingStart && end <= bookingEnd && end > bookingStart) ||
+                               (start >= bookingStart && end >= bookingEnd && start < bookingEnd) ||
+                               (start <= end)
+                               ) {
+                                
+                                err = true;
+
+                                //if
+                            }
+                            callback(err);
+                        }, function(err) {
+                            if (err) return res.json({message: 'There was a time conflict. Your booking was not successful. Please check the start time, end time and/or choose available time slots (see calendar)'});
+                            booking.save(function(err) {
+                                if (err) return res.send(err);
+                                // return a message
+                                res.json({message: 'Booking created.'});
+                            });
+                        });
                     });
+
+                    
                 }
             });
         });
@@ -666,14 +691,38 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                 if(req.body.mic) booking.mic = req.body.mic;
 
                 var bNotBanned = user.validateBookingPeriodChange(oldTime);
+                var start = new Date(booking.date + ' ' + booking.start);
+                var end = new Date(booking.date + ' ' + booking.end);
+                    
+                Booking.find({inRoom: booking.inRoom}, function(err, bookings){
+                    async.forEach(bookings,function(item, callback){
+                
+                        var bookingStart = new Date(item.date + ' ' + item.start);
+                        var bookingEnd = new Date(item.date + ' ' + item.end);            
 
-                // save the booking
-                booking.save(function(err) {
-                    if(err) return res.send(err);
+                        if((start >= bookingStart && end <= bookingEnd) ||
+                           (start <= bookingStart && end >= bookingEnd) ||
+                           (start <= bookingStart && end <= bookingEnd && end > bookingStart) ||
+                           (start >= bookingStart && end >= bookingEnd && start < bookingEnd)
+                           ) {
+                            
+                            err = true;
 
-                    // return a message
-                    res.json({ message: bNotBanned ? 'Booking updated!' : 'Booking updated and user banned!' });
+                            //if
+                        }
+                        callback(err);
+                    }, function(err) {
+                        if (err) return res.json({message: 'ERROR : There was a time conflict. Your booking was not successful. Please check the start time, end time and/or choose available time slots (see calendar)'});
+                        booking.save(function(err) {
+                            
+                            if (err) return res.send(err);
+                            // return a message
+                            res.json({ message: bNotBanned ? 'Booking updated!' : 'Booking updated and user banned!' });
+                            
+                        });
+                    });
                 });
+                
             });
         });
     })
