@@ -90,7 +90,9 @@ angular.module('mainCtrl', [])
 
         var isUserDeletePath = /^\/[a-z0-9]{24}\/delete$/.test(currentPath);
 
-        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/" && !isUserDeletePath) {
+		var isAdminDeletePath = /^\/admin\/[a-z0-9]{24}\/delete$/.test(currentPath);
+
+        if(currentPath != "/availability" && currentPath != "/contact" && currentPath != "/" && !isUserDeletePath && !isAdminDeletePath) {
             $location.path('/'); 
         }
     };
