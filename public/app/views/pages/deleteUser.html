@@ -8,11 +8,14 @@
 			<a href="/{{ main.user._id }}/"><button class="btn btn-default">Cancel</button></a>
 		</form>
 	</div>
-	
-	<div class="container" ng-if="user.deleted" ng-init="main.doLogout()">
+	<div ng-if="user.deleted">
+		<div ng-if="!user.isAdmin" ng-init="main.doLogout()""></div>
 		<h3>User Successfully Deleted</h3>
 		</br>
 		<a href="/"><button class="btn btn-default">Go Home</button></a>
+		<div ng-if="user.isAdmin" style="padding-top: 10px;">
+			<a href="/admin"><button class="btn btn-default">Go back to the Admin page</button></a>
+		</div>
 	</div>
-
 </div>
+

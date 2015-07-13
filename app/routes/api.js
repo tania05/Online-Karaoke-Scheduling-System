@@ -471,8 +471,18 @@ module.exports = function(app, express) {
                 _id: req.params.user_id
             }, function(err, user) {
                 if (err) return res.send(err);
-
-                res.json({ message: 'Successfully deleted' });
+				console.log(req.decoded.isAdmin);				
+				if(req.decoded.isAdmin){
+                	res.json({ 
+						message: 'Successfully deleted',
+						isAdmin: true						   
+					});
+				}else{
+					res.json({ 
+						message: 'Successfully deleted',
+						isAdmin: false							   
+					});
+				}
             });
         });
 

@@ -37,7 +37,7 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
     var vm = this;
 
     vm.deleted = false;
-
+	vm.isAdmin = false;
 
     User.get($routeParams.user_id)
         .success(function(data){
@@ -58,6 +58,7 @@ angular.module('userCtrl', ['userService', 'ui.bootstrap.showErrors', 'authServi
 						//Auth.logout()
 							//.success(function(data){
                         		vm.deleted = true;
+								vm.isAdmin = data.isAdmin;
                     		//});
 					});	
             });
