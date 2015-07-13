@@ -197,11 +197,11 @@
 <!-- displayed once user has submitted the form-->
 <div ng-if="booking.complete">
     <div ng-if="booking.type == 'create'" >
-        <h3 class="alert alert-danger" >{{booking.message}}</h3>
+        <h3 class="alert" >{{booking.message}}</h3>
         <a href="/"><button class="btn btn-default">Home</button></a>
     </div>
     <div ng-if="booking.type == 'edit'" >
-        <h3 class="alert alert-danger">{{booking.message}}</h3>
+        <h3 class="alert">{{booking.message}}</h3>
         <a href="/{{ booking.user_id }}/bookings "><button class="btn btn-default">Back to Bookings</button></a>
     </div>
 </div>
