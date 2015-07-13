@@ -10,35 +10,36 @@
     	<div class="row">
         	<div class="col-sm-6">
 
-				<div class="form-group">
-				  	<label class="control-label">Name</label>
-				    <input type="text" class="form-control" placeholder="First and Last" ng-model="user.userData.name">
+				<div class="form-group" show-errors>
+				  	<label class="control-label">Name *</label>
+				    <input type="text" name="name" class="form-control" placeholder="First and Last" ng-model="user.userData.name" required>
+				    <p ng-if="user.type == 'create'" class="help-block" ng-if="userForm.name.$error.required">Name is required</p>
 				</div>
 
-				<div class="form-group" show-errors='{ showSuccess: true }' show-errors>
-				  	<label for="username">Username</label>
+				<div class="form-group" ng-if="user.type == 'create'" show-errors>
+				  	<label for="username">Username *</label>
 				    <input type="username" class="form-control" name="username" placeholder="Username" ng-model="user.userData.username" required>
 				    <p class="help-block" ng-if="userForm.username.$error.required">Username is required</p>
+                    <p class="text-danger" ng-if="user.invalidUserName" >The username is unavailable</p>				    
 				</div>
 				
-                <div ng-if="user.invalidUserName">
-                    <p class="help-block">The username is unavailable</p>
-				</div>
-				
-				<div class="form-group" ng-if="user.type == 'create'">
-				  	<label for="password">Password</label>
-				    <input type="password" class="form-control" placeholder="Password" ng-model="user.userData.password">
+				<div class="form-group" ng-if="user.type == 'create'" show-errors>
+				  	<label for="password">Password *</label>
+				    <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.userData.password" required>
+				    <p class="help-block" ng-if="userForm.password.$error.required">Password is required</p>
 				</div>
 
-				<div class="form-group" ng-if="user.type == 'create'">
-				  	<label for="confirmPass">Confirm Password</label>
-				    <input type="password" class="form-control" placeholder="Password">
+				<div class="form-group" ng-if="user.type == 'create'" show-errors>
+				  	<label for="confirmPass">Confirm Password *</label>
+				    <input type="password" name="passCheck" class="form-control" placeholder="Password" ng-model="user.userData.passCheck" required>
+				    <p class="help-block" ng-if="userForm.passCheck.$error.required">Password confirmation is required</p>
+				    <p class="text-danger" ng-if="user.noPassMatch">Passwords do not match</p>
 				</div>
 
-				<div class="form-group" show-errors='{ showSuccess: true }' show-errors>
-				  	<label for="email">Email Address</label>
-				    <input type="email" class="form-control" name="email" placeholder="Email" ng-model="user.userData.email" required>
-				    <p class="help-block" ng-if="userForm.email.$error.required">The user's email is required</p>
+				<div class="form-group" show-errors>
+				  	<label for="email">Email Address *</label>
+				    <input type="email" name="email" class="form-control"  placeholder="Email" ng-model="user.userData.email" required>
+				    <p ng-if="user.type == 'create'" class="help-block" ng-if="userForm.email.$error.required">The user's email is required</p>
       				<p class="help-block" ng-if="userForm.email.$error.email">The email address is invalid</p>
 				</div>
 
@@ -78,6 +79,7 @@
 			<div class="col-sm-6">
 				<div ng-if="user.type == 'create'">
 			  		<button type="submit" class="btn btn-success" ng-disabled="userForm.$invalid">Register</button>
+			  		<p ng-show="userForm.$invalid">Missing or incomplete fields</p>
 			  	</div>
 			  	<div ng-if="user.type == 'edit'">
 			  		<button type="submit" class="btn btn-success">Save Changes</button>
