@@ -71,6 +71,9 @@ angular.module('bookingCtrl', ['bookingService', 'userService'])
              });
     };
 
+
+    
+
     vm.changeRoomview= function(people){
 
         

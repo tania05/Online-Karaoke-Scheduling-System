@@ -33,10 +33,10 @@
     				</select> -->
     			</div>
                 
-        		<div ng-if="booking.bookingData.people >=1">
+        		<div ng-if="booking.bookingData.people >=1" >
                     <div class="form-group">
                         <label for="date">Date</label>
-                        <input type="date" min="{{ availability.initDate | date: 'yyyy-MM-dd' }}" max="{{ availability.maxDate | date: 'yyyy-MM-dd' }}" class="form-control" ng-model="booking.bookingData.date" ng-change="availability.getAvailability(booking.bookingData.date)">
+                        <input type="date" min="{{ availability.initDate | date: 'yyyy-MM-dd' }}" max="{{ availability.maxDate | date: 'yyyy-MM-dd' }}" class="form-control" ng-model="booking.bookingData.date" ng-change="availability.getAvailability(booking.bookingData.date); availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
                     </div>
                  
                     <div class="form-group">
@@ -53,7 +53,7 @@
 								 
 						<div class="form-group">
 							<label for="start">Start Time</label>
-							<input type="datetime24" data-format="HH:mm" step="1800" class="form-control" ng-model="booking.bookingData.start">
+							<input type="datetime24" data-format="HH:mm" step="1800" class="form-control" ng-model="booking.bookingData.start" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
 						</div>
 					
 						<div ng-if="booking.bookingData.start < '15:59:00' && booking.bookingData.start > '00:30:00'">
@@ -63,7 +63,7 @@
 					
 						<div class="form-group">
 							<label for="end">End Time</label>
-							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end">
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
 						</div>
 					
 						<div ng-if="booking.bookingData.end > '01:00:00' && booking.bookingData.end < '16:30:00'">
@@ -82,7 +82,7 @@
 								 
 						<div class="form-group">
 							<label for="start">Start Time</label>
-							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start">
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
 						</div>
 					
 						<div ng-if="booking.bookingData.start < '13:59:00' && booking.bookingData.start > '01:30:00'">
@@ -92,7 +92,7 @@
 					
 						<div class="form-group">
 							<label for="end">End Time</label>
-							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end">
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.end" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
 						</div>
 					
 						<div ng-if="booking.bookingData.end > '02:00:00' && booking.bookingData.end < '14:29:00'">
@@ -102,23 +102,17 @@
 					
 					</div>
 					<!-- endtimepicker -->
-					
-				
+
         			<div class="form-group">
         				<label for="equip">iPads</label>
-        				<select name="iPad" class="form-control" ng-model="booking.bookingData.iPad">
-                            <option value="0">0</option>
-        					<option value="1">1</option>
-        					<option value="2">2</option>
-        				</select>
+        				<select name="iPad" class="form-control" ng-model="booking.bookingData.iPad" ng-options="n for n in availability.Range(0, availability.iPads)">
+                        </select>
+                        
         			</div>
 
                     <div class="form-group">
                         <label for="equip">Mics</label>
-                        <select name="mic" class="form-control" ng-model="booking.bookingData.mic" >
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                        <select name="mic" class="form-control" ng-model="booking.bookingData.mic" ng-options="n for n in availability.Range(0, availability.mics)">
                         </select>
                     </div>
 

@@ -12,8 +12,8 @@ angular.module('availService',[])
     };
 
     // get the available equipment
-    availFactory.equipAvail = function(bookingData) {
-        return $http.get('/api/availability/equip', bookingData);
+    availFactory.equipAvail = function(date, startTime, endTime ) {
+        return $http.get('/api/availability/equip/' + date +'/' + startTime +'/'+ endTime);
     };
 
     // get all rooms availability for a particular day

@@ -68,4 +68,24 @@ angular.module('availabilityCtrl', ['availService'])
                 vm.bookings = data;
             });   
     }
+
+
+    vm.changeMicView = function(date,startTime,endTime){
+
+        Availability.equipAvail(date, startTime, endTime)
+            .success(function(data){
+                vm.iPads = data.iPads;
+                vm.mics = data.mics;
+            }); 
+    }
+
+    vm.Range = function(start, end) {
+        var result = [];
+        for (var i = start; i <= end; i++) {
+            result.push(i);
+        }
+        return result;
+    };
 });
+
+

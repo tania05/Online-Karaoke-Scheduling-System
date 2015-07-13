@@ -514,48 +514,41 @@ module.exports = function(app, express) {
 
 		});
 
-	apiRouter.route('/availability/equip')
+	apiRouter.route('/availability/equip/:date/:startTime/:endTime')
 
 		.get(function(req, res){ 
 
 			var availIPad = 10;
 			var availMic  = 10;
-			
-			Booking.find( {date: req.body.date, $or: [{start: { $gt: req.body.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.body.startTime}, end: {$lt: endTime }} ] }, 'mic' , function(err, mic){
-				if(err) return res.send(err);
 
-			})
+            var start = new Date(req.params.date + ' ' + req.params.startTime);
+            var end = new Date(req.params.date + ' ' + req.params.endTime);
 
-			Booking.find( {date: req.body.date, $or: [{start: { $gt: req.body.startTime}, start:{ $lt: endTime }}, {end: { $gt: req.body.startTime}, end: {$lt: endTime }} ] }, 'iPad' , function(err, iPad){
-				if(err) return res.send(err);
+            Booking.find({date: req.params.date}, function(err, bookings){
+                async.eachSeries(bookings,function(item,callback) {
+                    var bookingStart = new Date(item.date + ' ' + item.start);
+                    var bookingEnd = new Date(item.date + ' ' + item.end);            
 
-			})
+                    if((start >= bookingStart && end <= bookingEnd) ||
+                       (start <= bookingStart && end >= bookingEnd) ||
+                       (start <= bookingStart && end <= bookingEnd && end > bookingStart) ||
+                       (start >= bookingStart && end >= bookingEnd && start < bookingEnd)
+                       ) {
+                        console.dir(item);
+                        availIPad -= item.iPad;
+                        availIPad = Math.max(0, availIPad);
+                        
+                        availMic -= item.mic;
+                        availMic = Math.max(0, availMic);
+                    }
 
-			for (var i = 0; i < mic.length; i++){
-				availMic -= mic[i];
-			}
-
-			for (var j = 0; j < iPad.length; j++){
-				availIPad -= iPad[i];
-			}
-			
-			if (availMic < 0 || availIPad < 0) return res.json({ message: 'broken' });
-			
-			res.json({ iPads: availIPad, mics: availMic });
-
-
-
-			/*Booking.find({ date: req.body.date, start: { $gt: req.body.startTime && $lt: endTime }}, function(err, step1){
-				if(err) return res.send(err);
-	
-			})
-
-			Booking.find({ date: req.body.date, end: { $gt: req.body.startTime && $lt: endTime }}, function(err, step2){
-				if(err) return res.send(err);
-	
-			})*/
-			
-			 
+                    callback(err);
+                },function(err) {
+                    if (err) return res.send(err);
+                    console.log(availIPad);
+                    return res.json({ iPads: availIPad, mics: availMic });
+                });
+            });
 		});		
 
 	
