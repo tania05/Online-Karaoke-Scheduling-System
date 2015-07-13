@@ -16,6 +16,10 @@ angular.module('availService',[])
         return $http.get('/api/availability/equip/' + date +'/' + startTime +'/'+ endTime);
     };
 
+    availFactory.editAvail = function(booking_id, date, startTime, endTime ){
+        return $http.get('/api/availability/edit/'+ booking_id +'/'+ date +'/'+ startTime +'/'+ endTime);
+    }
+
     // get all rooms availability for a particular day
     availFactory.all = function(date) {
         return $http.get('/api/availability/' + date);

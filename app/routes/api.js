@@ -347,7 +347,7 @@ module.exports = function(app, express) {
             // get all the rooms using find() and then put it into rooms array
             var bookingsArray = [];
             Room.find({}, function(err, rooms){
-                async.eachSeries(rooms,function(item,callback) {
+                async.forEach(rooms,function(item,callback) {
                     Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
                         bookingsArray.push({'room': item, 'bookings': bookings });
                         callback(err);
@@ -524,9 +524,8 @@ module.exports = function(app, express) {
             var start = new Date(req.params.date + ' ' + req.params.startTime);
             var end = new Date(req.params.date + ' ' + req.params.endTime);
 
-
             Booking.find({date: req.params.date}, function(err, bookings){
-                async.eachSeries(bookings,function(item,callback) {
+                async.forEach(bookings,function(item,callback) {
                     var bookingStart = new Date(item.date + ' ' + item.start);
                     var bookingEnd = new Date(item.date + ' ' + item.end);            
 
@@ -535,7 +534,6 @@ module.exports = function(app, express) {
                        (start <= bookingStart && end <= bookingEnd && end > bookingStart) ||
                        (start >= bookingStart && end >= bookingEnd && start < bookingEnd)
                        ) {
-                        console.dir(item);
                         availIPad -= item.iPad;
                         availIPad = Math.max(0, availIPad);
                         
@@ -546,12 +544,46 @@ module.exports = function(app, express) {
                     callback(err);
                 },function(err) {
                     if (err) return res.send(err);
-                    console.log(availIPad);
                     return res.json({ iPads: availIPad, mics: availMic });
                 });
             });
 		});		
 
+// gets the availability of the equipments but skips the specified booking
+// this allows including the amount we've already booked as available
+apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
+
+        .get(function(req, res){ 
+            var availIPad = 10;
+            var availMic  = 10;
+           
+            var start = new Date(req.params.date + ' ' + req.params.startTime);
+            var end = new Date(req.params.date + ' ' + req.params.endTime);
+
+            Booking.find({date: req.params.date, _id : {$ne: req.params.booking_id}}, function(err, bookings){
+                async.forEach(bookings,function(item,callback) {
+                    var bookingStart = new Date(item.date + ' ' + item.start);
+                    var bookingEnd = new Date(item.date + ' ' + item.end);            
+
+                    if((start >= bookingStart && end <= bookingEnd) ||
+                       (start <= bookingStart && end >= bookingEnd) ||
+                       (start <= bookingStart && end <= bookingEnd && end > bookingStart) ||
+                       (start >= bookingStart && end >= bookingEnd && start < bookingEnd)
+                       ) {
+                        availIPad -= item.iPad;
+                        availIPad = Math.max(0, availIPad);
+                        
+                        availMic -= item.mic;
+                        availMic = Math.max(0, availMic);
+                    }
+
+                    callback(err);
+                },function(err) {
+                    if (err) return res.send(err);
+                    return res.json({ iPads: availIPad, mics: availMic });
+                });
+            });
+        });     
 	
 		
     // =======================================================================

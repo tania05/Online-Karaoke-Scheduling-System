@@ -1,4 +1,4 @@
-angular.module('bookingCtrl', ['bookingService', 'userService'])
+angular.module('bookingCtrl', ['bookingService', 'userService', 'availService'])
 
 .controller('bookingController', function($routeParams, Booking) {
 
@@ -201,19 +201,28 @@ angular.module('bookingCtrl', ['bookingService', 'userService'])
 })
 
 
-.controller ('bookingEditController', function($routeParams, Booking, Room){
+.controller ('bookingEditController', function($routeParams, Booking, Room, Availability){
     var vm = this;
 	
     vm.type = 'edit';
     vm.complete = false;
     vm.btn = "Save Changes";
     vm.date = new Date();
+
 	
     Booking.get($routeParams.booking_id)
     	.success(function(data){
+            
+ 
             vm.bookingData = data;
             vm.user_id = vm.bookingData.createdBy;
-
+            Availability.editAvail($routeParams.booking_id,vm.bookingData.date, vm.bookingData.start, vm.bookingData.end)
+                .success(function(item){
+                    vm.iPads = item.iPads;
+                    vm.mics = item.mics;
+                    // console.dir(vm);
+                });
+            
             // Get all of the rooms to be displayed
             Room.all()
                 .success(function(data){
