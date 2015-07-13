@@ -18,19 +18,6 @@
     			<div class="form-group">
     				<label for="people">Number of People</label>
     				<input type="number" min="2" max="12" name="Number of People" class="form-control" ng-model="booking.bookingData.people" ng-change="booking.changeRoomview(booking.bookingData.people)" >
-<!--    					<option value="1">1</option>
-    					<option value="2">2</option>
-    					<option value="3">3</option>
-    					<option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-    				</select> -->
     			</div>
                 
         		<div ng-if="booking.bookingData.people >=1" >
@@ -105,15 +92,26 @@
 
         			<div class="form-group">
         				<label for="equip">iPads</label>
+                        <div ng-if="booking.type == 'create'">
         				<select name="iPad" class="form-control" ng-model="booking.bookingData.iPad" ng-options="n for n in availability.Range(0, availability.iPads)">
                         </select>
-                        
+                        </div>
+                        <div ng-if="booking.type == 'edit'">
+                        <select name="iPad" class="form-control" ng-model="booking.bookingData.iPad" ng-options="n for n in availability.Range(0, booking.iPads)">
+                        </select>
+                        </div>
         			</div>
 
                     <div class="form-group">
                         <label for="equip">Mics</label>
+                        <div ng-if="booking.type == 'create'">
                         <select name="mic" class="form-control" ng-model="booking.bookingData.mic" ng-options="n for n in availability.Range(0, availability.mics)">
                         </select>
+                        </div>
+                        <div ng-if="booking.type == 'edit'">
+                        <select name="mic" class="form-control" ng-model="booking.bookingData.mic" ng-options="n for n in availability.Range(0, booking.mics)">
+                        </select>
+                        </div>
                     </div>
 
                       <button type="submit" class="btn btn-default" ng-click="booking.roomsDontWork(booking.bookingData.people)">Times don't work?</button>
