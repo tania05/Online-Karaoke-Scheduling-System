@@ -46,6 +46,11 @@
                 controllerAs: 'contact'
             })
 
+            // route for the about page
+            .when('/about', {
+                templateUrl : 'app/views/pages/about.html'
+            })
+
 
 
             //=====================================================

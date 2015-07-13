@@ -6,8 +6,7 @@
 			<br/>
 
 			<div ng-if="booking.warningDelete" class="alert alert-danger" role="alert">
-			  <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-			  <span class="sr-only">Error:</span>
+			  <span class="glyphicon glyphicon-alert"></span>
 			  Warning: Cancelling this booking less than 4 hours before the start time of the booking will result in a 12-hour booking ban.
 			</div>
 
@@ -18,7 +17,7 @@
 	
 	<div class="container" ng-if="booking.deleted">
 		<h3>Booking Successfully Deleted</h3>
-		<div class="alert alert-danger">
+		<div class="alert alert-danger" ng-if="booking.warningDelete">
           {{ booking.message }}  	
         </div>
 		</br>

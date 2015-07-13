@@ -702,12 +702,6 @@ module.exports = function(app, express) {
             User.findOne( { _id: req.decoded._id, banExpires: {$lt:Date.now()} }, 'banExpires', function(err, user) {
                 if(err) return res.send(err);
 
-                var date = new Date();
-
-                console.log(user);
-                //console.log(user.banExpires);
-                console.log(date);
-
                 if(!user)
                     return res.json({
                         banned: true,
