@@ -71,12 +71,13 @@ angular.module('availabilityCtrl', ['availService'])
 
 
     vm.changeMicView = function(date,startTime,endTime){
-
-        Availability.equipAvail(date, startTime, endTime)
-            .success(function(data){
-                vm.iPads = data.iPads;
-                vm.mics = data.mics;
-            }); 
+        if(startTime && endTime){
+            Availability.equipAvail(date, startTime, endTime)
+                .success(function(data){
+                    vm.iPads = data.iPads;
+                    vm.mics = data.mics;
+                }); 
+        }    
     }
 
     vm.Range = function(start, end) {

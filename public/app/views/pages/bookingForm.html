@@ -53,7 +53,7 @@
 								 
 						<div class="form-group">
 							<label for="start">Start Time</label>
-							<input type="datetime24" data-format="HH:mm" step="1800" class="form-control" ng-model="booking.bookingData.start" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
+							<input type="time" step="1800" class="form-control" ng-model="booking.bookingData.start" ng-change="availability.changeMicView(booking.bookingData.date, booking.bookingData.start, booking.bookingData.end)">
 						</div>
 					
 						<div ng-if="booking.bookingData.start < '15:59:00' && booking.bookingData.start > '00:30:00'">

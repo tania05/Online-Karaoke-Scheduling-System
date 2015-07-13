@@ -510,9 +510,10 @@ module.exports = function(app, express) {
 
 			var availIPad = 10;
 			var availMic  = 10;
-
+           
             var start = new Date(req.params.date + ' ' + req.params.startTime);
             var end = new Date(req.params.date + ' ' + req.params.endTime);
+
 
             Booking.find({date: req.params.date}, function(err, bookings){
                 async.eachSeries(bookings,function(item,callback) {
