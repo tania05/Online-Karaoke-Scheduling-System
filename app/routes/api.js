@@ -629,10 +629,10 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                             var bookingStart = new Date(item.date + ' ' + item.start);
                             var bookingEnd = new Date(item.date + ' ' + item.end);            
 
-                            if((start >= bookingStart && end <= bookingEnd) ||
+                            if(((start >= bookingStart && end <= bookingEnd) ||
                                (start <= bookingStart && end >= bookingEnd) ||
                                (start <= bookingStart && end <= bookingEnd && end > bookingStart) ||
-                               (start >= bookingStart && end >= bookingEnd && start < bookingEnd) ||
+                               (start >= bookingStart && end >= bookingEnd && start < bookingEnd)) &&
                                (start <= end)
                                ) {
                                 
