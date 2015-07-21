@@ -157,8 +157,8 @@
                 controllerAs: 'booking'
             })
 			
-			.when('/loaderio-39a6c34b669b3a88feb1156f6b38303e.txt', {
-                templateUrl : 'app/views/loaderio-39a6c34b669b3a88feb1156f6b38303e'
+			.when('/loaderio-39a6c34b669b3a88feb1156f6b38303e', {
+                templateUrl : 'app/views/loaderio-39a6c34b669b3a88feb1156f6b38303e.html'
             })
 
 
