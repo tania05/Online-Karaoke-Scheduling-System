@@ -343,21 +343,24 @@ module.exports = function(app, express) {
 
 	apiRouter.route('/availability/:date')
 
-		.get(function(req, res){
-            // get all the rooms using find() and then put it into rooms array
-            var bookingsArray = [];
-            Room.find({}, function(err, rooms){
-                async.forEach(rooms,function(item,callback) {
-                    Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
-                        bookingsArray.push({'room': item, 'bookings': bookings });
-                        callback(err);
-                    });
-                },function(err) {
-                    if (err) return res.send(err);
-                    res.json(bookingsArray);
-                });
-            });
-		});
+	    .get(function(req, res){
+            	// get all the rooms using find() and then put it into rooms array
+            	var bookingsArray = [];
+		
+		setTimeout(function(){	
+	            	Room.find({}, function(err, rooms){
+        	        	async.forEach(rooms,function(item,callback) {
+	        	            Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
+        	        	        bookingsArray.push({'room': item, 'bookings': bookings });
+	                	        callback(err);
+		                    });
+        		        },function(err) {
+		                    if (err) return res.send(err);
+        		            res.json(bookingsArray);
+		                });
+		        })
+		}, 10000);
+	    });
 
 
     // =======================================================================
@@ -499,19 +502,13 @@ module.exports = function(app, express) {
     // AVAILABILITY ROUTES
     // =======================================================================
 		
-	
-
 	apiRouter.route('/availability/room')
 
 		.get(function(req, res){
-
 			Booking.find({ date: req.body.date, inRoom: config.req.body.roomName }, function(err, avail){ 
 				if (err) return res.send(err);
-
 				res.json(avail);			
-
 			});
-
 		});
 
 	apiRouter.route('/availability/equip/:date/:startTime/:endTime')
