@@ -79,7 +79,6 @@ module.exports = function(app, express) {
 	apiRouter.route('/contact')
 		
 		.post(function(req, res){
-
  			var smtpTransport = nodemailer.createTransport('SMTP', {
 				service: 'gmail',
 				auth: {
@@ -98,11 +97,7 @@ module.exports = function(app, express) {
 					message: 'Your message has been succesfully sent to our support team.' 
 				});
 			})
-		
-
-	
 		});
-
 
     // =======================================================================
     // CREATE USER ROUTE
@@ -118,17 +113,10 @@ module.exports = function(app, express) {
             user.age = req.body.age;  // set the users age (comes from the request)
             user.address = req.body.address;  // set the users address (comes from the request)
             user.phone_number = req.body.phone_number;  // set the users phone_number (comes from the request)
-			user.banExpires = Date.now();
+	    user.banExpires = Date.now();
 
             user.save(function(err) {
                 if (err) {
-                    /* TEMPORARILY COMMENTED OUT TO GET MORE DETAILED ERROR INFO
-                    // duplicate entry
-                    if (err.code == 11000) 
-                        return res.json({ success: false, message: 'A user with that username already exists. '});
-
-                    else 
-                    */
                         return res.send(err);
                 }
                 // return a message
@@ -136,13 +124,11 @@ module.exports = function(app, express) {
             });
         });
 
-
     // =======================================================================
     // PASSWORD RESET ROUTES
     // =======================================================================
 
     apiRouter.route('/pwResetForgot')
-
 
         .post(function(req, res, next) {
             async.waterfall([
@@ -194,7 +180,6 @@ module.exports = function(app, express) {
                     })
                 }
             ]) 
-
         })
                 
     apiRouter.route('/pwReset/:token')
@@ -316,52 +301,49 @@ module.exports = function(app, express) {
         });
     });
 	
-	//gets the rooms to populate
+    //gets the rooms to populate
     apiRouter.route('/rooms/capacity')
 
-		.get(function(req, res) {
-			var numPeople = req.body.people;
+        .get(function(req, res) {
+	    var numPeople = req.body.people;
 			
-			if (numPeople <= 2 )
-				numPeople = 2;
-			else if (numPeople > 2 && numPeople <= 4 )
-				numPeople = 4;
-			else if (numPeople > 4 && numPeople <= 8 )
-				numPeople = 8;
-			else if (numPeople > 8)
-				numPeople = 12;
+	    if (numPeople <= 2 )
+		numPeople = 2;
+	    else if (numPeople > 2 && numPeople <= 4 )
+		numPeople = 4;
+	    else if (numPeople > 4 && numPeople <= 8 )
+		numPeople = 8;
+	    else if (numPeople > 8)
+		numPeople = 12;
 
-
-			Room.find({ capacity: numPeople  }, function(err, rooms ){
-				if (err) return res.send(err);
-				
-				res.json(rooms);
- 
-			});
-		});
-
-
-	apiRouter.route('/availability/:date')
-
-	    .get(function(req, res){
-            	// get all the rooms using find() and then put it into rooms array
-            	var bookingsArray = [];
-		
-		setTimeout(function(){	
-	            	Room.find({}, function(err, rooms){
-        	        	async.forEach(rooms,function(item,callback) {
-	        	            Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
-        	        	        bookingsArray.push({'room': item, 'bookings': bookings });
-	                	        callback(err);
-		                    });
-        		        },function(err) {
-		                    if (err) return res.send(err);
-        		            res.json(bookingsArray);
-		                });
-		        })
-		}, 10000);
+	    Room.find({ capacity: numPeople  }, function(err, rooms ){
+		if (err) return res.send(err);
+	
+		res.json(rooms);
 	    });
+	});
 
+    // Route for the availability page.
+    apiRouter.route('/availability/:date')
+
+	.get(function(req, res){
+            // get all the rooms using find() and then put it into rooms array
+            var bookingsArray = [];
+		
+	    setTimeout(function(){	
+	        Room.find({}, function(err, rooms){
+        	    async.forEach(rooms,function(item,callback) {
+	                Booking.find({date: req.params.date, inRoom: item._id}, function(err, bookings){
+        	            bookingsArray.push({'room': item, 'bookings': bookings });
+	                    callback(err);
+		        });
+        	    },function(err) {
+		        if (err) return res.send(err);
+        		    res.json(bookingsArray);
+		    });
+		})
+	    }, 10000);
+        });
 
     // =======================================================================
     // ROUTE MIDDLEWARE to verify a token 
@@ -369,18 +351,14 @@ module.exports = function(app, express) {
 
     apiRouter.use(function (req, res, next){
         //do logging
-		var url = req.originalUrl;
+	var url = req.originalUrl;
         console.log('Somebody just came to our app!');
 
         //check header or url parameters or post parameters for token
         var token = req.body.token || req.query.token || req.headers['x-access-token'];
 		
         //decode token
-		//if(/\/availability\/.*/.test(url.toString())) {
-			//next();
-
         if (token) {
-
             // verifies secret and checks exp
             jwt.verify(token, superSecret, function(err, decoded) {
 
@@ -398,21 +376,16 @@ module.exports = function(app, express) {
                     next(); // make sure we go to the next routes and don't stop here
                 }
             });
-
-		}else{
-
+	}else{
             console.log('No token provided');
             //if there is no token
             // return an HTTP response of 403 (access forbidden) and an error message
             return res.status(403).send({
-
                 success: false,
                 message: 'No token provided.'
             });
         }
     });
-
-
 
     // =======================================================================
     // USER ROUTES
@@ -421,14 +394,13 @@ module.exports = function(app, express) {
     // get all users
     apiRouter.get('/users', function(req, res) {
 
-            User.find({}, function(err, users) {
-                if (err) return res.send(err);
+        User.find({}, function(err, users) {
+            if (err) return res.send(err);
 
-                // return all users users
-                res.json(users);
-            });
+            // return all users users
+            res.json(users);
         });
-
+    });
 
     // on routes that end in /users/:user_id
     apiRouter.route('/users/:user_id')
@@ -457,8 +429,9 @@ module.exports = function(app, express) {
                 if (req.body.age) user.age = req.body.age; 
                 if (req.body.address) user.address = req.body.address; 
                 if (req.body.phone_number) user.phone_number = req.body.phone_number;
-				if (req.body.isAdmin) user.isAdmin = req.body.isAdmin;
-                // save the user
+		if (req.body.isAdmin) user.isAdmin = req.body.isAdmin;
+                
+		// save the user
                 user.save(function(err) {
                     if (err) return res.send(err);
 
@@ -474,22 +447,20 @@ module.exports = function(app, express) {
                 _id: req.params.user_id
             }, function(err, user) {
                 if (err) return res.send(err);
-				console.log(req.decoded.isAdmin);				
-				if(req.decoded.isAdmin){
+		    console.log(req.decoded.isAdmin);				
+		    if(req.decoded.isAdmin){
                 	res.json({ 
-						message: 'Successfully deleted',
-						isAdmin: true						   
-					});
-				}else{
-					res.json({ 
-						message: 'Successfully deleted',
-						isAdmin: false							   
-					});
-				}
+			    message: 'Successfully deleted',
+			    isAdmin: true						   
+		        });
+		    }else{
+		        res.json({ 
+			    message: 'Successfully deleted',
+			    isAdmin: false							   
+			});
+		    }
             });
         });
-
-
 
     // on routes that end in /me
     // api endpoint to get user information used on every request.
@@ -502,22 +473,21 @@ module.exports = function(app, express) {
     // AVAILABILITY ROUTES
     // =======================================================================
 		
-	apiRouter.route('/availability/room')
+    apiRouter.route('/availability/room')
 
-		.get(function(req, res){
-			Booking.find({ date: req.body.date, inRoom: config.req.body.roomName }, function(err, avail){ 
-				if (err) return res.send(err);
-				res.json(avail);			
-			});
-		});
+        .get(function(req, res){
+	    Booking.find({ date: req.body.date, inRoom: config.req.body.roomName }, function(err, avail){ 
+	        if (err) return res.send(err);
+		
+		res.json(avail);			
+	    });
+	});
 
-	apiRouter.route('/availability/equip/:date/:startTime/:endTime')
+    apiRouter.route('/availability/equip/:date/:startTime/:endTime')
 
-		.get(function(req, res){ 
-
-			var availIPad = 10;
-			var availMic  = 10;
-           
+        .get(function(req, res){ 
+	    var availIPad = 10;
+	    var availMic  = 10;
             var start = new Date(req.params.date + ' ' + req.params.startTime);
             var end = new Date(req.params.date + ' ' + req.params.endTime);
 
@@ -533,27 +503,24 @@ module.exports = function(app, express) {
                        ) {
                         availIPad -= item.iPad;
                         availIPad = Math.max(0, availIPad);
-                        
                         availMic -= item.mic;
                         availMic = Math.max(0, availMic);
                     }
-
                     callback(err);
                 },function(err) {
                     if (err) return res.send(err);
                     return res.json({ iPads: availIPad, mics: availMic });
                 });
             });
-		});		
+	});		
 
-// gets the availability of the equipments but skips the specified booking
-// this allows including the amount we've already booked as available
-apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
+    // gets the availability of the equipments but skips the specified booking
+    // this allows including the amount we've already booked as available
+    apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
 
         .get(function(req, res){ 
             var availIPad = 10;
             var availMic  = 10;
-           
             var start = new Date(req.params.date + ' ' + req.params.startTime);
             var end = new Date(req.params.date + ' ' + req.params.endTime);
 
@@ -569,11 +536,9 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                        ) {
                         availIPad -= item.iPad;
                         availIPad = Math.max(0, availIPad);
-                        
                         availMic -= item.mic;
                         availMic = Math.max(0, availMic);
                     }
-
                     callback(err);
                 },function(err) {
                     if (err) return res.send(err);
@@ -581,7 +546,6 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                 });
             });
         });     
-	
 		
     // =======================================================================
     // BOOKING ROUTES
@@ -599,7 +563,6 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                 // return all bookings
                 res.json(bookings);
             });
-
         })   
 
         // create a booking
@@ -632,10 +595,7 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                                (start >= bookingStart && end >= bookingEnd && start < bookingEnd)) &&
                                (start <= end)
                                ) {
-                                
                                 err = true;
-
-                                //if
                             }
                             callback(err);
                         }, function(err) {
@@ -647,13 +607,9 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                             });
                         });
                     });
-
-                    
                 }
             });
         });
-
-
 
     // on routes that end in /bookings/:booking_id
     // -------------------------------
@@ -702,10 +658,7 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                            (start <= bookingStart && end <= bookingEnd && end > bookingStart) ||
                            (start >= bookingStart && end >= bookingEnd && start < bookingEnd)
                            ) {
-                            
                             err = true;
-
-                            //if
                         }
                         callback(err);
                     }, function(err) {
@@ -728,7 +681,6 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
     .delete(function(req, res) {
         Booking.findById(req.params.booking_id, function(err, booking) {
             if (err) return res.send(err);
-
 
             User.findById(req.decoded._id, function(err, user) {
                 if (err) return res.send(err);
@@ -768,7 +720,6 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
         Booking.remove({ createdBy: req.params.user_id}).exec(function(err,bookings){
             if (err) return res.send(err);
 
-            
             console.log("deleting users bookings");
             // return all bookings found
             return res.json({ message: "Bookings successfully deleted" });
@@ -789,10 +740,8 @@ apiRouter.route('/availability/edit/:booking_id/:date/:startTime/:endTime')
                     return res.json({
                         banned: false
                     })
-
             });
         });
-
 	return apiRouter;
 };
 
